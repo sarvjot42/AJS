@@ -3,8 +3,9 @@ from qst_utils import QSTUtils
 # Data is stored here
 class QSTData:
     def __init__(self):
-        self.process_id_vs_name = {}
         self.found_tokens = set()
+        self.process_id_vs_name = {}
+        self.cpu_consuming_stack_frames = []
         self.config = QSTUtils.load_and_parse_config()
 
     # processes is a dictionary of form {process_id: process_name}

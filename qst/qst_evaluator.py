@@ -10,11 +10,11 @@ class QSTEvaluator:
             stack_frames = QSTUtils.read_jstacks(it, process_id, qst_data)
             stack_frames = QSTEvaluator.filter_stack_frames(stack_frames, qst_data)
 
-            matching_frames = QSTEvaluator.give_matching_frames(stack_frames, tokens, print_all, qst_data)
-            QSTUtils.store_matching_frames(matching_frames, qst_data)
+            matching_frames_text = QSTEvaluator.give_matching_frames(stack_frames, tokens, print_all, qst_data)
+            QSTUtils.store_matching_frames(matching_frames_text, qst_data)
 
-            tagged_frames = QSTEvaluator.user_config_categorization(stack_frames, qst_data)
-            QSTEvaluator.thread_state_categorization(tagged_frames)
+            QSTEvaluator.user_config_categorization(stack_frames, qst_data)
+            QSTEvaluator.thread_state_categorization(stack_frames)
 
     @staticmethod
     def filter_stack_frames(stack_frames, qst_data):

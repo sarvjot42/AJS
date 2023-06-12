@@ -43,12 +43,12 @@ class QSTUtils:
             return stack_frames
 
     @staticmethod
-    def store_matching_frames(matching_frames, qst_data):
+    def store_matching_frames(matching_frames_text, qst_data):
         matching_loc = ".qst/" + qst_data.config["storage_location"]["matching"]
         if not os.path.exists(os.path.dirname(matching_loc)):
             os.makedirs(os.path.dirname(matching_loc))
         with open(matching_loc, "a") as f:
-            f.write(str(matching_frames))
+            f.write(str(matching_frames_text))
 
     @staticmethod
     def store_categorized_frames(categorized_frames):
