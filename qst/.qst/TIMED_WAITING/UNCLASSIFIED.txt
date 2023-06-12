@@ -1,0 +1,75 @@
+"main" #1 prio=5 os_prio=31 cpu=291966.68ms elapsed=20158.27s tid=0x00007fa57400b000 nid=0x2503 waiting on condition  [0x0000700004865000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.19/Native Method)
+	at TestCode.main(TestCode.java:114)
+
+"Common-Cleaner" #19 daemon prio=8 os_prio=31 cpu=63.43ms elapsed=20158.21s tid=0x00007fa574910800 nid=0x5a03 in Object.wait()  [0x000070000599b000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.19/Native Method)
+	- waiting on <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.19/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.19/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.19/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.19/InnocuousThread.java:161)
+
+"main" #1 prio=5 os_prio=31 cpu=292371.19ms elapsed=20159.62s tid=0x00007fa57400b000 nid=0x2503 waiting on condition  [0x0000700004865000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.19/Native Method)
+	at TestCode.main(TestCode.java:114)
+
+"Common-Cleaner" #19 daemon prio=8 os_prio=31 cpu=63.43ms elapsed=20159.56s tid=0x00007fa574910800 nid=0x5a03 in Object.wait()  [0x000070000599b000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.19/Native Method)
+	- waiting on <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.19/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.19/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.19/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.19/InnocuousThread.java:161)
+
+"main" #1 prio=5 os_prio=31 cpu=292371.19ms elapsed=20160.97s tid=0x00007fa57400b000 nid=0x2503 waiting on condition  [0x0000700004865000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.19/Native Method)
+	at TestCode.main(TestCode.java:114)
+
+"Common-Cleaner" #19 daemon prio=8 os_prio=31 cpu=63.43ms elapsed=20160.91s tid=0x00007fa574910800 nid=0x5a03 in Object.wait()  [0x000070000599b000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.19/Native Method)
+	- waiting on <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.19/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.19/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.19/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.19/InnocuousThread.java:161)
+
+"main" #1 prio=5 os_prio=31 cpu=292371.19ms elapsed=20162.31s tid=0x00007fa57400b000 nid=0x2503 waiting on condition  [0x0000700004865000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.19/Native Method)
+	at TestCode.main(TestCode.java:114)
+
+"Common-Cleaner" #19 daemon prio=8 os_prio=31 cpu=63.43ms elapsed=20162.26s tid=0x00007fa574910800 nid=0x5a03 in Object.wait()  [0x000070000599b000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.19/Native Method)
+	- waiting on <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.19/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.19/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.19/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.19/InnocuousThread.java:161)
+
+"main" #1 prio=5 os_prio=31 cpu=292371.19ms elapsed=20163.67s tid=0x00007fa57400b000 nid=0x2503 waiting on condition  [0x0000700004865000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.19/Native Method)
+	at TestCode.main(TestCode.java:114)
+
+"Common-Cleaner" #19 daemon prio=8 os_prio=31 cpu=63.43ms elapsed=20163.61s tid=0x00007fa574910800 nid=0x5a03 in Object.wait()  [0x000070000599b000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.19/Native Method)
+	- waiting on <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.19/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x0000000700003628> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.19/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.19/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.19/InnocuousThread.java:161)
+

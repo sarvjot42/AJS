@@ -1,0 +1,130 @@
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.51ms elapsed=20158.25s tid=0x00007fa576019800 nid=0x4903 waiting on condition  [0x0000700004f7a000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.19/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.19/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.19/Reference.java:213)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 cpu=0.83ms elapsed=20158.24s tid=0x00007fa576866800 nid=0x3e03 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20158.24s tid=0x00007fa576022000 nid=0xa903 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=31 cpu=1112.34ms elapsed=20158.24s tid=0x00007fa57601f800 nid=0xa703 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #14 daemon prio=9 os_prio=31 cpu=890.09ms elapsed=20158.24s tid=0x00007fa576020000 nid=0xa403 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #18 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20158.24s tid=0x00007fa574903800 nid=0x5703 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #6020 daemon prio=9 os_prio=31 cpu=580.00ms elapsed=20134.76s tid=0x00007fa57611f800 nid=0x1e407 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.51ms elapsed=20159.60s tid=0x00007fa576019800 nid=0x4903 waiting on condition  [0x0000700004f7a000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.19/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.19/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.19/Reference.java:213)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 cpu=0.83ms elapsed=20159.58s tid=0x00007fa576866800 nid=0x3e03 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20159.58s tid=0x00007fa576022000 nid=0xa903 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=31 cpu=1112.34ms elapsed=20159.58s tid=0x00007fa57601f800 nid=0xa703 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #14 daemon prio=9 os_prio=31 cpu=890.09ms elapsed=20159.58s tid=0x00007fa576020000 nid=0xa403 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #18 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20159.58s tid=0x00007fa574903800 nid=0x5703 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #6020 daemon prio=9 os_prio=31 cpu=580.36ms elapsed=20136.10s tid=0x00007fa57611f800 nid=0x1e407 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.51ms elapsed=20160.95s tid=0x00007fa576019800 nid=0x4903 waiting on condition  [0x0000700004f7a000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.19/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.19/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.19/Reference.java:213)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 cpu=0.83ms elapsed=20160.93s tid=0x00007fa576866800 nid=0x3e03 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20160.93s tid=0x00007fa576022000 nid=0xa903 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=31 cpu=1113.03ms elapsed=20160.93s tid=0x00007fa57601f800 nid=0xa703 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #14 daemon prio=9 os_prio=31 cpu=890.94ms elapsed=20160.93s tid=0x00007fa576020000 nid=0xa403 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #18 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20160.93s tid=0x00007fa574903800 nid=0x5703 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #6020 daemon prio=9 os_prio=31 cpu=594.58ms elapsed=20137.45s tid=0x00007fa57611f800 nid=0x1e407 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.51ms elapsed=20162.29s tid=0x00007fa576019800 nid=0x4903 waiting on condition  [0x0000700004f7a000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.19/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.19/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.19/Reference.java:213)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 cpu=0.83ms elapsed=20162.28s tid=0x00007fa576866800 nid=0x3e03 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20162.28s tid=0x00007fa576022000 nid=0xa903 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=31 cpu=1113.03ms elapsed=20162.28s tid=0x00007fa57601f800 nid=0xa703 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #14 daemon prio=9 os_prio=31 cpu=890.94ms elapsed=20162.28s tid=0x00007fa576020000 nid=0xa403 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #18 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20162.28s tid=0x00007fa574903800 nid=0x5703 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #6020 daemon prio=9 os_prio=31 cpu=608.34ms elapsed=20138.80s tid=0x00007fa57611f800 nid=0x1e407 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.51ms elapsed=20163.65s tid=0x00007fa576019800 nid=0x4903 waiting on condition  [0x0000700004f7a000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.19/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.19/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.19/Reference.java:213)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 cpu=0.83ms elapsed=20163.63s tid=0x00007fa576866800 nid=0x3e03 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20163.63s tid=0x00007fa576022000 nid=0xa903 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=31 cpu=1113.03ms elapsed=20163.63s tid=0x00007fa57601f800 nid=0xa703 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #14 daemon prio=9 os_prio=31 cpu=890.94ms elapsed=20163.63s tid=0x00007fa576020000 nid=0xa403 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #18 daemon prio=9 os_prio=31 cpu=0.04ms elapsed=20163.63s tid=0x00007fa574903800 nid=0x5703 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #6020 daemon prio=9 os_prio=31 cpu=621.95ms elapsed=20140.15s tid=0x00007fa57611f800 nid=0x1e407 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+

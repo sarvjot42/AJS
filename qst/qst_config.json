@@ -1,0 +1,16 @@
+{
+  "classification": [
+    {
+      "regex": ".*Lorem.*",
+      "tag": "Lorem"
+    },
+    {
+      "regex": ".*Consectetur.*",
+      "tag": "Consectetur"
+    }
+  ],
+  "storage_location": {
+    "jstacks": "jstacks",
+    "matching": "matching.txt"
+  }
+}

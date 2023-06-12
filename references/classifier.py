@@ -3,10 +3,12 @@ import argparse
 others_category = "Others"
 prefixes_to_ignore = ['cluster-ClusterId','grpc-default','kafka-producer-network-thread','broadcastRedisContainer','cluster-rtt-ClusterId','CompilerThread0']
 category_vs_identifier_keyword = {'Mongo':'MongoTemplateInternal',"Elasticsearch":'elasticsearch'}
+
 category_vs_stack_frame_count = {}
 category_vs_stack_frames = {}
 category_vs_runnable_stack_frame_count = {}
 category_vs_runnable_stack_frames = {}
+
 fetch_stack_frame = False
 fetch_runnable_stack_frame = False
 prefixes_to_fetch = None
@@ -83,7 +85,6 @@ def update_category_vs_stack_frame_data(category, stack_frame):
         category_vs_stack_frame_count[category] = 0
     category_vs_stack_frame_count[category] +=1
 
-
     if fetch_stack_frame:
         if category_vs_stack_frames.get(category) is None:
             category_vs_stack_frames[category] = []
@@ -92,20 +93,17 @@ def update_category_vs_stack_frame_data(category, stack_frame):
     if isThreadRunnable(stack_frame):
         update_category_vs_runnable_stack_frame_data(category,stack_frame)
 
-
 def update_category_vs_runnable_stack_frame_data(category,stack_frame):
     if category_vs_runnable_stack_frame_count.get(category) is None:
         category_vs_runnable_stack_frame_count[category] = 0
     category_vs_runnable_stack_frame_count[category] +=1
-
 
     if fetch_runnable_stack_frame:
         if category_vs_runnable_stack_frames.get(category) is None:
             category_vs_runnable_stack_frames[category] = []
         category_vs_runnable_stack_frames[category].append(stack_frame) 
 
-
-def print_data(category_vs_stack_frames,print_stack_trace = False):
+def print_data(category_vs_stack_frames, print_stack_trace = False):
     for category in category_vs_identifier_keyword:
         print_data_for_category(category,print_stack_trace)
     print_data_for_category(others_category,print_stack_trace)
@@ -129,7 +127,6 @@ def print_data_for_category(category,print_stack_trace):
 def isThreadRunnable(stack_frame):
     return 'RUNNABLE' in stack_frame
 
-
 if __name__ == "__main__":
     args = define_args()
     fetch_stack_frame = args.fetch
@@ -139,4 +136,3 @@ if __name__ == "__main__":
         jstack = get_file_contents(file)
         execute(jstack)
     print_data(category_vs_stack_frames,args.fetch)
-
