@@ -1,20 +1,46 @@
 import re
 from qst_utils import QSTUtils
+from qst_interface import QSTInterface
 
 # Business logic for qst is stored here
 class QSTEvaluator:
     # Match stack frames for tokens
     @staticmethod
-    def process_cycle(it, tokens, print_all, qst_data):
+    @QSTUtils.benchmark
+    def process_cycle(it, tokens, print_all, qst_data, **kwargs):
+        log_stats = kwargs["log_stats"]
         for process_id in qst_data.process_id_vs_name:
-            stack_frames = QSTUtils.read_jstacks(it, process_id, qst_data)
-            stack_frames = QSTEvaluator.filter_stack_frames(stack_frames, qst_data)
+            QSTUtils.logger(log_stats, "PROCESS {}".format(qst_data.process_id_vs_name[process_id]))
+            stack_frames = QSTEvaluator.read_and_filter_stack_frames(it, process_id, qst_data, log_stats=log_stats, label="READ AND FILTER STACK FRAMES")
+            QSTEvaluator.find_cpu_consuming_threads(stack_frames, qst_data, log_stats=log_stats, label="FIND CPU CONSUMING THREADS")
+            QSTEvaluator.match_stack_frames(stack_frames, tokens, print_all, qst_data, log_stats=log_stats, label="MATCH STACK FRAMES")
+            QSTEvaluator.categorize_stack_frames(stack_frames, qst_data, log_stats=log_stats, label="CATEGORIZE STACK FRAMES")
 
-            matching_frames_text = QSTEvaluator.give_matching_frames(stack_frames, tokens, print_all, qst_data)
-            QSTUtils.store_matching_frames(matching_frames_text, qst_data)
+    @staticmethod
+    @QSTUtils.benchmark
+    def read_and_filter_stack_frames(it, process_id, qst_data, **kwargs):
+        stack_frames = QSTInterface.read_jstacks(it, process_id, qst_data)
+        stack_frames = QSTEvaluator.filter_stack_frames(stack_frames, qst_data)
+        return stack_frames
 
-            QSTEvaluator.user_config_categorization(stack_frames, qst_data)
-            QSTEvaluator.thread_state_categorization(stack_frames)
+    @staticmethod
+    @QSTUtils.benchmark
+    def find_cpu_consuming_threads(stack_frames, qst_data, **kwargs):
+        QSTUtils.attach_cpu_time(stack_frames)
+        cpu_consuming = QSTUtils.get_cpu_consuming(10, stack_frames)
+        QSTUtils.store_cpu_consuming(cpu_consuming, qst_data)
+
+    @staticmethod
+    @QSTUtils.benchmark
+    def match_stack_frames(stack_frames, tokens, print_all, qst_data, **kwargs):
+        matching_frames_text = QSTEvaluator.give_matching_frames(stack_frames, tokens, print_all, qst_data)
+        QSTInterface.store_matching_frames(matching_frames_text, qst_data)
+
+    @staticmethod
+    @QSTUtils.benchmark
+    def categorize_stack_frames(stack_frames, qst_data, **kwargs):
+        QSTEvaluator.user_config_categorization(stack_frames, qst_data)
+        QSTEvaluator.thread_state_categorization(stack_frames)
 
     @staticmethod
     def filter_stack_frames(stack_frames, qst_data):
@@ -45,7 +71,7 @@ class QSTEvaluator:
         matching_frames = ""
         for stack_frame in stack_frames:
             for token in tokens:
-                if print_all is False and token in qst_data.found_tokens:
+                if print_all is False and qst_data.found_tokens[token] > 0:
                     break
                 if token in stack_frame.text:
                     process_id = stack_frame.process_id
@@ -73,22 +99,10 @@ class QSTEvaluator:
     @staticmethod
     def thread_state_categorization(stack_frames):
         states = [
-            {
-                "regex": ".*RUNNABLE.*",
-                "tag": "RUNNABLE",
-            }, 
-            {
-                "regex": ".*TIMED_WAITING.*",
-                "tag": "TIMED_WAITING",
-            },
-            {
-                "regex": ".*WAITING.*",
-                "tag": "WAITING",
-            },
-            {
-                "regex": ".*BLOCKED.*",
-                "tag": "BLOCKED",
-            },
+            { "regex": ".*RUNNABLE.*", "tag": "RUNNABLE" }, 
+            { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" },
+            { "regex": ".*WAITING.*", "tag": "WAITING" },
+            { "regex": ".*BLOCKED.*", "tag": "BLOCKED" }
         ]
 
         categorized_stack_frames = {}
@@ -101,4 +115,4 @@ class QSTEvaluator:
                     categorized_stack_frames[state["tag"]].append(stack_frame)
                     break
 
-        QSTUtils.store_categorized_frames(categorized_stack_frames)
+        QSTInterface.store_categorized_frames(categorized_stack_frames)

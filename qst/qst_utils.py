@@ -1,83 +1,46 @@
-import os
+import re
 import json
-import signal
+import time
+import heapq
 import argparse
-import subprocess
-
-# Schema class for StackFrame
-class StackFrame:
-    def __init__(self, text, process_id):
-        self.text = text
-        self.process_id = process_id
-        self.tags = []
+from multipledispatch import dispatch
 
 class QSTUtils:
     @staticmethod
-    def reset_files():
-        # remove .qst folder
-        if os.path.exists(".qst"): 
-            os.system("rm -rf .qst")
+    @dispatch(bool, int, int, int)
+    def logger(log_stats, beg_newlines, cnt_lines, end_newlines):
+        if not log_stats:
+            return
+
+        for _ in range(beg_newlines):
+            print('')
+        for _ in range(cnt_lines):
+            print("---------------------------------------------------------------------------")
+        for _ in range(end_newlines):
+            print('')
 
     @staticmethod
-    def store_jstacks(it, qst_data):
-        jstack_loc = ".qst/" + qst_data.config["storage_location"]["jstacks"]
-        folder_loc = jstack_loc + "/" + QSTUtils.convert_number_to_alphabet(it)
-        for process_id in qst_data.process_id_vs_name:
-            stack_trace = QSTUtils.get_stack_trace(process_id)
-            file_loc = folder_loc + "/" + process_id + ".txt"
-            if not os.path.exists(os.path.dirname(file_loc)):
-                os.makedirs(os.path.dirname(file_loc))
-            with open(file_loc, "w") as f:
-                f.write(stack_trace)
+    @dispatch(bool, str)
+    def logger(log_stats, message):
+        if not log_stats:
+            return
+
+        print(message)
 
     @staticmethod
-    def read_jstacks(it, process_id, qst_data):
-        jstack_loc = ".qst/" + qst_data.config["storage_location"]["jstacks"]
-        folder_loc = jstack_loc + "/" + QSTUtils.convert_number_to_alphabet(it)
-        file_loc = folder_loc + "/" + process_id + ".txt"
+    def benchmark(func):
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            result = func(*args, **kwargs)
+            end = time.time()
+            time_taken = "{:.3f}".format(end - start)
 
-        with open(file_loc, "r") as f:
-            stack_trace = f.read()
-            stack_frames_text = stack_trace.split("\n\n")
-            stack_frames = map(lambda text: StackFrame(text, process_id), stack_frames_text)
-            return stack_frames
+            label = kwargs.get('label', func.__name__)
+            log_stats = kwargs.get('log_stats')
 
-    @staticmethod
-    def store_matching_frames(matching_frames_text, qst_data):
-        matching_loc = ".qst/" + qst_data.config["storage_location"]["matching"]
-        if not os.path.exists(os.path.dirname(matching_loc)):
-            os.makedirs(os.path.dirname(matching_loc))
-        with open(matching_loc, "a") as f:
-            f.write(str(matching_frames_text))
-
-    @staticmethod
-    def store_categorized_frames(categorized_frames):
-        for state in categorized_frames:
-            category_loc = ".qst/" + state
-            
-            frames = categorized_frames[state]
-            for frame in frames:
-                for tag in frame.tags:
-                    file_loc = category_loc + "/" + tag + ".txt"
-                    if not os.path.exists(os.path.dirname(file_loc)):
-                        os.makedirs(os.path.dirname(file_loc))
-                    with open(file_loc, "a") as f:
-                        f.write(frame.text + "\n\n")
-
-    @staticmethod
-    def convert_number_to_alphabet(number):
-        alphabets = "abcdefghijklmnopqrstuvwxyz"
-        return alphabets[number]
-
-    @staticmethod
-    def setup_interrupt():
-        def handle_interrupt(signal, frame):
-            print("\nReceived SIGINT, exiting")
-            exit(0)
-
-        # allow exiting the script with Ctrl + C 
-        # register the signal handler
-        signal.signal(signal.SIGINT, handle_interrupt)
+            QSTUtils.logger(log_stats, "{} took {} seconds".format(label, time_taken))
+            return result
+        return wrapper
 
     @staticmethod
     def setup_parser():
@@ -95,6 +58,13 @@ class QSTUtils:
             "--print-all",
             action="store_true",
             help="Print [a]ll stack frames for tokens",
+        )
+        # log_stats is a boolean argument, which assumes value True if passed, else False
+        parser.add_argument(
+            "-l",
+            "--log-stats",
+            action="store_true",
+            help="[L]og benchmarking stats for various stages",
         )
         # delay is an optional argument with default value of 1000 milliseconds
         parser.add_argument(
@@ -160,29 +130,33 @@ class QSTUtils:
         else:
             parsed_config_data["storage_location"]["matching"] = ".qst/matching.txt"
 
+        if config_data.get("storage_location") is not None and config_data["storage_location"].get("cpu_consuming") is not None:
+            parsed_config_data["storage_location"]["cpu_consuming"] = str(config_data["storage_location"]["cpu_consuming"])
+        else:
+            parsed_config_data["storage_location"]["cpu_consuming"] = ".qst/cpu_consuming.txt"
+
         return parsed_config_data
 
-    # Get all active java processes and store them in qst_data.process_id_vs_name
-    # Use "ps -e" to get all active processes
     @staticmethod
-    def get_active_java_processes(qst_data):
-        result = subprocess.Popen(["ps", "-e"], stdout=subprocess.PIPE)
-        output, _ = result.communicate()
-        lines = output.strip().split("\n")
+    def convert_number_to_alphabet(number):
+        alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return alphabets[number]
 
-        for line in lines:
-            if "java" in line:
-                cols = line.split()
-                process_id = cols[0]
-                process_name = ""
-                for i in range(3, len(cols)):
-                    process_name = process_name + cols[i] + " "
-                qst_data.add_process(process_id, process_name)
-
-    # Get stack frames for a process using jstack, using process_id
     @staticmethod
-    def get_stack_trace(process_id):
-        result = subprocess.Popen(["jstack", str(process_id)], stdout=subprocess.PIPE)
-        output, _ = result.communicate()
-        stack_trace = output.strip()
-        return stack_trace
+    def attach_cpu_time(stack_frames):
+        for stack_frame in stack_frames:
+            pattern = r'cpu=(\d+(\.\d+)?)ms'
+            cpu_time_match = re.search(pattern, stack_frame.text)
+
+            if cpu_time_match:
+                cpu_time = float(cpu_time_match.group(1))
+                stack_frame.cpu_time = cpu_time
+
+    @staticmethod
+    def get_cpu_consuming(k, stack_frames):
+        slowest_frames = heapq.nlargest(k, stack_frames, key=lambda frame: frame.cpu_time)
+        return slowest_frames
+
+    @staticmethod
+    def store_cpu_consuming(stack_frames, qst_data):
+        qst_data.cpu_consuming_stack_frames.extend(stack_frames)

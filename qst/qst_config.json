@@ -11,6 +11,7 @@
   ],
   "storage_location": {
     "jstacks": "jstacks",
-    "matching": "matching.txt"
+    "matching": "matching.txt",
+    "cpu_consuming": "cpu_consuming.txt"
   }
 }
