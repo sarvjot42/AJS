@@ -1,47 +1,9 @@
 import re
 import json
-import time
 import heapq
 import argparse
-from multipledispatch import dispatch
 
 class QSTUtils:
-    @staticmethod
-    @dispatch(bool, int, int, int)
-    def logger(log_stats, beg_newlines, cnt_lines, end_newlines):
-        if not log_stats:
-            return
-
-        for _ in range(beg_newlines):
-            print('')
-        for _ in range(cnt_lines):
-            print("---------------------------------------------------------------------------")
-        for _ in range(end_newlines):
-            print('')
-
-    @staticmethod
-    @dispatch(bool, str)
-    def logger(log_stats, message):
-        if not log_stats:
-            return
-
-        print(message)
-
-    @staticmethod
-    def benchmark(func):
-        def wrapper(*args, **kwargs):
-            start = time.time()
-            result = func(*args, **kwargs)
-            end = time.time()
-            time_taken = "{:.3f}".format(end - start)
-
-            label = kwargs.get('label', func.__name__)
-            log_stats = kwargs.get('log_stats')
-
-            QSTUtils.logger(log_stats, "{} took {} seconds".format(label, time_taken))
-            return result
-        return wrapper
-
     @staticmethod
     def setup_parser():
         parser = argparse.ArgumentParser(
@@ -58,13 +20,6 @@ class QSTUtils:
             "--print-all",
             action="store_true",
             help="Print [a]ll stack frames for tokens",
-        )
-        # log_stats is a boolean argument, which assumes value True if passed, else False
-        parser.add_argument(
-            "-l",
-            "--log-stats",
-            action="store_true",
-            help="[L]og benchmarking stats for various stages",
         )
         # delay is an optional argument with default value of 1000 milliseconds
         parser.add_argument(

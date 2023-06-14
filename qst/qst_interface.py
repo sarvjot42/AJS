@@ -18,8 +18,7 @@ class QSTInterface:
     # Get all active java processes and store them in qst_data.process_id_vs_name
     # Use "ps -e" to get all active processes
     @staticmethod
-    @QSTUtils.benchmark
-    def get_active_java_processes(qst_data, **kwargs):
+    def get_active_java_processes(qst_data):
         result = subprocess.Popen(["ps", "-e"], stdout=subprocess.PIPE)
         output, _ = result.communicate()
         lines = output.strip().split("\n")
@@ -40,8 +39,7 @@ class QSTInterface:
             os.system("rm -rf .qst")
 
     @staticmethod
-    @QSTUtils.benchmark
-    def store_jstacks(it, qst_data, **kwargs):
+    def store_jstacks(it, qst_data):
         jstack_loc = ".qst/" + qst_data.config["storage_location"]["jstacks"]
         folder_loc = jstack_loc + "/" + QSTUtils.convert_number_to_alphabet(it)
         for process_id in qst_data.process_id_vs_name:
@@ -95,8 +93,7 @@ class QSTInterface:
                         f.write(frame.text + "\n\n")
 
     @staticmethod
-    @QSTUtils.benchmark
-    def store_cpu_consuming_all(qst_data, **kwargs):
+    def store_cpu_consuming_all(qst_data):
         qst_data.cpu_consuming_stack_frames.sort(key=lambda frame: frame.cpu_time, reverse=True)
         text = "" 
         for frame in qst_data.cpu_consuming_stack_frames:

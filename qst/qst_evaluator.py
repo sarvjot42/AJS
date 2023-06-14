@@ -6,39 +6,32 @@ from qst_interface import QSTInterface
 class QSTEvaluator:
     # Match stack frames for tokens
     @staticmethod
-    @QSTUtils.benchmark
-    def process_cycle(it, tokens, print_all, qst_data, **kwargs):
-        log_stats = kwargs["log_stats"]
+    def process_cycle(it, tokens, print_all, qst_data):
         for process_id in qst_data.process_id_vs_name:
-            QSTUtils.logger(log_stats, "PROCESS {}".format(qst_data.process_id_vs_name[process_id]))
-            stack_frames = QSTEvaluator.read_and_filter_stack_frames(it, process_id, qst_data, log_stats=log_stats, label="READ AND FILTER STACK FRAMES")
-            QSTEvaluator.find_cpu_consuming_threads(stack_frames, qst_data, log_stats=log_stats, label="FIND CPU CONSUMING THREADS")
-            QSTEvaluator.match_stack_frames(stack_frames, tokens, print_all, qst_data, log_stats=log_stats, label="MATCH STACK FRAMES")
-            QSTEvaluator.categorize_stack_frames(stack_frames, qst_data, log_stats=log_stats, label="CATEGORIZE STACK FRAMES")
+            stack_frames = QSTEvaluator.read_and_filter_stack_frames(it, process_id, qst_data)
+            QSTEvaluator.find_cpu_consuming_threads(stack_frames, qst_data)
+            QSTEvaluator.match_stack_frames(stack_frames, tokens, print_all, qst_data)
+            QSTEvaluator.categorize_stack_frames(stack_frames, qst_data)
 
     @staticmethod
-    @QSTUtils.benchmark
-    def read_and_filter_stack_frames(it, process_id, qst_data, **kwargs):
+    def read_and_filter_stack_frames(it, process_id, qst_data):
         stack_frames = QSTInterface.read_jstacks(it, process_id, qst_data)
         stack_frames = QSTEvaluator.filter_stack_frames(stack_frames, qst_data)
         return stack_frames
 
     @staticmethod
-    @QSTUtils.benchmark
-    def find_cpu_consuming_threads(stack_frames, qst_data, **kwargs):
+    def find_cpu_consuming_threads(stack_frames, qst_data):
         QSTUtils.attach_cpu_time(stack_frames)
         cpu_consuming = QSTUtils.get_cpu_consuming(10, stack_frames)
         QSTUtils.store_cpu_consuming(cpu_consuming, qst_data)
 
     @staticmethod
-    @QSTUtils.benchmark
-    def match_stack_frames(stack_frames, tokens, print_all, qst_data, **kwargs):
+    def match_stack_frames(stack_frames, tokens, print_all, qst_data):
         matching_frames_text = QSTEvaluator.give_matching_frames(stack_frames, tokens, print_all, qst_data)
         QSTInterface.store_matching_frames(matching_frames_text, qst_data)
 
     @staticmethod
-    @QSTUtils.benchmark
-    def categorize_stack_frames(stack_frames, qst_data, **kwargs):
+    def categorize_stack_frames(stack_frames, qst_data):
         QSTEvaluator.user_config_categorization(stack_frames, qst_data)
         QSTEvaluator.thread_state_categorization(stack_frames)
 
