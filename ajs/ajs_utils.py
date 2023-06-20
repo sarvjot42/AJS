@@ -1,12 +1,13 @@
 import json
 import argparse
 import datetime
+from argparse import RawTextHelpFormatter
 
-class QSTUtils:
+class AJSUtils:
     @staticmethod
     def generate_session_id():
         session_name = raw_input("Name your debugging session: ")
-        time_stamp = QSTUtils.get_time_stamp()
+        time_stamp = AJSUtils.get_time_stamp()
         session_id = session_name + "_" + time_stamp
         return session_id
 
@@ -23,24 +24,10 @@ class QSTUtils:
     @staticmethod
     def setup_parser():
         parser = argparse.ArgumentParser(
-            description="Search for tokens in stack traces of all running Java processes"
+            description="Analyze JStacks, a tool to analyze java thread dumps\nConfigure settings in 'ajs_config.json', Sample config file is given in 'ajs_config.sample.json'",
+            formatter_class=RawTextHelpFormatter
         )
 
-        parser.add_argument(
-            "tokens", nargs="+", help="Enter tokens to search in stack traces"
-        )
-        parser.add_argument(
-            "-a",
-            "--print-all-matches",
-            action="store_true",
-            help="Print [a]ll stack threads for tokens",
-        )
-        parser.add_argument(
-            "-f",
-            "--jstack-file-input",
-            action="store_true",
-            help="Read JStacks from [f]ile instead of running JStack command",
-        )
         parser.add_argument(
             "-d",
             "--delay-bw-jstacks",
@@ -62,26 +49,32 @@ class QSTUtils:
 
     @staticmethod
     def load_and_parse_config():
-        with open("qst_config.json") as file:
+        with open("ajs_config.json") as file:
             config_data = json.load(file)
 
         parsed_config_data = {}
 
-        if config_data.get("not_include") is not None:
-            not_include_items = []
-            for not_include in config_data["not_include"]:
-                not_include_items.append(str(not_include["regex"]))
-            parsed_config_data["not_include"] = not_include_items
+        if config_data.get("tokens") is not None:
+            tokens = []
+            for token in config_data["tokens"]:
+                token_text = str(token["text"])
+                output_all_matches = str(token["output_all_matches"])
+                if output_all_matches == "true":
+                    output_all_matches = True
+                else:
+                    output_all_matches = False
+                tokens.append({"text": token_text, "output_all_matches": output_all_matches})
+            parsed_config_data["tokens"] = tokens
         else:
-            parsed_config_data["not_include"] = []
+            parsed_config_data["tokens"] = []
 
-        if config_data.get("include") is not None:
-            include_items = []
-            for include in config_data["include"]:
-                include_items.append(str(include["regex"]))
-            parsed_config_data["include"] = include_items
+        if config_data.get("filter_out") is not None:
+            unwanted_tokens = []
+            for unwanted_token in config_data["filter_out"]:
+                unwanted_tokens.append(str(unwanted_token["regex"]))
+            parsed_config_data["filter_out"] = unwanted_tokens 
         else:
-            parsed_config_data["include"] = None 
+            parsed_config_data["filter_out"] = []
 
         if config_data.get("classification") is not None:
             classification_items = []

@@ -1,5 +1,11 @@
 {
-  "not_include": [
+  "tokens": [
+    {
+      "text": "Finalizer",
+      "output_all_matches": false 
+    }
+  ],
+  "filter_out": [
     {
       "regex": "cluster-ClusterId"
     },
