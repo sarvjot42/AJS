@@ -1,2 +1,39 @@
 {
+  "tokens": [
+    {
+      "text": "Finalizer",
+      "output_all_matches": false 
+    }
+  ],
+  "filter_out": [
+    {
+      "regex": "cluster-ClusterId"
+    },
+    {
+      "regex": "grpc-default"
+    },
+    {
+      "regex": "kafka-producer-network-thread"
+    },
+    {
+      "regex": "broadcastRedisContainer"
+    },
+    {
+      "regex": "cluster-rtt-ClusterId"
+    },
+    {
+      "regex": "CompilerThread0"
+    }
+  ],
+  "classification": [
+    {
+      "regex": ".*MongoTemplateInternal.*",
+      "tag": "Mongo"
+    },
+    {
+      "regex": ".*elasticsearch.*",
+      "tag": "Elasticsearch"
+    }
+  ],
+  "jstack_input_file_path": "/Users/sarvjotsingh/dev/AnalyzeJStack/sample_jstacks/multiple_jstacks/jstack-10.0.24.178-2023-06-07-12-16-04 (1).txt"
 }

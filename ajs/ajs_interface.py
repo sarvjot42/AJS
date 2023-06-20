@@ -3,7 +3,7 @@ import os
 import time
 import signal
 import subprocess
-from ajs_data import StackFrame
+from ajs_data import Thread 
 
 class AJSInterface:
     @staticmethod
@@ -29,7 +29,7 @@ class AJSInterface:
         signal.signal(signal.SIGINT, handle_interrupt)
 
     @staticmethod
-    def get_java_processes(ajs_data):
+    def get_java_processes(ajs_db):
         result = subprocess.Popen(["ps", "-e"], stdout=subprocess.PIPE)
         output, _ = result.communicate()
         lines = output.strip().split(b"\n")
@@ -41,7 +41,7 @@ class AJSInterface:
                 process_name = ""
                 for i in range(3, len(cols)):
                     process_name = process_name + cols[i].decode("utf-8") + " "
-                ajs_data.add_process(process_id, process_name)
+                ajs_db.add_process(process_id, process_name)
 
     @staticmethod
     def reset_output_directory():
@@ -53,15 +53,15 @@ class AJSInterface:
             os.system("rm -rf .ajs/cpu_consuming.txt")
 
     @staticmethod
-    def get_stack_trace_of_java_process(process_id):
+    def get_jstack_of_java_process(process_id):
         result = subprocess.Popen(["jstack", str(process_id)], stdout=subprocess.PIPE)
         output, _ = result.communicate()
-        stack_trace = output.strip()
-        return stack_trace
+        jstack = output.strip()
+        return jstack 
 
     @staticmethod 
-    def handle_jstack_file_input(ajs_data):
-        jstack_file_input_path = ajs_data.config["jstack_input_file_path"]
+    def handle_jstack_file_input(ajs_config, ajs_db):
+        jstack_file_input_path = ajs_config.config["jstack_input_file_path"]
 
         if jstack_file_input_path is None:
             print("No jstack file path provided in config file")
@@ -71,17 +71,17 @@ class AJSInterface:
                 print("Invalid jstack file path provided in config file")
                 exit(0)
             else:
-                ajs_data.add_process("unknown_process_id", "unknown_process")
-                num_jstacks = AJSInterface.parse_jstack_file_input(ajs_data, jstack_file_input_path)
+                ajs_db.add_process("unknown_process_id", "unknown_process")
+                num_jstacks = AJSInterface.parse_jstack_file_input(ajs_config, jstack_file_input_path)
                 return num_jstacks
 
     @staticmethod
-    def parse_jstack_file_input(ajs_data, jstack_file_input_path):
+    def parse_jstack_file_input(ajs_config, jstack_file_input_path):
         jstack_index = 0
         buffered_jstacks = AJSInterface.buffered_reader_jstacks(jstack_file_input_path)
 
         for jstack in buffered_jstacks:
-            AJSInterface.output_parsed_jstack(ajs_data, jstack_index, jstack)
+            AJSInterface.output_parsed_jstack(ajs_config, jstack_index, jstack)
             jstack_index += 1
 
         num_jstacks = jstack_index
@@ -109,44 +109,48 @@ class AJSInterface:
                     yield jstack
 
     @staticmethod
-    def output_parsed_jstack(ajs_data, jstack_index, jstack):
-        jstack_file_path = AJSInterface.get_jstack_file_path(ajs_data, jstack_index, "unknown_process_id")
+    def output_parsed_jstack(ajs_config, jstack_index, jstack):
+        jstack_file_path = AJSInterface.get_jstack_file_path(ajs_config, jstack_index, "unknown_process_id")
         AJSInterface.write_to_file(jstack_file_path, jstack)
 
     @staticmethod 
-    def handle_jstack_generation(ajs_data, delay_bw_jstacks, num_jstacks):
-        AJSInterface.get_java_processes(ajs_data)
+    def handle_jstack_generation(ajs_config, ajs_db):
+        num_jstacks = ajs_config.config["num_jstacks"]
+        delay_bw_jstacks = ajs_config.config["delay_bw_jstacks"]
+
+        AJSInterface.get_java_processes(ajs_db)
 
         for jstack_index in range(num_jstacks):
-            AJSInterface.output_generated_jstacks(ajs_data, jstack_index)
-            time.sleep(delay_bw_jstacks / 1000)
+            AJSInterface.output_generated_jstacks(ajs_config, ajs_db, jstack_index)
+            if jstack_index != num_jstacks - 1:
+                time.sleep(delay_bw_jstacks / 1000)
 
     @staticmethod
-    def output_generated_jstacks(ajs_data, jstack_index):
-        for process_id in ajs_data.process_id_vs_name:
-            stack_trace = AJSInterface.get_stack_trace_of_java_process(process_id)
-            jstack_file_path = AJSInterface.get_jstack_file_path(ajs_data, jstack_index, process_id)
+    def output_generated_jstacks(ajs_config, ajs_db, jstack_index):
+        for process_id in ajs_db.process_id_vs_name:
+            jstack = AJSInterface.get_jstack_of_java_process(process_id)
+            jstack_file_path = AJSInterface.get_jstack_file_path(ajs_config, jstack_index, process_id)
 
-            AJSInterface.write_to_file(jstack_file_path, stack_trace.decode("utf-8"))
+            AJSInterface.write_to_file(jstack_file_path, jstack.decode("utf-8"))
 
     @staticmethod
-    def read_jstack(ajs_data, jstack_index, process_id):
-        jstack_file_path = AJSInterface.get_jstack_file_path(ajs_data, jstack_index, process_id)
+    def read_jstack(ajs_config, jstack_index, process_id):
+        jstack_file_path = AJSInterface.get_jstack_file_path(ajs_config, jstack_index, process_id)
 
         with open(jstack_file_path, "r") as f:
             jstack = f.read()
             return jstack
 
     @staticmethod
-    def get_jstack_file_path(ajs_data, jstack_index, process_id):
-        jstack_output_path = ".ajs/jstacks/" + ajs_data.session_id
+    def get_jstack_file_path(ajs_config, jstack_index, process_id):
+        jstack_output_path = ".ajs/jstacks/" + ajs_config.session_id
         jstack_file_path = jstack_output_path + "/Cycle-" + str(jstack_index) + "/" + process_id + ".txt"
         return jstack_file_path
 
     @staticmethod
     def parse_threads_from_jstack(jstack, process_id):
         jstack_text = jstack.split("\n\n")
-        threads = map(lambda text: StackFrame(text, process_id), jstack_text)
+        threads = map(lambda text: Thread(text, process_id), jstack_text)
         return threads
 
     @staticmethod
@@ -164,15 +168,15 @@ class AJSInterface:
                 for tag in thread.tags:
                     file_path = category_path + "/" + tag + ".txt"
                     AJSInterface.append_to_file(file_path, thread.text + "\n\n")
-
-    @staticmethod
-    def output_cpu_consuming_threads(ajs_data):
-        ajs_data.cpu_consuming_threads.sort(key=lambda thread: thread.cpu_time, reverse=True)
-
-        cpu_consuming_threads_text = "" 
-        for thread in ajs_data.cpu_consuming_threads:
-            cpu_consuming_threads_text += thread.text + "\n\n"
-
-        if cpu_consuming_threads_text != "":
-            cpu_consuming_threads_path = ".ajs/cpu_consuming.txt"
-            AJSInterface.append_to_file(cpu_consuming_threads_path, cpu_consuming_threads_text)
+    #
+    # @staticmethod
+    # def output_cpu_consuming_threads(ajs_db):
+    #     ajs_db.cpu_consuming_threads.sort(key=lambda thread: thread.cpu, reverse=True)
+    #
+    #     cpu_consuming_threads_text = "" 
+    #     for thread in ajs_db.cpu_consuming_threads:
+    #         cpu_consuming_threads_text += thread.text + "\n\n"
+    #
+    #     if cpu_consuming_threads_text != "":
+    #         cpu_consuming_threads_path = ".ajs/cpu_consuming.txt"
+    #         AJSInterface.append_to_file(cpu_consuming_threads_path, cpu_consuming_threads_text)

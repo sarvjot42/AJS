@@ -29,12 +29,10 @@ class AJSUtils:
         )
 
         parser.add_argument(
-            "-d",
-            "--delay-bw-jstacks",
-            metavar="",
-            type=int,
-            default=1000,
-            help="[D]elay between two consecutive JStacks in milliseconds, default is 1000",
+            "-f",
+            "--jstack-file-input",
+            action="store_true",
+            help="Use configured JStack [f]iles as input",
         )
         parser.add_argument(
             "-n",
@@ -44,17 +42,64 @@ class AJSUtils:
             default=5,
             help="[N]umber of JStacks to be processed, default is 5",
         )
+        parser.add_argument(
+            "-d",
+            "--delay-bw-jstacks",
+            metavar="",
+            type=int,
+            default=1000,
+            help="[D]elay between two consecutive JStacks in milliseconds, default is 1000",
+        )
+        parser.add_argument(
+            "-S",
+            "--search-tokens",
+            action="store_true",
+            help="[S]earch for configured tokens in the jstack",
+        )
+        parser.add_argument(
+            "-F",
+            "--filter-out",
+            action="store_true",
+            help="[F]ilter out configured threads from the jstack",
+        )
+        parser.add_argument(
+            "-C",
+            "--classify-threads",
+            action="store_true",
+            help="[C]lassify threads based on configured regexes",
+        )
+        parser.add_argument(
+            "-I",
+            "--cpu-intensive-threads",
+            action="store_true",
+            help="Output most CPU [I]ntensive threads, in descending order of CPU time",
+        )
 
         return parser
 
     @staticmethod
-    def load_and_parse_config():
+    def load_config(args):
+        filter_out = args.filter_out
+        num_jstacks = args.num_jstacks
+        search_tokens = args.search_tokens
+        delay_bw_jstacks = args.delay_bw_jstacks
+        classify_threads = args.classify_threads
+        jstack_file_input = args.jstack_file_input 
+        cpu_intensive_threads = args.cpu_intensive_threads
+
         with open("ajs_config.json") as file:
             config_data = json.load(file)
 
         parsed_config_data = {}
 
-        if config_data.get("tokens") is not None:
+        if jstack_file_input is True and config_data.get("jstack_input_file_path") is not None:
+            parsed_config_data["jstack_input_file_path"] = str(config_data["jstack_input_file_path"])
+        else:
+            parsed_config_data["jstack_input_file_path"] = None
+            parsed_config_data["num_jstacks"] = num_jstacks
+            parsed_config_data["delay_bw_jstacks"] = delay_bw_jstacks
+
+        if search_tokens is True and config_data.get("tokens") is not None:
             tokens = []
             for token in config_data["tokens"]:
                 token_text = str(token["text"])
@@ -66,27 +111,24 @@ class AJSUtils:
                 tokens.append({"text": token_text, "output_all_matches": output_all_matches})
             parsed_config_data["tokens"] = tokens
         else:
-            parsed_config_data["tokens"] = []
+            parsed_config_data["tokens"] = None 
 
-        if config_data.get("filter_out") is not None:
+        if filter_out is True and config_data.get("filter_out") is not None:
             unwanted_tokens = []
             for unwanted_token in config_data["filter_out"]:
                 unwanted_tokens.append(str(unwanted_token["regex"]))
             parsed_config_data["filter_out"] = unwanted_tokens 
         else:
-            parsed_config_data["filter_out"] = []
+            parsed_config_data["filter_out"] = None 
 
-        if config_data.get("classification") is not None:
+        if classify_threads is True and config_data.get("classification") is not None:
             classification_items = []
             for items in config_data["classification"]:
                 classification_items.append({"regex": str(items["regex"]), "tag": str(items["tag"])})
             parsed_config_data["classification"] = classification_items
         else:
-            parsed_config_data["classification"] = []
+            parsed_config_data["classification"] = None 
 
-        if config_data.get("jstack_input_file_path") is not None:
-            parsed_config_data["jstack_input_file_path"] = str(config_data["jstack_input_file_path"])
-        else:
-            parsed_config_data["jstack_input_file_path"] = None
+        parsed_config_data["cpu_intensive_threads"] = cpu_intensive_threads
 
         return parsed_config_data
