@@ -1,17 +1,33 @@
 {
-  "classification": [
+  "not_include": [
     {
-      "regex": ".*Lorem.*",
-      "tag": "Lorem"
+      "regex": "cluster-ClusterId"
     },
     {
-      "regex": ".*Consectetur.*",
-      "tag": "Consectetur"
+      "regex": "grpc-default"
+    },
+    {
+      "regex": "kafka-producer-network-thread"
+    },
+    {
+      "regex": "broadcastRedisContainer"
+    },
+    {
+      "regex": "cluster-rtt-ClusterId"
+    },
+    {
+      "regex": "CompilerThread0"
     }
   ],
-  "storage_location": {
-    "jstacks": "jstacks",
-    "matching": "matching.txt",
-    "cpu_consuming": "cpu_consuming.txt"
-  }
+  "classification": [
+    {
+      "regex": ".*MongoTemplateInternal.*",
+      "tag": "Mongo"
+    },
+    {
+      "regex": ".*elasticsearch.*",
+      "tag": "Elasticsearch"
+    }
+  ],
+  "jstack_input_file_path": "/Users/sarvjotsingh/dev/QueryStackTrace/sample_jstacks/multiple_jstacks/jstack-10.0.24.178-2023-06-07-12-16-04 (1).txt"
 }

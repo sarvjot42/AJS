@@ -1,96 +1,100 @@
 import re
-from qst_utils import QSTUtils
+import heapq
 from qst_interface import QSTInterface
 
-# Business logic for qst is stored here
 class QSTEvaluator:
-    # Match stack frames for tokens
     @staticmethod
-    def process_cycle(it, tokens, print_all, qst_data):
+    def process_jstack(qst_data, tokens, print_all_matches, jstack_index):
         for process_id in qst_data.process_id_vs_name:
-            stack_frames = QSTEvaluator.read_and_filter_stack_frames(it, process_id, qst_data)
-            QSTEvaluator.find_cpu_consuming_threads(stack_frames, qst_data)
-            QSTEvaluator.match_stack_frames(stack_frames, tokens, print_all, qst_data)
-            QSTEvaluator.categorize_stack_frames(stack_frames, qst_data)
+            threads = QSTEvaluator.read_and_filter_threads(qst_data, jstack_index, process_id)
+            QSTEvaluator.process_cpu_consuming_threads(qst_data, threads)
+            QSTEvaluator.match_threads(qst_data, threads, tokens, print_all_matches)
+            QSTEvaluator.categorize_threads(qst_data, threads)
 
     @staticmethod
-    def read_and_filter_stack_frames(it, process_id, qst_data):
-        stack_frames = QSTInterface.read_jstacks(it, process_id, qst_data)
-        stack_frames = QSTEvaluator.filter_stack_frames(stack_frames, qst_data)
-        return stack_frames
+    def read_and_filter_threads(qst_data, jstack_index, process_id):
+        jstack = QSTInterface.read_jstack(qst_data, jstack_index, process_id)
+        threads = QSTInterface.parse_threads_from_jstack(jstack, process_id)
+        threads = QSTEvaluator.filter_threads(qst_data, threads)
+        return threads
 
     @staticmethod
-    def find_cpu_consuming_threads(stack_frames, qst_data):
-        QSTUtils.attach_cpu_time(stack_frames)
-        cpu_consuming = QSTUtils.get_cpu_consuming(10, stack_frames)
-        QSTUtils.store_cpu_consuming(cpu_consuming, qst_data)
+    def process_cpu_consuming_threads(qst_data, threads):
+        threads_with_cpu_time = QSTEvaluator.attach_cpu_time(threads)
+        cpu_consuming_threads = QSTEvaluator.get_cpu_consuming_threads(qst_data.CPU_CONSUMING_THREADS_PER_JSTACK, threads_with_cpu_time)
+        QSTEvaluator.store_cpu_consuming_threads(cpu_consuming_threads, qst_data)
 
     @staticmethod
-    def match_stack_frames(stack_frames, tokens, print_all, qst_data):
-        matching_frames_text = QSTEvaluator.give_matching_frames(stack_frames, tokens, print_all, qst_data)
-        QSTInterface.store_matching_frames(matching_frames_text, qst_data)
+    def match_threads(qst_data, threads, tokens, print_all_matches):
+        matching_threads_text = QSTEvaluator.give_matching_threads(qst_data, threads, tokens, print_all_matches)
+        QSTInterface.output_matching_threads(matching_threads_text)
 
     @staticmethod
-    def categorize_stack_frames(stack_frames, qst_data):
-        QSTEvaluator.user_config_categorization(stack_frames, qst_data)
-        QSTEvaluator.thread_state_categorization(stack_frames)
+    def categorize_threads(qst_data, threads):
+        user_categorized_threads = QSTEvaluator.user_config_categorization(qst_data, threads)
+        state_categorized_threads = QSTEvaluator.thread_state_categorization(user_categorized_threads)
+        QSTInterface.output_categorized_threads(state_categorized_threads)
 
     @staticmethod
-    def filter_stack_frames(stack_frames, qst_data):
-        filtered_stack_frames = []
-        for stack_frame in stack_frames:
+    def filter_threads(qst_data, threads):
+        filtered_threads = []
+        for thread in threads:
             to_include = False
 
             if qst_data.config["include"] is not None:
                 for include in qst_data.config["include"]:
-                    if re.search(include, stack_frame.text):
+                    if re.search(include, thread.text):
                         to_include = True
                         break
             else:
                 to_include = True
 
             for not_include in qst_data.config["not_include"]:
-                if re.search(not_include, stack_frame.text):
+                if re.search(not_include, thread.text):
                     to_include = False
                     break
 
             if to_include:
-                filtered_stack_frames.append(stack_frame)
+                filtered_threads.append(thread)
 
-        return filtered_stack_frames
+        return filtered_threads
 
     @staticmethod
-    def give_matching_frames(stack_frames, tokens, print_all, qst_data):
-        matching_frames = ""
-        for stack_frame in stack_frames:
+    def give_matching_threads(qst_data, threads, tokens, print_all_matches):
+        matching_threads = ""
+        for thread in threads:
             for token in tokens:
-                if print_all is False and qst_data.found_tokens[token] > 0:
+                if print_all_matches is False and qst_data.token_frequency[token] > 0:
                     break
-                if token in stack_frame.text:
-                    process_id = stack_frame.process_id
+                if token in thread.text:
+                    process_id = thread.process_id
                     process_name = qst_data.process_id_vs_name[process_id]
-                    matching_frames += "Process Name: {}, Process Id: {}\n".format(
+                    matching_threads += "Process Name: {}, Process Id: {}\n".format(
                         process_name, process_id
                     )
-                    matching_frames += stack_frame.text + "\n\n"
+                    matching_threads += thread.text + "\n\n"
                     qst_data.found_token(token)
-        return matching_frames
+        return matching_threads
 
     @staticmethod
-    def user_config_categorization(stack_frames, qst_data):
-        for stack_frame in stack_frames:
-            has_tag = False
+    def user_config_categorization(qst_data, threads):
+        threads_to_return = threads
+        
+        for thread in threads_to_return:
             for item in qst_data.config["classification"]:
-                if re.search(item["regex"], stack_frame.text):
-                    stack_frame.tags.append(item["tag"])
-                    has_tag = True
+                tag = item["tag"]
+                regex = item["regex"]
+                if re.search(regex, thread.text):
+                    thread.tags.append(tag)
                     break
-            if has_tag is False:
-                stack_frame.tags.append("UNCLASSIFIED")
-        return stack_frames
+
+            if len(thread.tags) == 0:
+                thread.tags.append("UNCLASSIFIED")
+
+        return threads_to_return
 
     @staticmethod
-    def thread_state_categorization(stack_frames):
+    def thread_state_categorization(threads):
         states = [
             { "regex": ".*RUNNABLE.*", "tag": "RUNNABLE" }, 
             { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" },
@@ -98,14 +102,39 @@ class QSTEvaluator:
             { "regex": ".*BLOCKED.*", "tag": "BLOCKED" }
         ]
 
-        categorized_stack_frames = {}
+        categorized_threads = {}
 
-        for stack_frame in stack_frames:
+        for thread in threads:
             for state in states:
-                if re.search(state["regex"], stack_frame.text):
-                    if state["tag"] not in categorized_stack_frames:
-                        categorized_stack_frames[state["tag"]] = []
-                    categorized_stack_frames[state["tag"]].append(stack_frame)
+                tag = state["tag"]
+                regex = state["regex"]
+                if re.search(regex, thread.text):
+                    if tag not in categorized_threads:
+                        categorized_threads[tag] = []
+                    categorized_threads[tag].append(thread)
                     break
 
-        QSTInterface.store_categorized_frames(categorized_stack_frames)
+        return categorized_threads
+
+    @staticmethod
+    def attach_cpu_time(threads):
+        threads_to_return = threads
+
+        for thread in threads_to_return:
+            pattern = r'cpu=(\d+(\.\d+)?)ms'
+            cpu_time_match = re.search(pattern, thread.text)
+
+            if cpu_time_match:
+                cpu_time = float(cpu_time_match.group(1))
+                thread.cpu_time = cpu_time
+
+        return threads_to_return
+
+    @staticmethod
+    def get_cpu_consuming_threads(number_of_threads_required, threads):
+        slowest_threads = heapq.nlargest(number_of_threads_required, threads, key=lambda thread: thread.cpu_time)
+        return slowest_threads
+
+    @staticmethod
+    def store_cpu_consuming_threads(threads, qst_data):
+        qst_data.cpu_consuming_threads.extend(threads)

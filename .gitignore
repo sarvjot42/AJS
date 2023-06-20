@@ -2,3 +2,4 @@ venv
 *.pyc
 .qst
 .DS_Store
+sample_jstacks
