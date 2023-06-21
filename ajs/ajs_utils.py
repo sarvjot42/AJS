@@ -69,10 +69,22 @@ class AJSUtils:
             help="[C]lassify threads based on configured regexes",
         )
         parser.add_argument(
+            "-T",
+            "--thread-state-frequency-table",
+            action="store_true",
+            help="Output [T]hread state frequency table for all jstacks",
+        )
+        parser.add_argument(
             "-I",
             "--cpu-intensive-threads",
             action="store_true",
             help="Output most CPU [I]ntensive threads, in descending order of CPU time",
+        )
+        parser.add_argument(
+            "-R",
+            "--repetitive-stack-trace",
+            action="store_true",
+            help="Detect [R]epetitive stack traces in threads",
         )
 
         return parser
@@ -85,7 +97,9 @@ class AJSUtils:
         delay_bw_jstacks = args.delay_bw_jstacks
         classify_threads = args.classify_threads
         jstack_file_input = args.jstack_file_input 
+        thread_state_frequency_table = args.thread_state_frequency_table
         cpu_intensive_threads = args.cpu_intensive_threads
+        repetitive_stack_trace = args.repetitive_stack_trace
 
         with open("ajs_config.json") as file:
             config_data = json.load(file)
@@ -103,11 +117,7 @@ class AJSUtils:
             tokens = []
             for token in config_data["tokens"]:
                 token_text = str(token["text"])
-                output_all_matches = str(token["output_all_matches"])
-                if output_all_matches == "true":
-                    output_all_matches = True
-                else:
-                    output_all_matches = False
+                output_all_matches = token["output_all_matches"]
                 tokens.append({"text": token_text, "output_all_matches": output_all_matches})
             parsed_config_data["tokens"] = tokens
         else:
@@ -129,6 +139,8 @@ class AJSUtils:
         else:
             parsed_config_data["classification"] = None 
 
+        parsed_config_data["thread_state_frequency_table"] = thread_state_frequency_table
         parsed_config_data["cpu_intensive_threads"] = cpu_intensive_threads
+        parsed_config_data["repetitive_stack_trace"] = repetitive_stack_trace
 
         return parsed_config_data

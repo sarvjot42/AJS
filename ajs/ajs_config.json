@@ -2,7 +2,7 @@
   "tokens": [
     {
       "text": "Finalizer",
-      "output_all_matches": false 
+      "output_all_matches": true 
     }
   ],
   "filter_out": [

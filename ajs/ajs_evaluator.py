@@ -1,28 +1,65 @@
 import re
+from collections import Counter
 from ajs_interface import AJSInterface
 
 class AJSEvaluator:
     @staticmethod
     def process_jstack(ajs_config, ajs_db, jstack_index):
         for process_id in ajs_db.process_id_vs_name:
+            AJSEvaluator.output_new_jstack_header(ajs_config, jstack_index, process_id)
             threads = AJSEvaluator.read_and_filter_threads(ajs_config, jstack_index, process_id)
             AJSEvaluator.match_threads(ajs_config, ajs_db, threads)
-            final_threads = AJSEvaluator.categorize_threads(ajs_config, threads)
-            AJSEvaluator.store_threads_in_db(ajs_db, final_threads)
+            AJSEvaluator.categorize_threads(ajs_config, threads)
+            AJSEvaluator.repetitive_stack_trace(ajs_config, threads)
+            AJSEvaluator.store_threads_in_db(ajs_db, threads)
+
+    @staticmethod
+    def output_new_jstack_header(ajs_config, jstack_index, process_id):
+        matching_is_off = ajs_config.config["tokens"] is None
+        classification_is_off = ajs_config.config["classification"] is None
+        repetitive_stack_trace_is_off = ajs_config.config["repetitive_stack_trace"] is False
+
+        if classification_is_off and matching_is_off and repetitive_stack_trace_is_off:
+            return
+
+        analysis_file_path = ".ajs/analysis.txt"
+        new_jstack_header = "JSTACK " + str(jstack_index) + " FOR PROCESS " + str(process_id) + "\n\n\n"
+        AJSInterface.append_to_file(analysis_file_path, new_jstack_header)
+
+    @staticmethod
+    def output_jstack_comparison_header(ajs_config):
+        state_frequency_is_off = ajs_config.config["thread_state_frequency_table"] is False
+        cpu_intensive_threads_is_off = ajs_config.config["cpu_intensive_threads"] is False
+
+        if state_frequency_is_off and cpu_intensive_threads_is_off:
+            return
+
+        analysis_file_path = ".ajs/analysis.txt"
+        new_jstack_header = "JSTACKS COMPARISON\n\n\n"
+        AJSInterface.append_to_file(analysis_file_path, new_jstack_header)
 
     @staticmethod
     def store_threads_in_db(ajs_db, threads):
+        state_frequency_dict = {}
+
         for thread in threads:
             if thread.id not in ajs_db.threads:
                 ajs_db.threads[thread.id] = []
             ajs_db.threads[thread.id].append(thread)
+
+            thread_state = thread.thread_state
+            if thread_state not in state_frequency_dict:
+                state_frequency_dict[thread_state] = 0
+            state_frequency_dict[thread_state] += 1
+
+        ajs_db.state_frequency_dicts.append(state_frequency_dict)
 
     @staticmethod
     def read_and_filter_threads(ajs_config, jstack_index, process_id):
         jstack = AJSInterface.read_jstack(ajs_config, jstack_index, process_id)
         threads = AJSInterface.parse_threads_from_jstack(jstack, process_id)
         threads = AJSEvaluator.filter_threads(ajs_config, threads)
-        return threads
+        return list(threads)
 
     @staticmethod
     def match_threads(ajs_config, ajs_db, threads):
@@ -35,12 +72,25 @@ class AJSEvaluator:
     @staticmethod
     def categorize_threads(ajs_config, threads):
         if ajs_config.config["classification"] is None:
-            return threads
+            return
 
-        user_categorized_threads = AJSEvaluator.user_config_categorization(ajs_config, threads)
-        state_categorized_threads = AJSEvaluator.thread_state_categorization(user_categorized_threads)
-        AJSInterface.output_categorized_threads(state_categorized_threads)
-        return state_categorized_threads
+        AJSEvaluator.thread_state_categorization(ajs_config, threads)
+        AJSEvaluator.user_config_categorization(ajs_config, threads)
+        AJSInterface.output_categorized_threads(threads)
+
+    @staticmethod
+    def repetitive_stack_trace(ajs_config, threads):
+        if ajs_config.config["repetitive_stack_trace"] is False:
+            return
+
+        stack_traces = []
+        for thread in threads:
+            stack_trace = thread.text.split("\n", 1)[1]
+            stack_traces.append(stack_trace)
+
+        stack_trace_counter = Counter(stack_traces).most_common()
+
+        AJSInterface.output_repetitive_stack_trace(stack_trace_counter)
 
     @staticmethod
     def filter_threads(ajs_config, threads):
@@ -65,7 +115,7 @@ class AJSEvaluator:
     def give_matching_threads(ajs_config, ajs_db, threads):
         tokens = ajs_config.config["tokens"]
 
-        matching_threads = ""
+        matching_threads = "MATCHING THREADS:\n\n"
         for thread in threads:
             for token in tokens:
                 token_text = token["text"]
@@ -80,44 +130,53 @@ class AJSEvaluator:
                     matching_threads += "Process Name: {}, Process Id: {}\n".format(process_name, process_id)
                     matching_threads += thread.text + "\n\n"
                     ajs_db.found_token(token)
-        return matching_threads
+        return str(matching_threads)
 
     @staticmethod
     def user_config_categorization(ajs_config, threads):
-        threads_to_return = threads
-        
-        for thread in threads_to_return:
+        for thread in threads:
+            found_tag = False
+
             for item in ajs_config.config["classification"]:
                 tag = item["tag"]
                 regex = item["regex"]
                 if re.search(regex, thread.text):
                     thread.tags.append(tag)
+                    found_tag = True
                     break
 
-            if len(thread.tags) == 0:
+            if found_tag is False:
                 thread.tags.append("UNCLASSIFIED")
 
-        return threads_to_return
-
     @staticmethod
-    def thread_state_categorization(threads):
-        states = [
-            { "regex": ".*RUNNABLE.*", "tag": "RUNNABLE" }, 
-            { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" },
-            { "regex": ".*WAITING.*", "tag": "WAITING" },
-            { "regex": ".*BLOCKED.*", "tag": "BLOCKED" }
-        ]
-
-        categorized_threads = {}
-
+    def thread_state_categorization(ajs_config, threads):
         for thread in threads:
-            for state in states:
+            for state in ajs_config.thread_states:
                 tag = state["tag"]
                 regex = state["regex"]
                 if re.search(regex, thread.text):
-                    if tag not in categorized_threads:
-                        categorized_threads[tag] = []
-                    categorized_threads[tag].append(thread)
+                    thread.tags.append(tag)
                     break
 
-        return categorized_threads
+    @staticmethod
+    def process_cpu_consuming_threads(ajs_config, ajs_db):
+        if ajs_config.config["cpu_intensive_threads"] is False:
+            return
+
+        cpu_wise_sorted_thread_indexes = [] 
+        
+        for thread_id in ajs_db.threads:
+            threads_with_thread_id = ajs_db.threads[thread_id]
+
+            if len(threads_with_thread_id) == 1:
+                continue
+
+            first_thread = threads_with_thread_id[0]
+            last_thread = threads_with_thread_id[-1]
+
+            time = last_thread.cpu - first_thread.cpu
+            cpu_wise_sorted_thread_indexes.append({"id": thread_id, "time": time})
+
+        cpu_wise_sorted_thread_indexes.sort(key=lambda thread: thread["time"], reverse=True)
+
+        AJSInterface.output_cpu_consuming_threads(ajs_db, cpu_wise_sorted_thread_indexes)

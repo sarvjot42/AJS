@@ -4,6 +4,7 @@ import time
 import signal
 import subprocess
 from ajs_data import Thread 
+from prettytable import PrettyTable
 
 class AJSInterface:
     @staticmethod
@@ -44,13 +45,9 @@ class AJSInterface:
                 ajs_db.add_process(process_id, process_name)
 
     @staticmethod
-    def reset_output_directory():
-        if os.path.exists(".ajs/latest_jstack_categories"): 
-            os.system("rm -rf .ajs/latest_jstack_categories")
-        if os.path.exists(".ajs/matching.txt"): 
-            os.system("rm -rf .ajs/matching.txt")
-        if os.path.exists(".ajs/cpu_consuming.txt"): 
-            os.system("rm -rf .ajs/cpu_consuming.txt")
+    def reset_output_files():
+        if os.path.exists(".ajs/analysis.txt"):
+            os.system("rm -rf .ajs/analysis.txt")
 
     @staticmethod
     def get_jstack_of_java_process(process_id):
@@ -89,7 +86,7 @@ class AJSInterface:
 
     @staticmethod
     def buffered_reader_jstacks(jstack_file_input_path):
-        jstack_last_line_regex = r"(?m)(JNI global refs.*$)"
+        jstack_last_line_regex = r"(?m)(JNI global ref.*$)"
         current_jstack_text = ""
 
         one_mb = 1024 * 1024
@@ -149,34 +146,104 @@ class AJSInterface:
 
     @staticmethod
     def parse_threads_from_jstack(jstack, process_id):
-        jstack_text = jstack.split("\n\n")
-        threads = map(lambda text: Thread(text, process_id), jstack_text)
-        return threads
+        split_by_empty_line = jstack.split("\n\n")
+        remove_non_threads = [thread for thread in split_by_empty_line if "os_prio=" in thread]
+        split_clubbed_threads = []
+
+        for thread in remove_non_threads:
+            thread_lines = thread.split("\n")
+            thread_text = ""
+            for line in thread_lines:
+                if "os_prio=" in line:
+                    if thread_text != "":
+                        split_clubbed_threads.append(thread_text)
+                        thread_text = ""
+                thread_text += line + "\n"
+            split_clubbed_threads.append(thread_text.strip("\n"))
+
+        encapsulated_threads = [Thread(text, process_id) for text in split_clubbed_threads]
+        id_containing_threads = [thread for thread in encapsulated_threads if thread.id is not -1]
+
+        return id_containing_threads 
 
     @staticmethod
     def output_matching_threads(matching_threads_text):
-        matching_threads_path = ".ajs/matching.txt"
-        AJSInterface.append_to_file(matching_threads_path, str(matching_threads_text))
+        analysis_file_path = ".ajs/analysis.txt"
+        AJSInterface.append_to_file(analysis_file_path, str(matching_threads_text))
 
     @staticmethod
     def output_categorized_threads(categorized_threads):
-        for state in categorized_threads:
-            category_path = ".ajs/latest_jstack_categories/" + state 
+        categorized_threads = sorted(categorized_threads, key=lambda thread: str(thread.tags))
+
+        categorized_threads_output = "THREADS SORTED BY CATEGORIES\n\n"
+        for thread in categorized_threads:
+            categorized_threads_output += "Tags: " + str(thread.tags) + "\n"
+            categorized_threads_output += thread.text + "\n\n"
+
+        analysis_file_path = ".ajs/analysis.txt"
+        AJSInterface.append_to_file(analysis_file_path, categorized_threads_output)
+
+    @staticmethod
+    def output_repetitive_stack_trace(stack_trace_counter):
+        repetitive_stack_trace_output = "REPEATED STACK TRACES:\n\n"
+        for stack_trace in stack_trace_counter:
+            if stack_trace[1] == 1:
+                break
             
-            threads = categorized_threads[state]
-            for thread in threads:
-                for tag in thread.tags:
-                    file_path = category_path + "/" + tag + ".txt"
-                    AJSInterface.append_to_file(file_path, thread.text + "\n\n")
-    #
-    # @staticmethod
-    # def output_cpu_consuming_threads(ajs_db):
-    #     ajs_db.cpu_consuming_threads.sort(key=lambda thread: thread.cpu, reverse=True)
-    #
-    #     cpu_consuming_threads_text = "" 
-    #     for thread in ajs_db.cpu_consuming_threads:
-    #         cpu_consuming_threads_text += thread.text + "\n\n"
-    #
-    #     if cpu_consuming_threads_text != "":
-    #         cpu_consuming_threads_path = ".ajs/cpu_consuming.txt"
-    #         AJSInterface.append_to_file(cpu_consuming_threads_path, cpu_consuming_threads_text)
+            repetitive_stack_trace_output += "Count: " + str(stack_trace[1]) + "\n"
+            repetitive_stack_trace_output += stack_trace[0] + "\n\n"
+        
+        analysis_file_path = ".ajs/analysis.txt"
+        AJSInterface.append_to_file(analysis_file_path, repetitive_stack_trace_output)
+
+    @staticmethod
+    def output_thread_state_frequency(ajs_config, ajs_db):
+        if ajs_config.config["thread_state_frequency_table"] is False:
+            return
+
+        thread_state_frequency = "THREAD STATE FREQUENCY:\n\n"
+
+        possible_states = []
+        for frequency_dict in ajs_db.state_frequency_dicts:
+            for state in frequency_dict:
+                if state not in possible_states:
+                    possible_states.append(state)
+        possible_states = sorted(possible_states)
+
+        table = PrettyTable()
+
+        for index, frequency_dict in enumerate(ajs_db.state_frequency_dicts):
+            row = []
+            row.append(index)
+            for state in possible_states:
+                if state in frequency_dict:
+                    row.append(frequency_dict[state])
+                else:
+                    row.append(0)
+            table.add_row(row)
+            
+        possible_states.insert(0, "JStack #")
+        table.field_names = possible_states
+
+        analysis_file_path = ".ajs/analysis.txt"
+        AJSInterface.append_to_file(analysis_file_path, thread_state_frequency + str(table) + "\n\n")
+
+    @staticmethod
+    def output_cpu_consuming_threads(ajs_db, cpu_wise_sorted_thread_indexes):
+        cpu_consuming_threads_text = "CPU CONSUMING THREADS:\n\n"
+        for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
+            id = cpu_wise_sorted_thread_index["id"]
+            time = cpu_wise_sorted_thread_index["time"]
+            db_thread = ajs_db.threads[id]
+
+            first_thread_instance = db_thread[0]
+            last_thread_instance = db_thread[-1]
+
+            cpu_consuming_threads_text += "Thread ID: {} CPU: {}\n".format(int(first_thread_instance.id), time)
+            cpu_consuming_threads_text += "First Occurrence:\n" 
+            cpu_consuming_threads_text += first_thread_instance.text + "\n"
+            cpu_consuming_threads_text += "Last Occurrence:\n"
+            cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
+
+        analysis_file_path = ".ajs/analysis.txt"
+        AJSInterface.append_to_file(analysis_file_path, cpu_consuming_threads_text)
