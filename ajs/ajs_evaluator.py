@@ -9,7 +9,7 @@ class AJSEvaluator:
             AJSEvaluator.output_new_jstack_header(ajs_config, jstack_index, process_id)
             threads = AJSEvaluator.read_and_filter_threads(ajs_config, jstack_index, process_id)
             AJSEvaluator.match_threads(ajs_config, ajs_db, threads)
-            AJSEvaluator.categorize_threads(ajs_config, threads)
+            AJSEvaluator.classify_threads(ajs_config, threads)
             AJSEvaluator.repetitive_stack_trace(ajs_config, threads)
             AJSEvaluator.store_threads_in_db(ajs_db, threads)
 
@@ -70,13 +70,13 @@ class AJSEvaluator:
         AJSInterface.output_matching_threads(matching_threads_text)
 
     @staticmethod
-    def categorize_threads(ajs_config, threads):
+    def classify_threads(ajs_config, threads):
         if ajs_config.config["classification"] is None:
             return
 
-        AJSEvaluator.thread_state_categorization(ajs_config, threads)
-        AJSEvaluator.user_config_categorization(ajs_config, threads)
-        AJSInterface.output_categorized_threads(threads)
+        AJSEvaluator.thread_state_classification(ajs_config, threads)
+        AJSEvaluator.user_config_classification(ajs_config, threads)
+        AJSInterface.output_classified_threads(threads)
 
     @staticmethod
     def repetitive_stack_trace(ajs_config, threads):
@@ -133,7 +133,7 @@ class AJSEvaluator:
         return str(matching_threads)
 
     @staticmethod
-    def user_config_categorization(ajs_config, threads):
+    def user_config_classification(ajs_config, threads):
         for thread in threads:
             found_tag = False
 
@@ -149,7 +149,7 @@ class AJSEvaluator:
                 thread.tags.append("UNCLASSIFIED")
 
     @staticmethod
-    def thread_state_categorization(ajs_config, threads):
+    def thread_state_classification(ajs_config, threads):
         for thread in threads:
             for state in ajs_config.thread_states:
                 tag = state["tag"]

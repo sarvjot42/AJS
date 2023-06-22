@@ -172,16 +172,16 @@ class AJSInterface:
         AJSInterface.append_to_file(analysis_file_path, str(matching_threads_text))
 
     @staticmethod
-    def output_categorized_threads(categorized_threads):
-        categorized_threads = sorted(categorized_threads, key=lambda thread: str(thread.tags))
+    def output_classified_threads(classified_threads):
+        classified_threads = sorted(classified_threads, key=lambda thread: str(thread.tags))
 
-        categorized_threads_output = "THREADS SORTED BY CATEGORIES\n\n"
-        for thread in categorized_threads:
-            categorized_threads_output += "Tags: " + str(thread.tags) + "\n"
-            categorized_threads_output += thread.text + "\n\n"
+        classified_threads_output = "THREADS SORTED BY CATEGORIES\n\n"
+        for thread in classified_threads:
+            classified_threads_output += "Tags: " + str(thread.tags) + "\n"
+            classified_threads_output += thread.text + "\n\n"
 
         analysis_file_path = ".ajs/analysis.txt"
-        AJSInterface.append_to_file(analysis_file_path, categorized_threads_output)
+        AJSInterface.append_to_file(analysis_file_path, classified_threads_output)
 
     @staticmethod
     def output_repetitive_stack_trace(stack_trace_counter):
@@ -247,3 +247,15 @@ class AJSInterface:
 
         analysis_file_path = ".ajs/analysis.txt"
         AJSInterface.append_to_file(analysis_file_path, cpu_consuming_threads_text)
+
+    @staticmethod
+    def output_jstacks_in_one_file(ajs_config, ajs_db, num_jstacks):
+        output_jstack_file_path = ".ajs/jstacks.txt"
+        output_jstack_text = ""
+        for jstack_index in range(num_jstacks):
+            for process_id in ajs_db.process_id_vs_name:
+                jstack = AJSInterface.read_jstack(ajs_config, jstack_index, process_id)
+                output_jstack_text += "JStack #{} Process ID: {}\n\n".format(jstack_index, process_id)
+                output_jstack_text += jstack + "\n\n"
+
+        AJSInterface.append_to_file(output_jstack_file_path, output_jstack_text)

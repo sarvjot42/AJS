@@ -24,6 +24,7 @@ def init():
     AJSEvaluator.output_jstack_comparison_header(ajs_config)
     AJSInterface.output_thread_state_frequency(ajs_config, ajs_db)
     AJSEvaluator.process_cpu_consuming_threads(ajs_config, ajs_db)
+    AJSInterface.output_jstacks_in_one_file(ajs_config, ajs_db, num_jstacks)
 
 if __name__ == "__main__":
     AJSInterface.setup_interrupt()
