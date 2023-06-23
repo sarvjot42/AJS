@@ -1,3 +1,9 @@
+import logging
+import warnings
+
+logging.basicConfig(filename='.ajs/warnings.log', level=logging.WARNING)
+warnings.filterwarnings("ignore", message=".*Python 2 is no longer supported by the Python core team.*")
+
 from ajs_data import Config 
 from ajs_data import Database 
 from ajs_evaluator import AJSEvaluator
@@ -25,6 +31,7 @@ def init():
     AJSInterface.output_thread_state_frequency(ajs_config, ajs_db)
     AJSEvaluator.process_cpu_consuming_threads(ajs_config, ajs_db)
     AJSInterface.output_jstacks_in_one_file(ajs_config, ajs_db, num_jstacks)
+    AJSInterface.upload_output_files(ajs_config)
 
 if __name__ == "__main__":
     AJSInterface.setup_interrupt()

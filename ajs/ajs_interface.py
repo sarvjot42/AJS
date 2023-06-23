@@ -2,9 +2,12 @@ import re
 import os
 import time
 import signal
+import traceback
 import subprocess
 from ajs_data import Thread 
 from prettytable import PrettyTable
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient
 
 class AJSInterface:
     @staticmethod
@@ -48,6 +51,8 @@ class AJSInterface:
     def reset_output_files():
         if os.path.exists(".ajs/analysis.txt"):
             os.system("rm -rf .ajs/analysis.txt")
+        if os.path.exists(".ajs/jstacks.txt"):
+            os.system("rm -rf .ajs/jstacks.txt")
 
     @staticmethod
     def get_jstack_of_java_process(process_id):
@@ -259,3 +264,28 @@ class AJSInterface:
                 output_jstack_text += jstack + "\n\n"
 
         AJSInterface.append_to_file(output_jstack_file_path, output_jstack_text)
+
+    @staticmethod
+    def upload_output_files(ajs_config):
+        AJSInterface.upload_to_azure(ajs_config, "analysis", ".ajs/analysis.txt")
+        AJSInterface.upload_to_azure(ajs_config, "jstacks", ".ajs/jstacks.txt")
+
+    @staticmethod
+    def upload_to_azure(ajs_config, container_name, upload_file_path):
+        account_url = "https://sarvjot.blob.core.windows.net"
+        blob_name = ajs_config.session_id
+
+        try:
+            default_credential = DefaultAzureCredential()
+            blob_service_client = BlobServiceClient(account_url, credential=default_credential)
+
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+
+            with open(upload_file_path, "rb") as f:
+                data = f.read()
+                blob_client.upload_blob(data)
+
+            print(blob_client.url)
+
+        except Exception as ex:
+            print(traceback.format_exc())
