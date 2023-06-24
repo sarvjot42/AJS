@@ -22,125 +22,77 @@ class AJSUtils:
         return alphabets[number]
 
     @staticmethod
-    def setup_parser():
-        parser = argparse.ArgumentParser(
-            description="Analyze JStacks, a tool to analyze java thread dumps\nConfigure settings in 'ajs_config.json', Sample config file is given in 'ajs_config.sample.json'",
-            formatter_class=RawTextHelpFormatter
-        )
+    def setup_cli():
+        cli = argparse.ArgumentParser(description="Analyze JStacks, a tool to analyze java thread dumps\nConfigure settings in 'ajs_config.json', Sample config file is given in 'ajs_config.sample.json'", formatter_class=RawTextHelpFormatter)
 
-        parser.add_argument(
-            "-f",
-            "--jstack-file-input",
-            action="store_true",
-            help="Use configured JStack [f]iles as input",
-        )
-        parser.add_argument(
-            "-n",
-            "--num-jstacks",
-            metavar="",
-            type=int,
-            default=5,
-            help="[N]umber of JStacks to be processed, default is 5",
-        )
-        parser.add_argument(
-            "-d",
-            "--delay-bw-jstacks",
-            metavar="",
-            type=int,
-            default=1000,
-            help="[D]elay between two consecutive JStacks in milliseconds, default is 1000",
-        )
-        parser.add_argument(
-            "-S",
-            "--search-tokens",
-            action="store_true",
-            help="[S]earch for configured tokens in the jstack",
-        )
-        parser.add_argument(
-            "-F",
-            "--filter-out",
-            action="store_true",
-            help="[F]ilter out configured threads from the jstack",
-        )
-        parser.add_argument(
-            "-C",
-            "--classify-threads",
-            action="store_true",
-            help="[C]lassify threads based on configured regexes",
-        )
-        parser.add_argument(
-            "-T",
-            "--thread-state-frequency-table",
-            action="store_true",
-            help="Output [T]hread state frequency table for all jstacks",
-        )
-        parser.add_argument(
-            "-I",
-            "--cpu-intensive-threads",
-            action="store_true",
-            help="Output most CPU [I]ntensive threads, in descending order of CPU time",
-        )
-        parser.add_argument(
-            "-R",
-            "--repetitive-stack-trace",
-            action="store_true",
-            help="Detect [R]epetitive stack traces in threads",
-        )
+        cli.add_argument("-f", "--jstack-file-input", action="store_true", help="Use configured JStack [f]iles as input")
+        cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=5, help="[n]umber of JStacks, default is 5 (applicable when -f is not used)")
+        cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=1000, help="[d]elay between two JStacks in ms, default is 1000 (applicable when -f is not used)")
 
-        return parser
+        cli.add_argument("-F", "--filter-out", action="store_true", help="[F]ilter out configured threads from the jstack")
+        cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
+        cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
+        cli.add_argument("-I", "--cpu-intensive-threads", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time")
+        cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
+        cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
+
+        return cli 
 
     @staticmethod
-    def load_config(args):
-        filter_out = args.filter_out
-        num_jstacks = args.num_jstacks
-        search_tokens = args.search_tokens
-        delay_bw_jstacks = args.delay_bw_jstacks
-        classify_threads = args.classify_threads
-        jstack_file_input = args.jstack_file_input 
-        thread_state_frequency_table = args.thread_state_frequency_table
-        cpu_intensive_threads = args.cpu_intensive_threads
-        repetitive_stack_trace = args.repetitive_stack_trace
-
+    def setup_config(config, args):
         with open("ajs_config.json") as file:
-            config_data = json.load(file)
+            config_file = json.load(file)
 
-        parsed_config_data = {}
+        try:
+            AJSUtils.setup_input_config(config, args, config_file)
+            AJSUtils.setup_token_config(config, args, config_file)
+            AJSUtils.setup_filter_config(config, args, config_file)
+            AJSUtils.setup_classification_config(config, args, config_file)
 
-        if jstack_file_input is True and config_data.get("jstack_input_file_path") is not None:
-            parsed_config_data["jstack_input_file_path"] = str(config_data["jstack_input_file_path"])
+            config.thread_state_frequency_table = args.thread_state_frequency_table
+            config.cpu_intensive_threads = args.cpu_intensive_threads
+            config.repetitive_stack_trace = args.repetitive_stack_trace
+
+        except KeyError as e:
+            exit("\nKey " + str(e) + " not found in config file, please refer to the sample config file")
+
+    @staticmethod
+    def setup_input_config(config, args, config_file):
+        if args.jstack_file_input is True:
+            config.jstack_input_file_path = str(config_file["jstack_input_file_path"])
         else:
-            parsed_config_data["jstack_input_file_path"] = None
-            parsed_config_data["num_jstacks"] = num_jstacks
-            parsed_config_data["delay_bw_jstacks"] = delay_bw_jstacks
+            config.jstack_input_file_path = None
+            config.num_jstacks = args.num_jstacks
+            config.delay_bw_jstacks = args.delay_bw_jstacks
 
-        if search_tokens is True and config_data.get("tokens") is not None:
+    @staticmethod
+    def setup_token_config(config, args, config_file):
+        if args.search_tokens is True:
             tokens = []
-            for token in config_data["tokens"]:
+            for token in config_file["tokens"]:
                 token_text = str(token["text"])
                 output_all_matches = token["output_all_matches"]
                 tokens.append({"text": token_text, "output_all_matches": output_all_matches})
-            parsed_config_data["tokens"] = tokens
+            config.tokens = tokens
         else:
-            parsed_config_data["tokens"] = None 
+            config.tokens = None
 
-        if filter_out is True and config_data.get("filter_out") is not None:
+    @staticmethod
+    def setup_filter_config(config, args, config_file):
+        if args.filter_out is True:
             unwanted_tokens = []
-            for unwanted_token in config_data["filter_out"]:
+            for unwanted_token in config_file["filter_out"]:
                 unwanted_tokens.append(str(unwanted_token["regex"]))
-            parsed_config_data["filter_out"] = unwanted_tokens 
+            config.filter_out = unwanted_tokens
         else:
-            parsed_config_data["filter_out"] = None 
+            config.filter_out = None
 
-        if classify_threads is True and config_data.get("classification") is not None:
+    @staticmethod
+    def setup_classification_config(config, args, config_file):
+        if args.classify_threads is True:
             classification_items = []
-            for items in config_data["classification"]:
+            for items in config_file["classification"]:
                 classification_items.append({"regex": str(items["regex"]), "tag": str(items["tag"])})
-            parsed_config_data["classification"] = classification_items
+            config.classification = classification_items
         else:
-            parsed_config_data["classification"] = None 
-
-        parsed_config_data["thread_state_frequency_table"] = thread_state_frequency_table
-        parsed_config_data["cpu_intensive_threads"] = cpu_intensive_threads
-        parsed_config_data["repetitive_stack_trace"] = repetitive_stack_trace
-
-        return parsed_config_data
+            config.classification = None

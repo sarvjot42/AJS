@@ -3,17 +3,18 @@ from ajs_utils import AJSUtils
 
 class Config:
     def __init__(self):
-        parser = AJSUtils.setup_parser()
-        args = parser.parse_args()
+        cli = AJSUtils.setup_cli()
+        args = cli.parse_args()
 
         self.session_id = AJSUtils.generate_session_id()
-        self.config = AJSUtils.load_config(args)
         self.thread_states = [
             { "regex": ".*RUNNABLE.*", "tag": "RUNNABLE" }, 
             { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" },
             { "regex": ".*WAITING.*", "tag": "WAITING" },
             { "regex": ".*BLOCKED.*", "tag": "BLOCKED" }
         ]
+
+        AJSUtils.setup_config(self, args)
 
 class Database:
     def __init__(self, ajs_config):
@@ -22,7 +23,7 @@ class Database:
         self.process_id_vs_name = {}
         self.state_frequency_dicts = [] 
 
-        tokens = ajs_config.config["tokens"]
+        tokens = ajs_config.tokens
         if tokens is not None:
             for token in tokens:
                 self.token_frequency[token["text"]] = 0

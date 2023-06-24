@@ -15,9 +15,9 @@ class AJSEvaluator:
 
     @staticmethod
     def output_new_jstack_header(ajs_config, jstack_index, process_id):
-        matching_is_off = ajs_config.config["tokens"] is None
-        classification_is_off = ajs_config.config["classification"] is None
-        repetitive_stack_trace_is_off = ajs_config.config["repetitive_stack_trace"] is False
+        matching_is_off = ajs_config.tokens is None
+        classification_is_off = ajs_config.classification is None
+        repetitive_stack_trace_is_off = ajs_config.repetitive_stack_trace is False
 
         if classification_is_off and matching_is_off and repetitive_stack_trace_is_off:
             return
@@ -28,8 +28,8 @@ class AJSEvaluator:
 
     @staticmethod
     def output_jstack_comparison_header(ajs_config):
-        state_frequency_is_off = ajs_config.config["thread_state_frequency_table"] is False
-        cpu_intensive_threads_is_off = ajs_config.config["cpu_intensive_threads"] is False
+        state_frequency_is_off = ajs_config.thread_state_frequency_table is False
+        cpu_intensive_threads_is_off = ajs_config.cpu_intensive_threads is False
 
         if state_frequency_is_off and cpu_intensive_threads_is_off:
             return
@@ -63,7 +63,7 @@ class AJSEvaluator:
 
     @staticmethod
     def match_threads(ajs_config, ajs_db, threads):
-        if ajs_config.config["tokens"] is None:
+        if ajs_config.tokens is None:
             return
 
         matching_threads_text = AJSEvaluator.give_matching_threads(ajs_config, ajs_db, threads)
@@ -71,7 +71,7 @@ class AJSEvaluator:
 
     @staticmethod
     def classify_threads(ajs_config, threads):
-        if ajs_config.config["classification"] is None:
+        if ajs_config.classification is None:
             return
 
         AJSEvaluator.thread_state_classification(ajs_config, threads)
@@ -80,7 +80,7 @@ class AJSEvaluator:
 
     @staticmethod
     def repetitive_stack_trace(ajs_config, threads):
-        if ajs_config.config["repetitive_stack_trace"] is False:
+        if ajs_config.repetitive_stack_trace is False:
             return
 
         stack_traces = []
@@ -94,14 +94,14 @@ class AJSEvaluator:
 
     @staticmethod
     def filter_threads(ajs_config, threads):
-        if ajs_config.config["filter_out"] is None:
+        if ajs_config.filter_out is None:
             return threads
 
         filtered_threads = []
         for thread in threads:
             to_include = True
 
-            for unwanted_token in ajs_config.config["filter_out"]:
+            for unwanted_token in ajs_config.filter_out:
                 if re.search(unwanted_token, thread.text):
                     to_include = False
                     break
@@ -113,7 +113,7 @@ class AJSEvaluator:
 
     @staticmethod
     def give_matching_threads(ajs_config, ajs_db, threads):
-        tokens = ajs_config.config["tokens"]
+        tokens = ajs_config.tokens
 
         matching_threads = "MATCHING THREADS:\n\n"
         for thread in threads:
@@ -137,7 +137,7 @@ class AJSEvaluator:
         for thread in threads:
             found_tag = False
 
-            for item in ajs_config.config["classification"]:
+            for item in ajs_config.classification:
                 tag = item["tag"]
                 regex = item["regex"]
                 if re.search(regex, thread.text):
@@ -160,7 +160,7 @@ class AJSEvaluator:
 
     @staticmethod
     def process_cpu_consuming_threads(ajs_config, ajs_db):
-        if ajs_config.config["cpu_intensive_threads"] is False:
+        if ajs_config.cpu_intensive_threads is False:
             return
 
         cpu_wise_sorted_thread_indexes = [] 

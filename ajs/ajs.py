@@ -1,9 +1,3 @@
-import logging
-import warnings
-
-logging.basicConfig(filename='.ajs/warnings.log', level=logging.WARNING)
-warnings.filterwarnings("ignore", message=".*Python 2 is no longer supported by the Python core team.*")
-
 from ajs_data import Config 
 from ajs_data import Database 
 from ajs_evaluator import AJSEvaluator
@@ -13,15 +7,13 @@ def init():
     ajs_config = Config()
     ajs_db = Database(ajs_config)
 
-    jstack_file_path = ajs_config.config["jstack_input_file_path"]
+    jstack_file_path = ajs_config.jstack_input_file_path
     num_jstacks = 0
-
-    AJSInterface.reset_output_files()
 
     if jstack_file_path is not None:
         num_jstacks = AJSInterface.handle_jstack_file_input(ajs_config, ajs_db)
     else:
-        num_jstacks = ajs_config.config["num_jstacks"]
+        num_jstacks = ajs_config.num_jstacks
         AJSInterface.handle_jstack_generation(ajs_config, ajs_db)
 
     for jstack_index in range(num_jstacks):
@@ -35,4 +27,5 @@ def init():
 
 if __name__ == "__main__":
     AJSInterface.setup_interrupt()
+    AJSInterface.reset_output_files()
     init()
