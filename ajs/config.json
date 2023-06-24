@@ -2,7 +2,7 @@
   "tokens": [
     {
       "text": "Finalizer",
-      "output_all_matches": false 
+      "output_all_matches": true 
     }
   ],
   "filter_out": [
@@ -35,5 +35,5 @@
       "tag": "Elasticsearch"
     }
   ],
-  "jstack_input_file_path": "/Users/sarvjotsingh/dev/QueryStackTrace/sample_jstacks/multiple_jstacks/jstack-10.0.24.178-2023-06-07-12-16-04 (1).txt"
+  "jstack_file_path": "/Users/sarvjotsingh/dev/AnalyzeJStack/sample_jstacks/multiple_jstacks/jstack-10.0.24.178-2023-06-07-12-16-04 (1).txt"
 }
