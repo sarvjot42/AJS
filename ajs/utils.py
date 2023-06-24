@@ -1,10 +1,12 @@
 import re
 import os
+import time
 import signal
 import logging
 import warnings
 import traceback
 import subprocess
+from schema import Config
 
 # send logs to a particular file and ignore Python2 warnings
 # do this before importing the problem-causing libraries
@@ -15,6 +17,22 @@ from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 
 class Utils:
+    @staticmethod
+    def benchmark(label):
+        def decorator_function(func):
+            def wrapper(*args, **kwargs):
+                start = time.time()
+                result = func(*args, **kwargs)
+                end = time.time()
+
+                time_taken = "{:.3f}".format(end - start)
+
+                if Config.do_benchmark is True:
+                    print("BENCHMARKING: " + label + " took " + time_taken + "s")
+                return result
+            return wrapper
+        return decorator_function
+
     @staticmethod
     def convert_number_to_alphabet(number):
         alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

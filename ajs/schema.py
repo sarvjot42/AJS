@@ -5,6 +5,8 @@ import datetime
 from argparse import RawTextHelpFormatter
 
 class Config:
+    do_benchmark = None 
+
     def __init__(self):
         args = Config.setup_cli()
 
@@ -32,6 +34,7 @@ class Config:
         cli.add_argument("-I", "--cpu-intensive-threads", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
         cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
+        cli.add_argument("-B", "--benchmark", action="store_true", help="Run in [B]enchmark mode")
 
         args = cli.parse_args()
         return args
@@ -57,6 +60,8 @@ class Config:
             config.thread_state_frequency_table = args.thread_state_frequency_table
             config.cpu_intensive_threads = args.cpu_intensive_threads
             config.repetitive_stack_trace = args.repetitive_stack_trace
+
+            Config.do_benchmark = args.benchmark
 
         except KeyError as e:
             exit("\nKey " + str(e) + " not found in config file, please refer to the sample config file")
@@ -134,11 +139,11 @@ class Thread:
         thread_state = re.search(thread_state_regex, text)
         thread_name = re.search(thread_name_regex, text)
 
+        self.tags = []
+        self.text = text
+        self.process_id = process_id
         self.id = float(id.group(1)) if id is not None else -1
         self.cpu = float(cpu.group(1)) if cpu is not None else -1
         self.elapsed = float(elapsed.group(1)) if elapsed is not None else -1
         self.thread_state = thread_state.group(1) if thread_state is not None else "unknown_state"
         self.thread_name = thread_name.group(1) if thread_name is not None else "unknown_thread"
-        self.tags = []
-        self.text = text
-        self.process_id = process_id

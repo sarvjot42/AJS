@@ -1,11 +1,14 @@
 import os
 import re
 import time
+from utils import Utils
+from schema import Thread
 from collections import Counter
 from connectors import Connectors
 
 class Core:
     @staticmethod 
+    @Utils.benchmark("jstack file input")
     def handle_jstack_file_input(config, db):
         jstack_file_path = config.jstack_file_path
 
@@ -20,6 +23,7 @@ class Core:
         return num_jstacks
 
     @staticmethod 
+    @Utils.benchmark("jstack generation")
     def handle_jstack_generation(config, db):
         num_jstacks = config.num_jstacks
         delay_bw_jstacks = config.delay_bw_jstacks
@@ -35,52 +39,46 @@ class Core:
                 time.sleep(delay_bw_jstacks / 1000)
 
     @staticmethod
+    @Utils.benchmark("analyze individual jstack")
     def analyse_jstacks(config, db, jstack_index):
         for process_id in db.process_id_vs_name:
             Connectors.output_new_jstack_header(config, jstack_index, process_id)
+
             threads = Core.read_and_filter_threads(config, jstack_index, process_id)
             Core.match_threads(config, db, threads)
             Core.classify_threads(config, threads)
             Core.repetitive_stack_trace(config, threads)
+
             Connectors.store_threads_in_db(db, threads)
 
     @staticmethod
     def read_and_filter_threads(config, jstack_index, process_id):
         jstack = Connectors.read_jstack(config, jstack_index, process_id)
-        threads = Connectors.parse_threads_from_jstack(jstack, process_id)
+        threads = Core.parse_threads_from_jstack(jstack, process_id)
         threads = Core.filter_threads(config, threads)
         return threads
 
     @staticmethod
-    def match_threads(config, db, threads):
-        if config.tokens is None:
-            return
+    def parse_threads_from_jstack(jstack, process_id):
+        split_by_empty_line = jstack.split("\n\n")
+        remove_non_threads = [thread for thread in split_by_empty_line if "os_prio=" in thread]
+        split_clubbed_threads = []
 
-        matching_threads_text = Core.give_matching_threads(config, db, threads)
-        Connectors.output_matching_threads(matching_threads_text)
+        for thread in remove_non_threads:
+            thread_lines = thread.split("\n")
+            thread_text = ""
+            for line in thread_lines:
+                if "os_prio=" in line:
+                    if thread_text != "":
+                        split_clubbed_threads.append(thread_text)
+                        thread_text = ""
+                thread_text += line + "\n"
+            split_clubbed_threads.append(thread_text.strip("\n"))
 
-    @staticmethod
-    def classify_threads(config, threads):
-        if config.classification is None:
-            return
+        encapsulated_threads = [Thread(text, process_id) for text in split_clubbed_threads]
+        id_containing_threads = [thread for thread in encapsulated_threads if thread.id is not -1]
 
-        Core.thread_state_classification(config, threads)
-        Core.user_config_classification(config, threads)
-        Connectors.output_classified_threads(threads)
-
-    @staticmethod
-    def repetitive_stack_trace(config, threads):
-        if config.repetitive_stack_trace is False:
-            return
-
-        stack_traces = []
-        for thread in threads:
-            stack_trace = thread.text.split("\n", 1)[1]
-            stack_traces.append(stack_trace)
-
-        stack_trace_counter = Counter(stack_traces).most_common()
-
-        Connectors.output_repetitive_stack_trace(stack_trace_counter)
+        return id_containing_threads 
 
     @staticmethod
     def filter_threads(config, threads):
@@ -102,6 +100,15 @@ class Core:
         return filtered_threads
 
     @staticmethod
+    def match_threads(config, db, threads):
+        if config.tokens is None:
+            return
+
+        matching_threads_text = Core.give_matching_threads(config, db, threads)
+
+        Connectors.output_matching_threads(matching_threads_text)
+
+    @staticmethod
     def give_matching_threads(config, db, threads):
         tokens = config.tokens
 
@@ -121,6 +128,16 @@ class Core:
                     matching_threads += thread.text + "\n\n"
                     db.found_token(token)
         return str(matching_threads)
+
+    @staticmethod
+    def classify_threads(config, threads):
+        if config.classification is None:
+            return
+
+        Core.thread_state_classification(config, threads)
+        Core.user_config_classification(config, threads)
+
+        Connectors.output_classified_threads(threads)
 
     @staticmethod
     def thread_state_classification(config, threads):
@@ -149,15 +166,38 @@ class Core:
                 thread.tags.append("UNCLASSIFIED")
 
     @staticmethod
-    def compare_jstacks(config, db, num_jstacks):
-        Connectors.output_jstack_comparison_header(config)
-        Connectors.output_thread_state_frequency(config, db)
-        Core.process_cpu_consuming_threads(config, db)
-        Connectors.output_jstacks_in_one_file(config, db, num_jstacks)
-        Connectors.upload_output_files(config)
+    def repetitive_stack_trace(config, threads):
+        if config.repetitive_stack_trace is False:
+            return
+
+        stack_traces = []
+        for thread in threads:
+            stack_trace = thread.text.split("\n", 1)[1]
+            stack_traces.append(stack_trace)
+
+        stack_trace_counter = Counter(stack_traces).most_common()
+
+        Connectors.output_repetitive_stack_trace(stack_trace_counter)
 
     @staticmethod
-    def process_cpu_consuming_threads(config, db):
+    @Utils.benchmark("compare jstacks")
+    def compare_jstacks(config, db, num_jstacks):
+        Connectors.output_jstack_comparison_header(config)
+
+        Core.thread_state_frequency(config, db)
+        Core.cpu_consuming_threads(config, db)
+
+        Connectors.output_jstacks_in_one_file(config, db, num_jstacks)
+
+    @staticmethod
+    def thread_state_frequency(config, db):
+        if config.thread_state_frequency_table is False:
+            return
+
+        Connectors.output_thread_state_frequency(db)
+
+    @staticmethod
+    def cpu_consuming_threads(config, db):
         if config.cpu_intensive_threads is False:
             return
 

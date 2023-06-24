@@ -20,6 +20,7 @@ def init():
         Core.analyse_jstacks(config, db, jstack_index)
 
     Core.compare_jstacks(config, db, num_jstacks)
+    Connectors.upload_output_files(config)
 
 if __name__ == "__main__":
     Utils.setup_interrupt()

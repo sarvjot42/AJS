@@ -1,5 +1,4 @@
 from utils import Utils
-from schema import Thread
 from prettytable import PrettyTable
 
 class Connectors:
@@ -73,28 +72,6 @@ class Connectors:
             return jstack
 
     @staticmethod
-    def parse_threads_from_jstack(jstack, process_id):
-        split_by_empty_line = jstack.split("\n\n")
-        remove_non_threads = [thread for thread in split_by_empty_line if "os_prio=" in thread]
-        split_clubbed_threads = []
-
-        for thread in remove_non_threads:
-            thread_lines = thread.split("\n")
-            thread_text = ""
-            for line in thread_lines:
-                if "os_prio=" in line:
-                    if thread_text != "":
-                        split_clubbed_threads.append(thread_text)
-                        thread_text = ""
-                thread_text += line + "\n"
-            split_clubbed_threads.append(thread_text.strip("\n"))
-
-        encapsulated_threads = [Thread(text, process_id) for text in split_clubbed_threads]
-        id_containing_threads = [thread for thread in encapsulated_threads if thread.id is not -1]
-
-        return id_containing_threads 
-
-    @staticmethod
     def output_matching_threads(matching_threads_text):
         analysis_file_path = ".ajs/analysis.txt"
         Utils.append_to_file(analysis_file_path, str(matching_threads_text))
@@ -153,10 +130,7 @@ class Connectors:
         Utils.append_to_file(analysis_file_path, new_jstack_header)
 
     @staticmethod
-    def output_thread_state_frequency(config, db):
-        if config.thread_state_frequency_table is False:
-            return
-
+    def output_thread_state_frequency(db):
         thread_state_frequency = "THREAD STATE FREQUENCY:\n\n"
 
         possible_states = []
@@ -217,6 +191,7 @@ class Connectors:
         Utils.append_to_file(output_jstack_file_path, output_jstack_text)
 
     @staticmethod
+    @Utils.benchmark("upload data to azure")
     def upload_output_files(config):
         blob_name = config.session_id
         Utils.upload_to_azure(blob_name, "analysis", ".ajs/analysis.txt")
