@@ -22,7 +22,7 @@ class Config:
 
     @staticmethod
     def setup_cli():
-        cli = argparse.ArgumentParser(description="Analyze JStacks, a tool to analyze java thread dumps\nConfigure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=RawTextHelpFormatter)
+        cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps\nConfigure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=RawTextHelpFormatter)
 
         cli.add_argument("-f", "--jstack-file-input", action="store_true", help="Use configured JStack [f]iles as input")
         cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=5, help="[n]umber of JStacks, default is 5 (applicable when -f is not used)")

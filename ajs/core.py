@@ -39,7 +39,7 @@ class Core:
                 time.sleep(delay_bw_jstacks / 1000)
 
     @staticmethod
-    @Utils.benchmark("analyze individual jstack")
+    @Utils.benchmark("analyse individual jstack")
     def analyse_jstacks(config, db, jstack_index):
         for process_id in db.process_id_vs_name:
             Connectors.output_new_jstack_header(config, jstack_index, process_id)
