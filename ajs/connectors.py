@@ -160,7 +160,9 @@ class Connectors:
 
     @staticmethod
     def output_cpu_consuming_threads(db, cpu_wise_sorted_thread_indexes):
-        cpu_consuming_threads_text = "CPU CONSUMING THREADS:\n\n"
+        cpu_consuming_threads_header = "CPU CONSUMING THREADS:\n\n"
+
+        cpu_consuming_threads_text = ""
         for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
             id = cpu_wise_sorted_thread_index["id"]
             time = cpu_wise_sorted_thread_index["time"]
@@ -175,8 +177,9 @@ class Connectors:
             cpu_consuming_threads_text += "Last Occurrence:\n"
             cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
 
-        analysis_file_path = ".ajs/analysis.txt"
-        Utils.append_to_file(analysis_file_path, cpu_consuming_threads_text)
+        if cpu_consuming_threads_text != "":
+            analysis_file_path = ".ajs/analysis.txt"
+            Utils.append_to_file(analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
 
     @staticmethod
     def output_jstacks_in_one_file(config, db, num_jstacks):

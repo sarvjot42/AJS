@@ -31,8 +31,8 @@ class Config:
         cli.add_argument("-F", "--filter-out", action="store_true", help="[F]ilter out configured threads from the jstack")
         cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
         cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
-        cli.add_argument("-I", "--cpu-intensive-threads", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
+        cli.add_argument("-I", "--cpu-intensive-threads", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time")
         cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
         cli.add_argument("-B", "--benchmark", action="store_true", help="Run in [B]enchmark mode")
 
