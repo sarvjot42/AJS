@@ -6,6 +6,8 @@ import logging
 import warnings
 import traceback
 import subprocess
+from sys import platform
+from resource import getrusage, RUSAGE_SELF
 from schema import Config
 
 # send logs to a particular file and ignore Python2 warnings
@@ -28,10 +30,23 @@ class Utils:
                 time_taken = "{:.3f}".format(end - start)
 
                 if Config.do_benchmark is True:
-                    print("BENCHMARKING: " + label + " took " + time_taken + "s")
+                    print("TIME BENCHMARKING:\t" + label + " took " + time_taken + "s")
                 return result
             return wrapper
         return decorator_function
+
+    @staticmethod
+    def memory_benchmarking(stage):
+        rusage = getrusage(RUSAGE_SELF)
+        max_memory_usage_mb = 0
+
+        if platform == "darwin":
+            max_memory_usage_mb = rusage.ru_maxrss / 1024 / 1024
+        else:
+            max_memory_usage_mb = rusage.ru_maxrss / 1024 
+
+        print("MEMORY BENCHMARKING:\t" + stage + " Max RAM usage: " + str(max_memory_usage_mb) + " MB")
+
 
     @staticmethod
     def convert_number_to_alphabet(number):
