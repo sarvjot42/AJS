@@ -20,6 +20,25 @@ from azure.storage.blob import BlobServiceClient
 
 class Utils:
     @staticmethod
+    def borderify_text(text, current_layer, sep='*'):
+        if current_layer == 0:
+            text = text.center(80, sep)
+            return text
+
+        inner_text = Utils.borderify_text(text, current_layer - 1, sep)
+
+        lines = inner_text.split("\n")
+        column_width = len(lines[0]) + 2
+        horizontal_border = sep * column_width
+
+        new_text = horizontal_border
+        for line in lines:
+            new_text += "\n" + sep + line + sep
+        new_text += "\n" + horizontal_border
+
+        return new_text
+
+    @staticmethod
     def benchmark(label):
         def decorator_function(func):
             def wrapper(*args, **kwargs):
@@ -37,6 +56,9 @@ class Utils:
 
     @staticmethod
     def memory_benchmarking(stage):
+        if Config.do_benchmark is False:
+            return
+
         rusage = getrusage(RUSAGE_SELF)
         max_memory_usage_mb = 0
 
@@ -46,7 +68,6 @@ class Utils:
             max_memory_usage_mb = rusage.ru_maxrss / 1024 
 
         print("MEMORY BENCHMARKING:\t" + stage + " Max RAM usage: " + str(max_memory_usage_mb) + " MB")
-
 
     @staticmethod
     def convert_number_to_alphabet(number):

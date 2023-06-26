@@ -60,7 +60,8 @@ class Connectors:
             return
 
         analysis_file_path = ".ajs/analysis.txt"
-        new_jstack_header = "JSTACK " + str(jstack_index) + " FOR PROCESS " + str(process_id) + "\n\n\n"
+        new_jstack_header = "JSTACK " + str(jstack_index) + " FOR PROCESS " + str(process_id)
+        new_jstack_header = Utils.borderify_text(new_jstack_header, 2) + "\n\n"
         Utils.append_to_file(analysis_file_path, new_jstack_header)
 
     @staticmethod
@@ -74,13 +75,14 @@ class Connectors:
     @staticmethod
     def output_matching_threads(matching_threads_text):
         analysis_file_path = ".ajs/analysis.txt"
-        Utils.append_to_file(analysis_file_path, str(matching_threads_text))
+        Utils.append_to_file(analysis_file_path, matching_threads_text)
 
     @staticmethod
     def output_classified_threads(classified_threads):
         classified_threads = sorted(classified_threads, key=lambda thread: str(thread.tags))
 
-        classified_threads_output = "THREADS SORTED BY CATEGORIES\n\n"
+        classified_threads_output = "THREADS SORTED BY CATEGORIES"
+        classified_threads_output = Utils.borderify_text(classified_threads_output, 1) + "\n\n"
         for thread in classified_threads:
             classified_threads_output += "Tags: " + str(thread.tags) + "\n"
             classified_threads_output += thread.text + "\n\n"
@@ -90,7 +92,8 @@ class Connectors:
 
     @staticmethod
     def output_repetitive_stack_trace(stack_trace_counter):
-        repetitive_stack_trace_output = "REPEATED STACK TRACES:\n\n"
+        repetitive_stack_trace_output = "REPEATED STACK TRACES"
+        repetitive_stack_trace_output = Utils.borderify_text(repetitive_stack_trace_output, 1) + "\n\n"
         for stack_trace in stack_trace_counter:
             if stack_trace[1] == 1:
                 break
@@ -126,12 +129,14 @@ class Connectors:
             return
 
         analysis_file_path = ".ajs/analysis.txt"
-        new_jstack_header = "JSTACKS COMPARISON\n\n\n"
+        new_jstack_header = "JSTACKS COMPARISON"
+        new_jstack_header = Utils.borderify_text(new_jstack_header, 2) + "\n\n"
         Utils.append_to_file(analysis_file_path, new_jstack_header)
 
     @staticmethod
     def output_thread_state_frequency(db):
-        thread_state_frequency = "THREAD STATE FREQUENCY:\n\n"
+        thread_state_frequency = "THREAD STATE FREQUENCY"
+        thread_state_frequency = Utils.borderify_text(thread_state_frequency, 1) + "\n\n"
 
         possible_states = []
         for frequency_dict in db.state_frequency_dicts:
@@ -160,7 +165,8 @@ class Connectors:
 
     @staticmethod
     def output_cpu_consuming_threads(db, cpu_wise_sorted_thread_indexes):
-        cpu_consuming_threads_header = "CPU CONSUMING THREADS:\n\n"
+        cpu_consuming_threads_header = "CPU CONSUMING THREADS"
+        cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1) + "\n\n"
 
         cpu_consuming_threads_text = ""
         for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
@@ -188,7 +194,9 @@ class Connectors:
         for jstack_index in range(num_jstacks):
             for process_id in db.process_id_vs_name:
                 jstack = Connectors.read_jstack(config, jstack_index, process_id)
-                output_jstack_text += "JStack #{} Process ID: {}\n\n".format(jstack_index, process_id)
+                jstack_header = "JStack #{} Process ID: {}".format(jstack_index, process_id)
+                jstack_header = Utils.borderify_text(jstack_header, 1) + "\n\n"
+                output_jstack_text += jstack_header
                 output_jstack_text += jstack + "\n\n"
 
         Utils.append_to_file(output_jstack_file_path, output_jstack_text)

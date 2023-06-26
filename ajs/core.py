@@ -105,14 +105,14 @@ class Core:
             return
 
         matching_threads_text = Core.give_matching_threads(config, db, threads)
-
         Connectors.output_matching_threads(matching_threads_text)
 
     @staticmethod
     def give_matching_threads(config, db, threads):
         tokens = config.tokens
 
-        matching_threads = "MATCHING THREADS:\n\n"
+        matching_threads = "MATCHING THREADS"
+        matching_threads = Utils.borderify_text(matching_threads, 1) + "\n\n"
         for thread in threads:
             for token in tokens:
                 token_text = token["text"]
