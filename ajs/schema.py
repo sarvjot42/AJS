@@ -24,7 +24,7 @@ class Config:
     def setup_cli():
         cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps\nConfigure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=RawTextHelpFormatter)
 
-        cli.add_argument("-f", "--jstack-file-input", action="store_true", help="Use configured JStack [f]iles as input")
+        cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
         cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=5, help="[n]umber of JStacks, default is 5 (applicable when -f is not used)")
         cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=1000, help="[d]elay between two JStacks in ms, default is 1000 (applicable when -f is not used)")
 
@@ -32,7 +32,8 @@ class Config:
         cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
         cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
-        cli.add_argument("-I", "--cpu-intensive-threads", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time")
+        cli.add_argument("-J", "--cpu-intensive-threads-jstack", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time, using [J]stack's 'cpu=' field, [supported only in jdk11 systems]")
+        cli.add_argument("-I", "--cpu-intensive-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, using top utility")
         cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
         cli.add_argument("-B", "--benchmark", action="store_true", help="Run in [B]enchmark mode")
 
@@ -55,10 +56,11 @@ class Config:
             Config.setup_token_config(config, args, config_file)
             Config.setup_filter_config(config, args, config_file)
             Config.setup_classification_config(config, args, config_file)
-            Config.setup_jstack_file_input_config(config, args, config_file)
+            Config.setup_file_input_config(config, args, config_file)
 
             config.thread_state_frequency_table = args.thread_state_frequency_table
-            config.cpu_intensive_threads = args.cpu_intensive_threads
+            config.cpu_intensive_threads_jstack = args.cpu_intensive_threads_jstack
+            config.cpu_intensive_threads_top = args.cpu_intensive_threads_top
             config.repetitive_stack_trace = args.repetitive_stack_trace
 
             Config.do_benchmark = args.benchmark
@@ -99,10 +101,14 @@ class Config:
             config.classification = None
 
     @staticmethod
-    def setup_jstack_file_input_config(config, args, config_file):
-        if args.jstack_file_input is True:
+    def setup_file_input_config(config, args, config_file):
+        if args.file_input is True:
+            config.file_input = True
+            config.top_file_path = str(config_file["top_file_path"])
             config.jstack_file_path = str(config_file["jstack_file_path"])
         else:
+            config.file_input = False
+            config.top_file_path = None
             config.jstack_file_path = None
             config.num_jstacks = args.num_jstacks
             config.delay_bw_jstacks = args.delay_bw_jstacks
@@ -113,6 +119,7 @@ class Database:
         self.token_frequency = {}
         self.process_id_vs_name = {}
         self.state_frequency_dicts = [] 
+        self.top_cpu_intensive_threads = []
 
         tokens = config.tokens
         if tokens is not None:
@@ -127,23 +134,20 @@ class Database:
 
 class Thread:
     def __init__(self, text, process_id):
-        id_regex = r"\#(\d+)\s"
+        nid_regex = r"nid\=(0x[0-9a-fA-F]+)"
         cpu_regex = r"cpu\s*=\s*(\d+.\d+)ms"
-        elapsed_regex = r"elapsed\s*=\s*(\d+\.\d+)s"
         thread_state_regex = r"java\.lang\.Thread\.State\:\s*(.*)"
         thread_name_regex = r"^\s*(.*)\s+\#\d+\s+daemon\s+prio\=5\s+os_prio\=0"
 
-        id = re.search(id_regex, text)
+        nid = re.search(nid_regex, text)
         cpu = re.search(cpu_regex, text)
-        elapsed = re.search(elapsed_regex, text)
-        thread_state = re.search(thread_state_regex, text)
         thread_name = re.search(thread_name_regex, text)
+        thread_state = re.search(thread_state_regex, text)
 
         self.tags = []
         self.text = text
         self.process_id = process_id
-        self.id = float(id.group(1)) if id is not None else -1
+        self.nid = nid.group(1) if nid is not None else -1
         self.cpu = float(cpu.group(1)) if cpu is not None else -1
-        self.elapsed = float(elapsed.group(1)) if elapsed is not None else -1
-        self.thread_state = thread_state.group(1) if thread_state is not None else "unknown_state"
         self.thread_name = thread_name.group(1) if thread_name is not None else "unknown_thread"
+        self.thread_state = thread_state.group(1) if thread_state is not None else "unknown_state"

@@ -1,3 +1,4 @@
+import re
 from utils import Utils
 from prettytable import PrettyTable
 
@@ -19,6 +20,22 @@ class Connectors:
 
         num_jstacks = jstack_index
         return num_jstacks
+
+    @staticmethod
+    def parse_top_file_and_store_nids(db, top):
+        header_regex = r"(?m)(PID USER.*$)"
+        header = re.search(header_regex, top)
+
+        if header is not None:
+            header_text = header.group(0)
+            header_text_index = top.index(header_text)
+            top_threads = top[header_text_index + len(header_text):]
+
+            top_threads = top_threads.split("\n")
+            top_threads = [{ "nid": hex(int(thread.split()[0])), "cpu_usage": thread.split()[8] } for thread in top_threads if thread != ""]
+            db.top_cpu_intensive_threads.extend(top_threads)
+        else: 
+            exit("Given top file is not in the correct format")
 
     @staticmethod
     def get_java_processes(db):
@@ -109,9 +126,9 @@ class Connectors:
         state_frequency_dict = {}
 
         for thread in threads:
-            if thread.id not in db.threads:
-                db.threads[thread.id] = []
-            db.threads[thread.id].append(thread)
+            if thread.nid not in db.threads:
+                db.threads[thread.nid] = []
+            db.threads[thread.nid].append(thread)
 
             thread_state = thread.thread_state
             if thread_state not in state_frequency_dict:
@@ -123,9 +140,10 @@ class Connectors:
     @staticmethod
     def output_jstack_comparison_header(config):
         state_frequency_is_off = config.thread_state_frequency_table is False
-        cpu_intensive_threads_is_off = config.cpu_intensive_threads is False
+        cpu_intensive_threads_jstack_is_off = config.cpu_intensive_threads_jstack is False
+        cpu_intensive_threads_top_is_off = config.cpu_intensive_threads_top is False
 
-        if state_frequency_is_off and cpu_intensive_threads_is_off:
+        if state_frequency_is_off and cpu_intensive_threads_jstack_is_off and cpu_intensive_threads_top_is_off:
             return
 
         analysis_file_path = ".ajs/analysis.txt"
@@ -164,28 +182,58 @@ class Connectors:
         Utils.append_to_file(analysis_file_path, thread_state_frequency + str(table) + "\n\n")
 
     @staticmethod
-    def output_cpu_consuming_threads(db, cpu_wise_sorted_thread_indexes):
-        cpu_consuming_threads_header = "CPU CONSUMING THREADS"
+    def output_cpu_consuming_threads_jstack(db, cpu_wise_sorted_thread_indexes):
+        cpu_consuming_threads_header = "CPU CONSUMING THREADS (JSTACK)"
         cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1) + "\n\n"
 
         cpu_consuming_threads_text = ""
         for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
-            id = cpu_wise_sorted_thread_index["id"]
+            nid = cpu_wise_sorted_thread_index["nid"]
             time = cpu_wise_sorted_thread_index["time"]
-            db_thread = db.threads[id]
+            db_thread = db.threads[nid]
 
             first_thread_instance = db_thread[0]
             last_thread_instance = db_thread[-1]
 
-            cpu_consuming_threads_text += "Thread ID: {} CPU: {}\n".format(int(first_thread_instance.id), time)
+            cpu_consuming_threads_text += "Thread NID: {} CPU: {}\n".format(int(first_thread_instance.nid), time)
             cpu_consuming_threads_text += "First Occurrence:\n" 
             cpu_consuming_threads_text += first_thread_instance.text + "\n"
             cpu_consuming_threads_text += "Last Occurrence:\n"
             cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
 
-        if cpu_consuming_threads_text != "":
-            analysis_file_path = ".ajs/analysis.txt"
-            Utils.append_to_file(analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
+        analysis_file_path = ".ajs/analysis.txt"
+        Utils.append_to_file(analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
+
+    @staticmethod
+    def output_cpu_consuming_threads_top(db):
+        cpu_consuming_threads_header = "CPU CONSUMING THREADS (TOP)"
+        cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1) + "\n\n"
+
+        cpu_consuming_threads_text = ""
+        for thread in db.top_cpu_intensive_threads:
+            nid = thread["nid"]
+            cpu_usage = thread["cpu_usage"]
+
+            if nid not in db.threads:
+                continue
+
+            db_thread = db.threads[nid]
+
+            cpu_consuming_threads_text += "Thread NID: {} CPU: {}%\n".format(nid, cpu_usage)
+            if len(db_thread) == 1:
+                thread_instance = db_thread[0]
+                cpu_consuming_threads_text += thread_instance.text + "\n\n"
+            else:
+                first_thread_instance = db_thread[0]
+                last_thread_instance = db_thread[-1]
+
+                cpu_consuming_threads_text += "First Occurrence:\n"
+                cpu_consuming_threads_text += first_thread_instance.text + "\n"
+                cpu_consuming_threads_text += "Last Occurrence:\n"
+                cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
+
+        analysis_file_path = ".ajs/analysis.txt"
+        Utils.append_to_file(analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
 
     @staticmethod
     def output_jstacks_in_one_file(config, db, num_jstacks):

@@ -22,6 +22,26 @@ class Core:
         num_jstacks = Connectors.parse_jstack_file(config, jstack_file_path)
         return num_jstacks
 
+    @staticmethod
+    @Utils.benchmark("top file input")
+    def handle_top_file_input(config, db):
+        if config.cpu_intensive_threads_top is False:
+            return
+
+        top_file_path = config.top_file_path
+
+        if top_file_path is None:
+            exit("\nNo top file path provided in config file")
+
+        if not os.path.exists(top_file_path):
+            exit("\nInvalid top file path provided in config file")
+
+
+        with open(top_file_path, "r") as f:
+            top = f.read()
+
+        Connectors.parse_top_file_and_store_nids(db, top)
+
     @staticmethod 
     @Utils.benchmark("jstack generation")
     def handle_jstack_generation(config, db):
@@ -37,6 +57,20 @@ class Core:
 
             if jstack_index != num_jstacks - 1:
                 time.sleep(delay_bw_jstacks / 1000)
+
+    @staticmethod
+    @Utils.benchmark("top generation")
+    def handle_top_generation(config, db):
+        if config.cpu_intensive_threads_top is False:
+            return
+
+        command_list = ["top", "-H", "-b", "-n", "1"]
+        for process_id in db.process_id_vs_name: 
+            command_list.append("-p")
+            command_list.append(process_id)
+
+        top = Utils.subprocess_call(command_list)
+        Connectors.parse_top_file_and_store_nids(db, top)
 
     @staticmethod
     @Utils.benchmark("analyse individual jstack")
@@ -76,9 +110,9 @@ class Core:
             split_clubbed_threads.append(thread_text.strip("\n"))
 
         encapsulated_threads = [Thread(text, process_id) for text in split_clubbed_threads]
-        id_containing_threads = [thread for thread in encapsulated_threads if thread.id is not -1]
+        nid_containing_threads = [thread for thread in encapsulated_threads if thread.nid is not -1]
 
-        return id_containing_threads 
+        return nid_containing_threads 
 
     @staticmethod
     def filter_threads(config, threads):
@@ -185,7 +219,8 @@ class Core:
         Connectors.output_jstack_comparison_header(config)
 
         Core.thread_state_frequency(config, db)
-        Core.cpu_consuming_threads(config, db)
+        Core.cpu_consuming_threads_jstack(config, db)
+        Core.cpu_consuming_threads_top(config, db)
 
         Connectors.output_jstacks_in_one_file(config, db, num_jstacks)
 
@@ -197,24 +232,31 @@ class Core:
         Connectors.output_thread_state_frequency(db)
 
     @staticmethod
-    def cpu_consuming_threads(config, db):
-        if config.cpu_intensive_threads is False:
+    def cpu_consuming_threads_jstack(config, db):
+        if config.cpu_intensive_threads_jstack is False:
             return
 
         cpu_wise_sorted_thread_indexes = [] 
         
-        for thread_id in db.threads:
-            threads_with_thread_id = db.threads[thread_id]
+        for thread_nid in db.threads:
+            threads_with_thread_nid = db.threads[thread_nid]
 
-            if len(threads_with_thread_id) == 1:
+            if len(threads_with_thread_nid) == 1:
                 continue
 
-            first_thread = threads_with_thread_id[0]
-            last_thread = threads_with_thread_id[-1]
+            first_thread = threads_with_thread_nid[0]
+            last_thread = threads_with_thread_nid[-1]
 
             time = last_thread.cpu - first_thread.cpu
-            cpu_wise_sorted_thread_indexes.append({"id": thread_id, "time": time})
+            cpu_wise_sorted_thread_indexes.append({"nid": thread_nid, "time": time})
 
         cpu_wise_sorted_thread_indexes.sort(key=lambda thread: thread["time"], reverse=True)
 
-        Connectors.output_cpu_consuming_threads(db, cpu_wise_sorted_thread_indexes)
+        Connectors.output_cpu_consuming_threads_jstack(db, cpu_wise_sorted_thread_indexes)
+
+    @staticmethod
+    def cpu_consuming_threads_top(config, db):
+        if config.cpu_intensive_threads_top is False:
+            return
+
+        Connectors.output_cpu_consuming_threads_top(db)
