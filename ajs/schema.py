@@ -17,6 +17,7 @@ class Config:
             { "regex": ".*WAITING.*", "tag": "WAITING" },
             { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" }
         ]
+        self.analysis_file_path = ".ajs/analysis.txt"
 
         Config.setup_config(self, args)
 
@@ -27,17 +28,28 @@ class Config:
         cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
         cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=5, help="[n]umber of JStacks, default is 5 (applicable when -f is not used)")
         cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=1000, help="[d]elay between two JStacks in ms, default is 1000 (applicable when -f is not used)")
+        cli.add_argument("-b", "--benchmark", action="store_true", help="Run in [b]enchmark mode")
 
+        cli.add_argument("-A", "--full-analysis", action="store_true", help="Perform [A]ll analysis, equivalent to -FSCRJIT")
         cli.add_argument("-F", "--filter-out", action="store_true", help="[F]ilter out configured threads from the jstack")
         cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
         cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
-        cli.add_argument("-J", "--cpu-intensive-threads-jstack", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time, using [J]stack's 'cpu=' field, [supported only in jdk11 systems]")
-        cli.add_argument("-I", "--cpu-intensive-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, using top utility")
+        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time, using [J]stack's 'cpu=' field, [supported only in jdk11 systems]")
+        cli.add_argument("-I", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, using top utility")
         cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
-        cli.add_argument("-B", "--benchmark", action="store_true", help="Run in [B]enchmark mode")
 
         args = cli.parse_args()
+
+        if (args.full_analysis is True):
+            args.filter_out = True
+            args.search_tokens = True
+            args.classify_threads = True
+            args.repetitive_stack_trace = True
+            args.cpu_consuming_threads_jstack = True
+            args.cpu_consuming_threads_top = True
+            args.thread_state_frequency_table = True
+
         return args
 
     @staticmethod
@@ -59,8 +71,8 @@ class Config:
             Config.setup_file_input_config(config, args, config_file)
 
             config.thread_state_frequency_table = args.thread_state_frequency_table
-            config.cpu_intensive_threads_jstack = args.cpu_intensive_threads_jstack
-            config.cpu_intensive_threads_top = args.cpu_intensive_threads_top
+            config.cpu_consuming_threads_jstack = args.cpu_consuming_threads_jstack
+            config.cpu_consuming_threads_top = args.cpu_consuming_threads_top
             config.repetitive_stack_trace = args.repetitive_stack_trace
 
             Config.do_benchmark = args.benchmark
@@ -96,9 +108,9 @@ class Config:
             classification_items = []
             for items in config_file["classification"]:
                 classification_items.append({"regex": str(items["regex"]), "tag": str(items["tag"])})
-            config.classification = classification_items
+            config.classes = classification_items
         else:
-            config.classification = None
+            config.classes = None
 
     @staticmethod
     def setup_file_input_config(config, args, config_file):
@@ -119,7 +131,8 @@ class Database:
         self.token_frequency = {}
         self.process_id_vs_name = {}
         self.state_frequency_dicts = [] 
-        self.top_cpu_intensive_threads = []
+        self.top_cpu_consuming_threads = []
+        self.system_compatible_with_top = False
 
         tokens = config.tokens
         if tokens is not None:

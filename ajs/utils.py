@@ -39,7 +39,7 @@ class Utils:
         return new_text
 
     @staticmethod
-    def benchmark(label):
+    def benchmark_time(label):
         def decorator_function(func):
             def wrapper(*args, **kwargs):
                 start = time.time()
@@ -55,7 +55,7 @@ class Utils:
         return decorator_function
 
     @staticmethod
-    def memory_benchmarking(stage):
+    def benchmark_memory(stage):
         if Config.do_benchmark is False:
             return
 
@@ -98,9 +98,10 @@ class Utils:
 
     @staticmethod
     def subprocess_call(command_list):
-        result = subprocess.Popen(command_list, stdout=subprocess.PIPE)
-        output, _ = result.communicate()
-        return output.strip()
+        result = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, err = result.communicate()
+
+        return { "output": output.strip(), "err": err }
 
     @staticmethod
     def setup_interrupt():
