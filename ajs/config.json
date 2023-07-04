@@ -25,6 +25,6 @@
       { "regex": ".*elasticsearch.*", "tag": "Elasticsearch" }
     ]
   ],
-  "top_file_path": "/Users/sarvjotsingh/docker_top_output.txt",
-  "jstack_file_path": "/Users/sarvjotsingh/dev/AnalyseJStack/sample_jstacks/multiple_jstacks/jstack-10.0.24.178-2023-06-07-12-16-04.txt"
+  "top_file_path": "/Users/sarvjotsingh/dev/AnalyseJStack/sample_data/top.txt",
+  "jstack_file_path": "/Users/sarvjotsingh/dev/AnalyseJStack/sample_data/jstack.txt"
 }
