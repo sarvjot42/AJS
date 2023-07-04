@@ -118,16 +118,21 @@ class Utils:
         with open(file_path) as file:
             while True:
                 data_chunk = file.read(one_mb)
-                if not data_chunk:
-                    break
                 buffer += data_chunk
 
-                sep = re.search(separator_regex, buffer)
-                if sep is not None:
-                    sep_index = sep.end()
-                    read_data = buffer[:sep_index + 1]
-                    buffer = buffer[sep_index + 1:]
-                    yield read_data 
+                matches = re.finditer(separator_regex, buffer)
+                prev_index = -1
+
+                for match in matches:
+                    index = match.end()
+                    read_data = buffer[prev_index + 1:index + 1]
+                    prev_index = index
+                    yield read_data
+
+                buffer = buffer[prev_index + 1:]
+
+                if not data_chunk:
+                    break
 
     @staticmethod
     def upload_to_azure(blob_name, container_name, upload_file_path):

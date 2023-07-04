@@ -25,9 +25,6 @@ class Core:
     @staticmethod
     @Utils.benchmark_time("top file input")
     def handle_top_file_input(config, db):
-        if config.cpu_consuming_threads_top is False:
-            return
-
         top_file_path = config.top_file_path
 
         if top_file_path is None:
@@ -169,39 +166,19 @@ class Core:
 
     @staticmethod
     def classify_threads(config, threads):
-        if config.classes is None:
+        if config.classification_groups is None:
             return
 
-        Core.thread_state_classification(config, threads)
-        Core.user_config_classification(config, threads)
+        for thread in threads:
+            for group in config.classification_groups:
+                for item in group:
+                    tag = item["tag"]
+                    regex = item["regex"]
+                    if re.search(regex, thread.text):
+                        thread.tags.append(tag)
+                        break
 
         Connectors.output_classified_threads(config, threads)
-
-    @staticmethod
-    def thread_state_classification(config, threads):
-        for thread in threads:
-            for state in config.thread_states:
-                tag = state["tag"]
-                regex = state["regex"]
-                if re.search(regex, thread.text):
-                    thread.tags.append(tag)
-                    break
-
-    @staticmethod
-    def user_config_classification(config, threads):
-        for thread in threads:
-            found_tag = False
-
-            for item in config.classes:
-                tag = item["tag"]
-                regex = item["regex"]
-                if re.search(regex, thread.text):
-                    thread.tags.append(tag)
-                    found_tag = True
-                    break
-
-            if found_tag is False:
-                thread.tags.append("UNCLASSIFIED")
 
     @staticmethod
     def repetitive_stack_trace(config, threads):

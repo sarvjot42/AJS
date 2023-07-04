@@ -11,13 +11,8 @@ class Config:
         args = Config.setup_cli()
 
         self.session_id = Config.generate_session_id()
-        self.thread_states = [
-            { "regex": ".*RUNNABLE.*", "tag": "RUNNABLE" }, 
-            { "regex": ".*BLOCKED.*", "tag": "BLOCKED" },
-            { "regex": ".*WAITING.*", "tag": "WAITING" },
-            { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" }
-        ]
         self.analysis_file_path = ".ajs/analysis.txt"
+        self.jstacks_file_path = ".ajs/jstacks.txt"
 
         Config.setup_config(self, args)
 
@@ -35,7 +30,7 @@ class Config:
         cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
         cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
-        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU [I]ntensive threads, in descending order of CPU time, using [J]stack's 'cpu=' field, [supported only in jdk11 systems]")
+        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, in descending order of CPU time, using [J]stack's 'cpu=' field, [supported only in jdk11 systems]")
         cli.add_argument("-I", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, using top utility")
         cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
 
@@ -67,8 +62,8 @@ class Config:
         try:
             Config.setup_token_config(config, args, config_file)
             Config.setup_filter_config(config, args, config_file)
-            Config.setup_classification_config(config, args, config_file)
             Config.setup_file_input_config(config, args, config_file)
+            Config.setup_classification_config(config, args, config_file)
 
             config.thread_state_frequency_table = args.thread_state_frequency_table
             config.cpu_consuming_threads_jstack = args.cpu_consuming_threads_jstack
@@ -84,7 +79,7 @@ class Config:
     def setup_token_config(config, args, config_file):
         if args.search_tokens is True:
             tokens = []
-            for token in config_file["tokens"]:
+            for token in config_file["search_tokens"]:
                 token_text = str(token["text"])
                 output_all_matches = token["output_all_matches"]
                 tokens.append({"text": token_text, "output_all_matches": output_all_matches})
@@ -103,27 +98,34 @@ class Config:
             config.filter_out = None
 
     @staticmethod
-    def setup_classification_config(config, args, config_file):
-        if args.classify_threads is True:
-            classification_items = []
-            for items in config_file["classification"]:
-                classification_items.append({"regex": str(items["regex"]), "tag": str(items["tag"])})
-            config.classes = classification_items
-        else:
-            config.classes = None
-
-    @staticmethod
     def setup_file_input_config(config, args, config_file):
-        if args.file_input is True:
+        if args.file_input is not None:
             config.file_input = True
-            config.top_file_path = str(config_file["top_file_path"])
-            config.jstack_file_path = str(config_file["jstack_file_path"])
+            config.top_file_path = str(config_file["top_file_path"]) if "top_file_path" in config_file else None
+            config.jstack_file_path = str(config_file["jstack_file_path"]) if "jstack_file_path" in config_file else None
         else:
             config.file_input = False
             config.top_file_path = None
             config.jstack_file_path = None
             config.num_jstacks = args.num_jstacks
             config.delay_bw_jstacks = args.delay_bw_jstacks
+
+    @staticmethod
+    def setup_classification_config(config, args, config_file):
+        if args.classify_threads is True:
+            classification_groups = []
+
+            for group in config_file["classification_groups"]:
+                group_items = []
+                for item in group:
+                    tag = str(item["tag"])
+                    regex = str(item["regex"])
+                    group_items.append({"tag": tag, "regex": regex})
+                classification_groups.append(group_items)
+
+            config.classification_groups = classification_groups
+        else:
+            config.classification_groups = None
 
 class Database:
     def __init__(self, config):
@@ -149,7 +151,7 @@ class Thread:
     def __init__(self, text, process_id):
         nid_regex = r"nid\=(0x[0-9a-fA-F]+)"
         cpu_regex = r"cpu\s*=\s*(\d+.\d+)ms"
-        thread_state_regex = r"java\.lang\.Thread\.State\:\s*(.*)"
+        thread_state_regex = r"java\.lang\.Thread\.State\:\s*([^\s]*)"
         thread_name_regex = r"^\s*(.*)\s+\#\d+\s+daemon\s+prio\=5\s+os_prio\=0"
 
         nid = re.search(nid_regex, text)

@@ -70,7 +70,7 @@ class Connectors:
     @staticmethod
     def output_new_jstack_header(config, jstack_index, process_id):
         matching_is_off = config.tokens is None
-        classification_is_off = config.classes is None
+        classification_is_off = config.classification_groups is None
         repetitive_stack_trace_is_off = config.repetitive_stack_trace is False
 
         if classification_is_off and matching_is_off and repetitive_stack_trace_is_off:
@@ -99,6 +99,9 @@ class Connectors:
         classified_threads_output = "THREADS SORTED BY CATEGORIES"
         classified_threads_output = Utils.borderify_text(classified_threads_output, 1) + "\n\n"
         for thread in classified_threads:
+            if (thread.tags == []):
+                continue
+
             classified_threads_output += "Tags: " + str(thread.tags) + "\n"
             classified_threads_output += thread.text + "\n\n"
 
@@ -127,6 +130,8 @@ class Connectors:
             db.threads[thread.nid].append(thread)
 
             thread_state = thread.thread_state
+            if thread_state is "unknown_state":
+                continue
             if thread_state not in state_frequency_dict:
                 state_frequency_dict[thread_state] = 0
             state_frequency_dict[thread_state] += 1

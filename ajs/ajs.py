@@ -15,7 +15,9 @@ def main():
 
     if config.file_input is True:
         num_jstacks = Core.handle_jstack_file_input(config, db)
-        Core.handle_top_file_input(config, db)
+
+        if config.cpu_consuming_threads_top is True:
+            Core.handle_top_file_input(config, db)
     else:
         num_jstacks = config.num_jstacks
         Core.handle_jstack_generation(config, db)

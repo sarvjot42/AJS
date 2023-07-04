@@ -1,40 +1,30 @@
 {
-  "tokens": [
+  "search_tokens": [
     {
       "text": "Finalizer",
       "output_all_matches": true 
     }
   ],
   "filter_out": [
-    {
-      "regex": "cluster-ClusterId"
-    },
-    {
-      "regex": "grpc-default"
-    },
-    {
-      "regex": "kafka-producer-network-thread"
-    },
-    {
-      "regex": "broadcastRedisContainer"
-    },
-    {
-      "regex": "cluster-rtt-ClusterId"
-    },
-    {
-      "regex": "CompilerThread0"
-    }
+    { "regex": "cluster-ClusterId"},
+    { "regex": "grpc-default" },
+    { "regex": "kafka-producer-network-thread" },
+    { "regex": "broadcastRedisContainer" },
+    { "regex": "cluster-rtt-ClusterId" },
+    { "regex": "CompilerThread0" }
   ],
-  "classification": [
-    {
-      "regex": ".*MongoTemplateInternal.*",
-      "tag": "Mongo"
-    },
-    {
-      "regex": ".*elasticsearch.*",
-      "tag": "Elasticsearch"
-    }
+  "classification_groups": [
+    [
+      { "regex": ".*RUNNABLE.*", "tag": "RUNNABLE" }, 
+      { "regex": ".*BLOCKED.*", "tag": "BLOCKED" },
+      { "regex": ".*WAITING.*", "tag": "WAITING" },
+      { "regex": ".*TIMED_WAITING.*", "tag": "TIMED_WAITING" }
+    ],
+    [
+      { "regex": ".*MongoTemplateInternal.*", "tag": "Mongo" },
+      { "regex": ".*elasticsearch.*", "tag": "Elasticsearch" }
+    ]
   ],
   "top_file_path": "/Users/sarvjotsingh/docker_top_output.txt",
-  "jstack_file_path": "/Users/sarvjotsingh/docker_jstack_output.txt"
+  "jstack_file_path": "/Users/sarvjotsingh/dev/AnalyseJStack/sample_jstacks/multiple_jstacks/jstack-10.0.24.178-2023-06-07-12-16-04.txt"
 }
