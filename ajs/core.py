@@ -79,7 +79,7 @@ class Core:
         for process_id in db.process_id_vs_name:
             Connectors.output_new_jstack_header(config, jstack_index, process_id)
 
-            threads = Core.read_and_filter_threads(config, jstack_index, process_id)
+            threads = Core.read_and_filter_threads(config, db, jstack_index, process_id)
             Core.match_threads(config, db, threads)
             Core.classify_threads(config, threads)
             Core.repetitive_stack_trace(config, threads)
@@ -87,8 +87,9 @@ class Core:
             Connectors.store_threads_in_db(db, threads)
 
     @staticmethod
-    def read_and_filter_threads(config, jstack_index, process_id):
+    def read_and_filter_threads(config, db, jstack_index, process_id):
         jstack = Connectors.read_jstack(config, jstack_index, process_id)
+        Connectors.add_jstack_time_stamp_to_db(db, jstack)
         threads = Core.parse_threads_from_jstack(jstack, process_id)
         threads = Core.filter_threads(config, threads)
         return threads
@@ -222,6 +223,11 @@ class Core:
         if config.cpu_consuming_threads_jstack is False:
             return
 
+        first_jstack_time_stamp = db.jstack_time_stamps[0]
+        last_jstack_time_stamp = db.jstack_time_stamps[-1]
+
+        time_between_jstacks = Utils.diff_between_time_stamps(first_jstack_time_stamp, last_jstack_time_stamp)
+
         cpu_field_not_present = False
         cpu_wise_sorted_thread_indexes = [] 
         
@@ -243,7 +249,7 @@ class Core:
 
         cpu_wise_sorted_thread_indexes.sort(key=lambda thread: thread["time"], reverse=True)
 
-        Connectors.output_cpu_consuming_threads_jstack(config, db, cpu_wise_sorted_thread_indexes, cpu_field_not_present)
+        Connectors.output_cpu_consuming_threads_jstack(config, db, cpu_wise_sorted_thread_indexes, cpu_field_not_present, time_between_jstacks)
 
     @staticmethod
     def cpu_consuming_threads_top(config, db):

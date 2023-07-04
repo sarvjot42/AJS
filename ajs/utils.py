@@ -7,6 +7,7 @@ import warnings
 import traceback
 import subprocess
 from sys import platform
+from datetime import datetime
 from resource import getrusage, RUSAGE_SELF
 from schema import Config
 
@@ -19,6 +20,14 @@ from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 
 class Utils:
+    @staticmethod
+    def diff_between_time_stamps(time_stamp_a, time_stamp_b):
+        datetime_a = datetime.strptime(time_stamp_a, "%Y-%m-%d %H:%M:%S")
+        datetime_b = datetime.strptime(time_stamp_b, "%Y-%m-%d %H:%M:%S")
+
+        time_difference = datetime_b - datetime_a
+        return time_difference
+
     @staticmethod
     def borderify_text(text, current_layer, sep='*'):
         if current_layer == 0:

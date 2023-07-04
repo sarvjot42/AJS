@@ -1,0 +1,72 @@
+top - 00:16:16 up 25 min,  2 users,  load average: 3.57, 1.75, 1.16
+Threads:  28 total,   1 running,  27 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 34.3 us, 18.8 sy,  0.0 ni, 47.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   7362.1 total,    142.5 free,   4302.0 used,   2917.6 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   2747.5 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   6798 sarvjot   20   0 5294652 132764  28548 R  80.0   1.8   0:02.52 Thread-1
+   6786 sarvjot   20   0 5294652 132764  28548 S  13.3   1.8   0:00.48 C1 Comp+
+   6797 sarvjot   20   0 5294652 132764  28548 S  13.3   1.8   0:00.25 Thread-0
+   6803 sarvjot   20   0 5294652 132764  28548 S   6.7   1.8   0:00.01 GC Thre+
+   6805 sarvjot   20   0 5294652 132764  28548 S   6.7   1.8   0:00.01 GC Thre+
+   6807 sarvjot   20   0 5294652 132764  28548 S   6.7   1.8   0:00.01 GC Thre+
+   6765 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 java
+   6767 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.43 java
+   6770 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6771 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 G1 Main+
+   6772 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 G1 Conc+
+   6773 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 G1 Refi+
+   6774 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 G1 Youn+
+   6780 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 VM Thre+
+   6781 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Referen+
+   6782 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Finaliz+
+   6783 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Signal +
+   6784 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Service+
+   6785 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.47 C2 Comp+
+   6787 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Sweeper+
+   6790 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Common-+
+   6791 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Monitor+
+   6792 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 VM Peri+
+   6794 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.03 cluster+
+   6795 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 CleanCu+
+   6804 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6806 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6810 sarvjot   20   0 5294652 132764  28548 S   0.0   1.8   0:00.00 Attach +
+
+top - 00:16:18 up 25 min,  2 users,  load average: 3.61, 1.78, 1.18
+Threads:  28 total,   1 running,  27 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 21.0 us, 12.6 sy,  0.0 ni, 65.4 id,  0.0 wa,  0.0 hi,  1.0 si,  0.0 st
+MiB Mem :   7362.1 total,    142.5 free,   4302.0 used,   2917.6 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   2747.5 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   6798 sarvjot   20   0 5294652 133132  28548 R  72.0   1.8   0:03.96 Thread-1
+   6797 sarvjot   20   0 5294652 133132  28548 S   4.5   1.8   0:00.34 Thread-0
+   6785 sarvjot   20   0 5294652 133132  28548 S   1.5   1.8   0:00.50 C2 Comp+
+   6786 sarvjot   20   0 5294652 133132  28548 S   1.5   1.8   0:00.51 C1 Comp+
+   6770 sarvjot   20   0 5294652 133132  28548 S   0.5   1.8   0:00.02 GC Thre+
+   6804 sarvjot   20   0 5294652 133132  28548 S   0.5   1.8   0:00.02 GC Thre+
+   6765 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 java
+   6767 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.43 java
+   6771 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 G1 Main+
+   6772 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 G1 Conc+
+   6773 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 G1 Refi+
+   6774 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 G1 Youn+
+   6780 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 VM Thre+
+   6781 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Referen+
+   6782 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Finaliz+
+   6783 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Signal +
+   6784 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Service+
+   6787 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Sweeper+
+   6790 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Common-+
+   6791 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Monitor+
+   6792 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 VM Peri+
+   6794 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.03 cluster+
+   6795 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 CleanCu+
+   6803 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6805 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6806 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6807 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.01 GC Thre+
+   6810 sarvjot   20   0 5294652 133132  28548 S   0.0   1.8   0:00.00 Attach +
+

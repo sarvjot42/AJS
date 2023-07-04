@@ -132,6 +132,7 @@ class Database:
         self.threads = {}
         self.token_frequency = {}
         self.process_id_vs_name = {}
+        self.jstack_time_stamps = []
         self.state_frequency_dicts = [] 
         self.top_cpu_consuming_threads = []
         self.system_compatible_with_top = True 

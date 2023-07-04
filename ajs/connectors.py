@@ -24,12 +24,11 @@ class Connectors:
     @staticmethod
     def parse_top_file_and_store_nids(db, top_output):
         header_regex = r"(?m)(PID USER.*$)"
-        header = re.search(header_regex, top_output)
+        headers = re.finditer(header_regex, top_output)
 
-        if header is not None:
-            header_text = header.group(0)
-            header_text_index = top_output.index(header_text)
-            threads = top_output[header_text_index + len(header_text):]
+        if headers is not None:
+            last_top_header = list(headers)[-1]
+            threads = top_output[last_top_header.end(0) + 1:]
 
             threads = threads.split("\n")
             threads = [{ "nid": hex(int(thread.split()[0])), "cpu_usage": thread.split()[8] } for thread in threads if thread != ""]
@@ -39,7 +38,7 @@ class Connectors:
 
     @staticmethod
     def get_java_processes(db):
-        output = Utils.subprocess_call(["ps", "-e"])["output"]
+        output = Utils.subprocess_call(["ps", "-ef"])["output"]
         lines = output.split(b"\n")
 
         for line in lines:
@@ -87,6 +86,12 @@ class Connectors:
         with open(jstack_file_path, "r") as f:
             jstack = f.read()
             return jstack
+
+    @staticmethod
+    def add_jstack_time_stamp_to_db(db, jstack):
+        jstack = jstack.strip()
+        jstack_time_stamp = jstack.split("\n")[0]
+        db.jstack_time_stamps.append(jstack_time_stamp)
 
     @staticmethod
     def output_matching_threads(config, matching_threads_text):
@@ -182,9 +187,10 @@ class Connectors:
             Utils.append_to_file(config.analysis_file_path, thread_state_frequency + str(table) + "\n\n")
 
     @staticmethod
-    def output_cpu_consuming_threads_jstack(config, db, cpu_wise_sorted_thread_indexes, cpu_field_not_present):
+    def output_cpu_consuming_threads_jstack(config, db, cpu_wise_sorted_thread_indexes, cpu_field_not_present, time_between_jstacks):
         cpu_consuming_threads_header = "CPU CONSUMING THREADS (JSTACK)"
         cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1) + "\n\n"
+        cpu_consuming_threads_header += "TOTAL TIME BETWEEN JSTACKS " + str(time_between_jstacks.total_seconds()) + "s\n\n"
 
         cpu_consuming_threads_text = ""
 
@@ -194,12 +200,13 @@ class Connectors:
             for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
                 nid = cpu_wise_sorted_thread_index["nid"]
                 time = cpu_wise_sorted_thread_index["time"]
+                time_in_seconds = "{:.2f}s".format(time / 1000)
                 db_thread = db.threads[nid]
 
                 first_thread_instance = db_thread[0]
                 last_thread_instance = db_thread[-1]
 
-                cpu_consuming_threads_text += "Thread NID: {} CPU: {}\n".format(first_thread_instance.nid, time)
+                cpu_consuming_threads_text += "Thread NID: {} CPU: {}\n".format(first_thread_instance.nid, time_in_seconds)
                 cpu_consuming_threads_text += "First Occurrence:\n" 
                 cpu_consuming_threads_text += first_thread_instance.text + "\n"
                 cpu_consuming_threads_text += "Last Occurrence:\n"

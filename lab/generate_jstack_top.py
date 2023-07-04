@@ -14,15 +14,13 @@ def subprocess_call(command_list):
 def get_java_processes_id(application_name):
     global target_process_id
 
-    output = subprocess_call(["ps", "-e"])["output"]
+    output = subprocess_call(["ps", "-ef"])["output"]
     lines = output.split(b"\n")
 
     for line in lines:
-        print(line)
         if application_name in line:
-            print("hey i'm here")
             cols = line.split()
-            process_id = cols[0]
+            process_id = cols[1]
 
             target_process_id = process_id
             break
@@ -54,20 +52,19 @@ def store_top(top_target_file_path):
 
     if result["err"] != "":
         print(result["err"])
-        print("Top command not supported")
     else:
         top_output = result["output"]
         append_to_file(top_target_file_path, top_output.decode("utf-8") + "\n\n")
 
 sample_data_folder = "/home/sarvjot/workspace/programming/dev/AJS/sample_data"
-index = "_with_index"
+index = "_without_index"
 java_process_id_thread = threading.Thread(target=get_java_processes_id, args=("schoolApplication",))
 
 java_process_id_thread.start()
 java_process_id_thread.join()
 
 jstack_thread = threading.Thread(target=store_jstacks, args=(sample_data_folder + "/jstack" + index + ".txt",))
-top_thread = threading.Thread(target=store_top, args=(sample_data_folder + "/top.txt" + index + ".txt",))
+top_thread = threading.Thread(target=store_top, args=(sample_data_folder + "/top" + index + ".txt",))
 
 jstack_thread.start()
 top_thread.start()
