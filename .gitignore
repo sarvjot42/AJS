@@ -3,6 +3,5 @@ ajs_venv
 *.pyc
 .ajs
 .DS_Store
-sample_jstacks
 __pycache__
 *.class
