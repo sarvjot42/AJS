@@ -1,6 +1,9 @@
 import os
 import subprocess
+import threading
 from time import sleep
+
+target_process_id = None
 
 def subprocess_call(command_list):
     result = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -9,15 +12,20 @@ def subprocess_call(command_list):
     return { "output": output.strip(), "err": err }
 
 def get_java_processes_id(application_name):
+    global target_process_id
+
     output = subprocess_call(["ps", "-e"])["output"]
     lines = output.split(b"\n")
 
     for line in lines:
+        print(line)
         if application_name in line:
+            print("hey i'm here")
             cols = line.split()
             process_id = cols[0]
 
-            return process_id
+            target_process_id = process_id
+            break
 
 def append_to_file(file_path, data):
     with open(file_path, "a") as f:
@@ -30,15 +38,39 @@ def reset_file(file_path):
 
 def store_jstacks(jstack_target_file_path):
     reset_file(jstack_target_file_path)
-    process_id = get_java_processes_id("schoolApplication")
 
-    for _ in range(0, 3):
-        jstack = subprocess_call(["jstack", process_id])["output"]
+    for i in range(0, 3):
+        jstack = subprocess_call(["jstack", str(target_process_id)])["output"]
         append_to_file(jstack_target_file_path, jstack.decode("utf-8") + "\n\n")
-        sleep(10)
 
-def concurrency_check():
-    print("Concurrency check")
+        if(i < 2):
+            sleep(10)
 
-store_jstacks("/Users/sarvjotsingh/dev/AnalyseJStack/sample_data/jstack.txt")
-concurrency_check()
+def store_top(top_target_file_path):
+    reset_file(top_target_file_path)
+
+    command_list = ["top", "-H", "-b", "-n", "2", "-d", "2", "-p", str(target_process_id)]
+    result = subprocess_call(command_list)
+
+    if result["err"] != "":
+        print(result["err"])
+        print("Top command not supported")
+    else:
+        top_output = result["output"]
+        append_to_file(top_target_file_path, top_output.decode("utf-8") + "\n\n")
+
+sample_data_folder = "/home/sarvjot/workspace/programming/dev/AJS/sample_data"
+index = "_with_index"
+java_process_id_thread = threading.Thread(target=get_java_processes_id, args=("schoolApplication",))
+
+java_process_id_thread.start()
+java_process_id_thread.join()
+
+jstack_thread = threading.Thread(target=store_jstacks, args=(sample_data_folder + "/jstack" + index + ".txt",))
+top_thread = threading.Thread(target=store_top, args=(sample_data_folder + "/top.txt" + index + ".txt",))
+
+jstack_thread.start()
+top_thread.start()
+
+jstack_thread.join()
+top_thread.join()
