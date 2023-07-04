@@ -3,6 +3,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
+import org.apache.commons.lang3.time.StopWatch;
 import org.bson.Document;
 import java.lang.Thread;
 
@@ -10,7 +11,7 @@ public class schoolApplication {
     static String dbHost = "localhost";
     static int dbPort = 27017;
     static String dbName = "schoolDB";
-    static String collectionName = "school_without_index";
+    static String collectionName = "school_with_index";
 
     public static MongoDatabase getDatabase() {
         MongoClient mongo = new MongoClient(dbHost, dbPort);
@@ -48,15 +49,17 @@ public class schoolApplication {
         school.updateMany(query, update);
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
+        StopWatch stopwatch = new StopWatch();
+        stopwatch.start();
+
         MongoDatabase database = getDatabase();
         MongoCollection<Document> school = database.getCollection(collectionName);
 
-        // 1M queries, 10000 documents -> 2:40 vs 2:56, this was counter intuitive
-        // 1M queries, 100000 documents
+        // 10000 queries, 10000 documents ->
 
-//        IndexOptions indexOptions = new IndexOptions();
-//        school.createIndex(new Document("marks", 1), indexOptions);
+//          IndexOptions indexOptions = new IndexOptions();
+//          school.createIndex(new Document("marks", 1), indexOptions);
 
         Thread dbQueryThread = new Thread(() -> {
             for (int i = 0; i < 10000; i++) {
@@ -75,7 +78,6 @@ public class schoolApplication {
         });
 
         Thread giveFeedbackTillQuery = new Thread(() -> {
-            System.out.println(dbQueryThread.isAlive());
             while(dbQueryThread.isAlive()){
                 System.out.println("Query is still running, please be patient");
             }
@@ -86,6 +88,10 @@ public class schoolApplication {
 //        }
 
         dbQueryThread.start();
-//        giveFeedbackTillQuery.start();
+        giveFeedbackTillQuery.start();
+        dbQueryThread.join();
+
+        stopwatch.stop();
+        System.out.println(stopwatch.getTime());
     }
 }
