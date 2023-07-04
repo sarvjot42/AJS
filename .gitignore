@@ -5,3 +5,4 @@ ajs_venv
 .DS_Store
 sample_jstacks
 __pycache__
+*.class

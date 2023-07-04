@@ -134,7 +134,7 @@ class Database:
         self.process_id_vs_name = {}
         self.state_frequency_dicts = [] 
         self.top_cpu_consuming_threads = []
-        self.system_compatible_with_top = False
+        self.system_compatible_with_top = True 
 
         tokens = config.tokens
         if tokens is not None:
