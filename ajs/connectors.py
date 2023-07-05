@@ -67,7 +67,7 @@ class Connectors:
         return jstack_file_path
 
     @staticmethod
-    def output_new_jstack_header(config, jstack_index, process_id):
+    def output_new_jstack_header(config, db, jstack_index, process_id):
         matching_is_off = config.tokens is None
         classification_is_off = config.classification_groups is None
         repetitive_stack_trace_is_off = config.repetitive_stack_trace is False
@@ -76,7 +76,7 @@ class Connectors:
             return
 
         new_jstack_header = "JSTACK " + str(jstack_index) + " FOR PROCESS " + str(process_id)
-        new_jstack_header = Utils.borderify_text(new_jstack_header, 2) + "\n\n"
+        new_jstack_header = Utils.borderify_text(db, new_jstack_header, 2) + "\n\n"
         Utils.append_to_file(config.analysis_file_path, new_jstack_header)
 
     @staticmethod
@@ -98,11 +98,11 @@ class Connectors:
         Utils.append_to_file(config.analysis_file_path, matching_threads_text)
 
     @staticmethod
-    def output_classified_threads(config, classified_threads):
+    def output_classified_threads(config, db, classified_threads):
         classified_threads = sorted(classified_threads, key=lambda thread: str(thread.tags))
 
         classified_threads_output = "THREADS SORTED BY CATEGORIES"
-        classified_threads_output = Utils.borderify_text(classified_threads_output, 1) + "\n\n"
+        classified_threads_output = Utils.borderify_text(db, classified_threads_output, 1) + "\n\n"
         for thread in classified_threads:
             if (thread.tags == []):
                 continue
@@ -113,9 +113,9 @@ class Connectors:
         Utils.append_to_file(config.analysis_file_path, classified_threads_output)
 
     @staticmethod
-    def output_repetitive_stack_trace(config, stack_trace_counter):
+    def output_repetitive_stack_trace(config, db, stack_trace_counter):
         repetitive_stack_trace_output = "REPEATED STACK TRACES"
-        repetitive_stack_trace_output = Utils.borderify_text(repetitive_stack_trace_output, 1) + "\n\n"
+        repetitive_stack_trace_output = Utils.borderify_text(db, repetitive_stack_trace_output, 1) + "\n\n"
         for stack_trace in stack_trace_counter:
             if stack_trace[1] == 1:
                 break
@@ -144,7 +144,7 @@ class Connectors:
         db.state_frequency_dicts.append(state_frequency_dict)
 
     @staticmethod
-    def output_jstack_comparison_header(config):
+    def output_jstack_comparison_header(config, db):
         state_frequency_is_off = config.thread_state_frequency_table is False
         cpu_consuming_threads_top_is_off = config.cpu_consuming_threads_top is False
         cpu_consuming_threads_jstack_is_off = config.cpu_consuming_threads_jstack is False
@@ -153,13 +153,13 @@ class Connectors:
             return
 
         new_jstack_header = "JSTACKS COMPARISON"
-        new_jstack_header = Utils.borderify_text(new_jstack_header, 2) + "\n\n"
+        new_jstack_header = Utils.borderify_text(db, new_jstack_header, 2) + "\n\n"
         Utils.append_to_file(config.analysis_file_path, new_jstack_header)
 
     @staticmethod
     def output_thread_state_frequency(config, db):
         thread_state_frequency = "THREAD STATE FREQUENCY"
-        thread_state_frequency = Utils.borderify_text(thread_state_frequency, 1) + "\n\n"
+        thread_state_frequency = Utils.borderify_text(db, thread_state_frequency, 1) + "\n\n"
 
         possible_states = []
         for frequency_dict in db.state_frequency_dicts:
@@ -189,7 +189,7 @@ class Connectors:
     @staticmethod
     def output_cpu_consuming_threads_jstack(config, db, cpu_wise_sorted_thread_indexes, cpu_field_not_present, time_between_jstacks):
         cpu_consuming_threads_header = "CPU CONSUMING THREADS (JSTACK)"
-        cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1) + "\n\n"
+        cpu_consuming_threads_header = Utils.borderify_text(db, cpu_consuming_threads_header, 1) + "\n\n"
         cpu_consuming_threads_header += "TOTAL TIME BETWEEN JSTACKS " + str(time_between_jstacks.total_seconds()) + "s\n\n"
 
         cpu_consuming_threads_text = ""
@@ -218,7 +218,7 @@ class Connectors:
     @staticmethod
     def output_cpu_consuming_threads_top(config, db):
         cpu_consuming_threads_header = "CPU CONSUMING THREADS (TOP)"
-        cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1) + "\n\n"
+        cpu_consuming_threads_header = Utils.borderify_text(db, cpu_consuming_threads_header, 1) + "\n\n"
 
         cpu_consuming_threads_text = ""
 
@@ -257,11 +257,30 @@ class Connectors:
             for process_id in db.process_id_vs_name:
                 jstack = Connectors.read_jstack(config, jstack_index, process_id)
                 jstack_header = "JStack #{} Process ID: {}".format(jstack_index, process_id)
-                jstack_header = Utils.borderify_text(jstack_header, 1) + "\n\n"
+                jstack_header = Utils.borderify_text(db, jstack_header, 1, False) + "\n\n"
                 output_jstack_text += jstack_header
                 output_jstack_text += jstack + "\n\n"
 
         Utils.append_to_file(config.jstacks_file_path, output_jstack_text)
+
+    @staticmethod
+    def prepend_contents(config, db):
+        max_level = 0
+        for line in db.analysis_file_contents:
+            max_level = max(max_level, line[1])
+
+        contents = "ANALYSIS FILE CONTENTS [Use this for navigating to the relevant sections]\n\n"
+        for line in db.analysis_file_contents:
+            text = line[0]
+            level = line[1]
+
+            for _ in range(max_level - level):
+                contents += '\t'
+
+            contents += text + "\n"
+        contents += "\n"
+
+        Utils.prepend_to_file(config.analysis_file_path, contents)
 
     @staticmethod
     @Utils.benchmark_time("azure data upload")

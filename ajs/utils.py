@@ -22,12 +22,15 @@ class Utils:
         return time_difference
 
     @staticmethod
-    def borderify_text(text, current_layer, sep='*'):
+    def borderify_text(db, text, current_layer, store_contents=True, max_layer=-1, sep='*'):
         if current_layer == 0:
+            if store_contents is True:
+                db.analysis_file_contents.append([text, max_layer])
             text = text.center(80, sep)
             return text
 
-        inner_text = Utils.borderify_text(text, current_layer - 1, sep)
+        max_layer = max(max_layer, current_layer)
+        inner_text = Utils.borderify_text(db, text, current_layer - 1, store_contents, max_layer, sep)
 
         lines = inner_text.split("\n")
         column_width = len(lines[0]) + 2
@@ -109,6 +112,14 @@ class Utils:
         Utils.create_if_not_there(os.path.dirname(file_path))
         with open(file_path, "a") as f:
             f.write(data)
+
+    @staticmethod
+    def prepend_to_file(file_path, data):
+        Utils.create_if_not_there(os.path.dirname(file_path))
+        with open(file_path, "r+") as f:
+            content = f.read()
+            f.seek(0, 0)
+            f.write(data + content)
 
     @staticmethod
     def subprocess_call(command_list):

@@ -80,12 +80,12 @@ class Core:
     @Utils.benchmark_time("individual jstack analysis")
     def analyse_jstacks(config, db, jstack_index):
         for process_id in db.process_id_vs_name:
-            Connectors.output_new_jstack_header(config, jstack_index, process_id)
+            Connectors.output_new_jstack_header(config, db, jstack_index, process_id)
 
             threads = Core.read_and_filter_threads(config, db, jstack_index, process_id)
             Core.match_threads(config, db, threads)
-            Core.classify_threads(config, threads)
-            Core.repetitive_stack_trace(config, threads)
+            Core.classify_threads(config, db, threads)
+            Core.repetitive_stack_trace(config, db, threads)
 
             Connectors.store_threads_in_db(db, threads)
 
@@ -121,20 +121,29 @@ class Core:
 
     @staticmethod
     def filter_threads(config, threads):
-        if config.filter_out is None:
+        if config.include_only is None and config.filter_out is None:
             return threads
-
+            
         filtered_threads = []
-        for thread in threads:
-            to_include = True
 
-            for unwanted_token in config.filter_out:
-                if re.search(unwanted_token, thread.text):
-                    to_include = False
-                    break
+        # giving preference to include_only
+        if config.include_only is not None:
+            for thread in threads:
+                for wanted_token in config.include_only:
+                    if re.search(wanted_token, thread.text):
+                        filtered_threads.append(thread)
+                        break
+        else:
+            for thread in threads:
+                to_include = True
 
-            if to_include:
-                filtered_threads.append(thread)
+                for unwanted_token in config.filter_out:
+                    if re.search(unwanted_token, thread.text):
+                        to_include = False
+                        break
+
+                if to_include:
+                    filtered_threads.append(thread)
 
         return filtered_threads
 
@@ -151,7 +160,7 @@ class Core:
         tokens = config.tokens
 
         matching_threads = "MATCHING THREADS"
-        matching_threads = Utils.borderify_text(matching_threads, 1) + "\n\n"
+        matching_threads = Utils.borderify_text(db, matching_threads, 1) + "\n\n"
         for thread in threads:
             for token in tokens:
                 token_text = token["text"]
@@ -169,7 +178,7 @@ class Core:
         return str(matching_threads)
 
     @staticmethod
-    def classify_threads(config, threads):
+    def classify_threads(config, db, threads):
         if config.classification_groups is None:
             return
 
@@ -182,10 +191,10 @@ class Core:
                         thread.tags.append(tag)
                         break
 
-        Connectors.output_classified_threads(config, threads)
+        Connectors.output_classified_threads(config, db, threads)
 
     @staticmethod
-    def repetitive_stack_trace(config, threads):
+    def repetitive_stack_trace(config, db, threads):
         if config.repetitive_stack_trace is False:
             return
 
@@ -201,12 +210,12 @@ class Core:
 
         stack_trace_counter = Counter(stack_traces).most_common()
 
-        Connectors.output_repetitive_stack_trace(config, stack_trace_counter)
+        Connectors.output_repetitive_stack_trace(config, db, stack_trace_counter)
 
     @staticmethod
     @Utils.benchmark_time("jstacks comparison")
     def compare_jstacks(config, db, num_jstacks):
-        Connectors.output_jstack_comparison_header(config)
+        Connectors.output_jstack_comparison_header(config, db)
 
         Core.thread_state_frequency(config, db)
         Core.cpu_consuming_threads_jstack(config, db)

@@ -23,21 +23,23 @@ class Config:
         cli.add_argument("session_name", type=str, help="Name of the debugging session")
         cli.add_argument("-b", "--benchmark", action="store_true", help="Run in [b]enchmark mode")
         cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
-        cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=3, help="[n]umber of JStacks, default is 3 (applicable when -f is not used)")
-        cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=10000, help="[d]elay between two JStacks in ms, default is 10000 (applicable when -f is not used)")
+        cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=3, help="[n]umber of JStacks, default is 3 [applicable when -f is not used]")
+        cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=10000, help="[d]elay between two JStacks in ms, default is 10000 [applicable when -f is not used]")
 
-        cli.add_argument("-A", "--full-analysis", action="store_true", help="Perform [A]ll analysis, equivalent to -FSCRJIT")
-        cli.add_argument("-F", "--filter-out", action="store_true", help="[F]ilter out configured threads from the jstack")
+        cli.add_argument("-A", "--full-analysis", action="store_true", help="Perform [A]ll analysis, equivalent to -IOSCRJTF")
+        cli.add_argument("-I", "--include-only", action="store_true", help="Only [I]nclude configured threads")
+        cli.add_argument("-O", "--filter-out", action="store_true", help="Filter [O]ut configured threads [preference will be given to -I]")
         cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
         cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
-        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, calculated using [J]stacks, [supported in jdk11+]")
-        cli.add_argument("-I", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, calculated using top utility")
-        cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
+        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, calculated using [J]stacks [supported in jdk11+]")
+        cli.add_argument("-T", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU Intensive threads, calculated using [T]op utility")
+        cli.add_argument("-F", "--thread-state-frequency-table", action="store_true", help="Output thread state [F]requency table for all jstacks")
 
         args = cli.parse_args()
 
         if (args.full_analysis is True):
+            args.include_only = True
             args.filter_out = True
             args.search_tokens = True
             args.classify_threads = True
@@ -89,6 +91,14 @@ class Config:
 
     @staticmethod
     def setup_filter_config(config, args, config_file):
+        if args.include_only is True:
+            wanted_tokens = []
+            for wanted_token in config_file["include_only"]:
+                wanted_tokens.append(str(wanted_token["regex"]))
+            config.include_only = wanted_tokens
+        else:
+            config.include_only = None
+
         if args.filter_out is True:
             unwanted_tokens = []
             for unwanted_token in config_file["filter_out"]:
@@ -134,6 +144,7 @@ class Database:
         self.process_id_vs_name = {}
         self.jstack_time_stamps = []
         self.state_frequency_dicts = [] 
+        self.analysis_file_contents = []
         self.files_deployed_to_azure = []
         self.top_cpu_consuming_threads = []
         self.system_compatible_with_top = True 

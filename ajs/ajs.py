@@ -25,16 +25,17 @@ def main():
         Core.analyse_jstacks(config, db, jstack_index)
 
     Core.compare_jstacks(config, db, num_jstacks)
+    Connectors.prepend_contents(config, db)
     Connectors.upload_output_files(config, db)
 
     return db.files_deployed_to_azure
 
 if __name__ == "__main__":
-    output = main()
+    azure_files = main()
 
     Utils.benchmark_cpu()
     Utils.benchmark_memory()
 
     print("\nOutput files deployed to Azure:")
-    for file in output:
+    for file in azure_files:
         print(file)

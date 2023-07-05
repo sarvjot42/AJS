@@ -5,6 +5,9 @@
       "output_all_matches": true 
     }
   ],
+  "include_only": [
+    { "regex": ".*" }
+  ],
   "filter_out": [
     { "regex": "cluster-ClusterId"},
     { "regex": "grpc-default" },
