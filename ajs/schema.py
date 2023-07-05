@@ -10,7 +10,7 @@ class Config:
     def __init__(self):
         args = Config.setup_cli()
 
-        self.session_id = Config.generate_session_id()
+        self.session_id = Config.generate_session_id(args.session_name)
         self.analysis_file_path = ".ajs/analysis.txt"
         self.jstacks_file_path = ".ajs/jstacks.txt"
 
@@ -20,6 +20,7 @@ class Config:
     def setup_cli():
         cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps\nConfigure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=RawTextHelpFormatter)
 
+        cli.add_argument("session_name", type=str, help="Name of the debugging session")
         cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
         cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=5, help="[n]umber of JStacks, default is 5 (applicable when -f is not used)")
         cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=1000, help="[d]elay between two JStacks in ms, default is 1000 (applicable when -f is not used)")
@@ -48,8 +49,7 @@ class Config:
         return args
 
     @staticmethod
-    def generate_session_id():
-        session_name = input("Name your debugging session: ")
+    def generate_session_id(session_name):
         time_stamp = datetime.datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
         session_id = session_name + "_" + time_stamp
         return session_id
@@ -134,6 +134,7 @@ class Database:
         self.process_id_vs_name = {}
         self.jstack_time_stamps = []
         self.state_frequency_dicts = [] 
+        self.files_deployed_to_azure = []
         self.top_cpu_consuming_threads = []
         self.system_compatible_with_top = True 
 

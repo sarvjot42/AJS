@@ -135,7 +135,7 @@ class Connectors:
             db.threads[thread.nid].append(thread)
 
             thread_state = thread.thread_state
-            if thread_state is "unknown_state":
+            if thread_state == "unknown_state":
                 continue
             if thread_state not in state_frequency_dict:
                 state_frequency_dict[thread_state] = 0
@@ -264,8 +264,8 @@ class Connectors:
         Utils.append_to_file(config.jstacks_file_path, output_jstack_text)
 
     @staticmethod
-    @Utils.benchmark_time("upload data to azure")
-    def upload_output_files(config):
+    @Utils.benchmark_time("azure data upload")
+    def upload_output_files(config, db):
         blob_name = config.session_id
-        Utils.upload_to_azure(blob_name, "analysis", config.analysis_file_path)
-        Utils.upload_to_azure(blob_name, "jstacks", config.jstacks_file_path)
+        Utils.upload_to_azure(db, blob_name, "analysis", config.analysis_file_path)
+        Utils.upload_to_azure(db, blob_name, "jstacks", config.jstacks_file_path)

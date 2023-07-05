@@ -51,13 +51,13 @@ class Utils:
                 time_taken = "{:.3f}".format(end - start)
 
                 if Config.do_benchmark is True:
-                    print("TIME BENCHMARKING:\t" + label + " took " + time_taken + "s")
+                    print("TIME BENCHMARKING:\t" + time_taken + "s '" + label + "'")
                 return result
             return wrapper
         return decorator_function
 
     @staticmethod
-    def benchmark_memory(stage):
+    def benchmark_memory():
         if Config.do_benchmark is False:
             return
 
@@ -69,7 +69,19 @@ class Utils:
         else:
             max_memory_usage_mb = rusage.ru_maxrss / 1024 
 
-        print("MEMORY BENCHMARKING:\t" + stage + " Max RAM usage: " + str(max_memory_usage_mb) + " MB")
+        max_memory_usage_mb = "{:.3f}".format(max_memory_usage_mb)
+        print("MEMORY BENCHMARKING:\t" + str(max_memory_usage_mb) + "MB 'max memory usage'")
+
+    @staticmethod
+    def benchmark_cpu():
+        if Config.do_benchmark is False:
+            return
+
+        rusage = getrusage(RUSAGE_SELF)
+        cpu_time = rusage.ru_utime + rusage.ru_stime
+
+        cpu_time = "{:.3f}".format(cpu_time)
+        print("CPU BENCHMARKING:\t" + str(cpu_time) + "s '[user + system] cpu time'")
 
     @staticmethod
     def convert_number_to_alphabet(number):
@@ -137,7 +149,7 @@ class Utils:
                     break
 
     @staticmethod
-    def upload_to_azure(blob_name, container_name, upload_file_path):
+    def upload_to_azure(db, blob_name, container_name, upload_file_path):
         if os.path.exists(upload_file_path) is False:
             return
 
@@ -152,7 +164,7 @@ class Utils:
                 data = f.read()
                 blob_client.upload_blob(data)
 
-            print(blob_client.url)
+            db.files_deployed_to_azure.append(blob_client.url)
 
         except Exception as ex:
             print(traceback.format_exc())

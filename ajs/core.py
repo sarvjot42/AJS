@@ -25,6 +25,9 @@ class Core:
     @staticmethod
     @Utils.benchmark_time("top file input")
     def handle_top_file_input(config, db):
+        if config.cpu_consuming_threads_top is False:
+            return
+
         top_file_path = config.top_file_path
 
         if top_file_path is None:
@@ -74,7 +77,7 @@ class Core:
             Connectors.parse_top_file_and_store_nids(db, top_output)
 
     @staticmethod
-    @Utils.benchmark_time("analyse individual jstack")
+    @Utils.benchmark_time("individual jstack analysis")
     def analyse_jstacks(config, db, jstack_index):
         for process_id in db.process_id_vs_name:
             Connectors.output_new_jstack_header(config, jstack_index, process_id)
@@ -112,7 +115,7 @@ class Core:
             split_clubbed_threads.append(thread_text.strip("\n"))
 
         encapsulated_threads = [Thread(text, process_id) for text in split_clubbed_threads]
-        nid_containing_threads = [thread for thread in encapsulated_threads if thread.nid is not -1]
+        nid_containing_threads = [thread for thread in encapsulated_threads if thread.nid != -1]
 
         return nid_containing_threads 
 
@@ -201,7 +204,7 @@ class Core:
         Connectors.output_repetitive_stack_trace(config, stack_trace_counter)
 
     @staticmethod
-    @Utils.benchmark_time("compare jstacks")
+    @Utils.benchmark_time("jstacks comparison")
     def compare_jstacks(config, db, num_jstacks):
         Connectors.output_jstack_comparison_header(config)
 
@@ -240,7 +243,7 @@ class Core:
             first_thread = threads_with_thread_nid[0]
             last_thread = threads_with_thread_nid[-1]
 
-            if first_thread.cpu is -1:
+            if first_thread.cpu == -1:
                 cpu_field_not_present = True
                 break
 
