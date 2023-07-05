@@ -2,7 +2,6 @@ import re
 import json
 import argparse
 import datetime
-from argparse import RawTextHelpFormatter
 
 class Config:
     do_benchmark = None 
@@ -18,21 +17,22 @@ class Config:
 
     @staticmethod
     def setup_cli():
-        cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps\nConfigure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=RawTextHelpFormatter)
+        formatter = lambda prog: argparse.HelpFormatter(prog,max_help_position=52)
+        cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps. Configure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=formatter)
 
         cli.add_argument("session_name", type=str, help="Name of the debugging session")
-        cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
-        cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=5, help="[n]umber of JStacks, default is 5 (applicable when -f is not used)")
-        cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=1000, help="[d]elay between two JStacks in ms, default is 1000 (applicable when -f is not used)")
         cli.add_argument("-b", "--benchmark", action="store_true", help="Run in [b]enchmark mode")
+        cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
+        cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=3, help="[n]umber of JStacks, default is 3 (applicable when -f is not used)")
+        cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=10000, help="[d]elay between two JStacks in ms, default is 10000 (applicable when -f is not used)")
 
         cli.add_argument("-A", "--full-analysis", action="store_true", help="Perform [A]ll analysis, equivalent to -FSCRJIT")
         cli.add_argument("-F", "--filter-out", action="store_true", help="[F]ilter out configured threads from the jstack")
         cli.add_argument("-S", "--search-tokens", action="store_true", help="[S]earch for configured tokens in the jstack")
         cli.add_argument("-C", "--classify-threads", action="store_true", help="[C]lassify threads based on configured regexes")
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
-        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, in descending order of CPU time, using [J]stack's 'cpu=' field, [supported only in jdk11 systems]")
-        cli.add_argument("-I", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, using top utility")
+        cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, calculated using [J]stacks, [supported in jdk11+]")
+        cli.add_argument("-I", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU [I]ntensive threads, calculated using top utility")
         cli.add_argument("-T", "--thread-state-frequency-table", action="store_true", help="Output [T]hread state frequency table for all jstacks")
 
         args = cli.parse_args()
