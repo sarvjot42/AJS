@@ -49,7 +49,7 @@ class Config:
 
     @staticmethod
     def generate_session_id():
-        session_name = raw_input("Name your debugging session: ")
+        session_name = input("Name your debugging session: ")
         time_stamp = datetime.datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
         session_id = session_name + "_" + time_stamp
         return session_id

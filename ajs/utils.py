@@ -2,22 +2,15 @@ import re
 import os
 import time
 import signal
-import logging
-import warnings
 import traceback
 import subprocess
 from sys import platform
 from datetime import datetime
 from resource import getrusage, RUSAGE_SELF
-from schema import Config
-
-# send logs to a particular file and ignore Python2 warnings
-# do this before importing the problem-causing libraries
-logging.basicConfig(filename='.ajs/warnings.log', level=logging.WARNING)
-warnings.filterwarnings("ignore", message=".*Python 2 is no longer supported by the Python core team.*")
-
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
+
+from schema import Config
 
 class Utils:
     @staticmethod
