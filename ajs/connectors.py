@@ -12,11 +12,23 @@ class Connectors:
     def parse_jstack_file(config, jstack_file_path):
         jstack_index = 0
         jstack_last_line_regex = r"(?m)(JNI global ref.*$)"
-        buffered_jstacks = Utils.file_buffer_reader(jstack_file_path, jstack_last_line_regex)
 
-        for jstack in buffered_jstacks:
-            Connectors.output_jstack(config, jstack_index, jstack, "unknown_process_id")
-            jstack_index += 1
+        buffer = bytearray()
+
+        with open(jstack_file_path, "rb") as file:
+            while True:
+                line = file.readline()
+
+                if not line:
+                    break
+
+                buffer.extend(line)
+
+                if re.search(jstack_last_line_regex, line.decode("utf-8")):
+                    Connectors.output_jstack(config, jstack_index, buffer.decode("utf-8"), "unknown_process_id")
+
+                    jstack_index += 1
+                    buffer = bytearray()
 
         num_jstacks = jstack_index
         return num_jstacks

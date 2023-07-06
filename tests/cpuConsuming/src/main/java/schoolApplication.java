@@ -11,7 +11,7 @@ public class schoolApplication {
     static String dbHost = "localhost";
     static int dbPort = 27017;
     static String dbName = "schoolDB";
-    static String collectionName = "school_without_index";
+    static String collectionName = "school_with_index";
 
     public static MongoDatabase getDatabase() {
         MongoClient mongo = new MongoClient(dbHost, dbPort);

@@ -1,4 +1,3 @@
-import re
 import os
 import time
 import signal
@@ -134,30 +133,6 @@ class Utils:
             exit("\nReceived SIGINT, exiting")
 
         signal.signal(signal.SIGINT, handle_interrupt)
-
-    @staticmethod
-    def file_buffer_reader(file_path, separator_regex):
-        buffer = ""
-        one_mb = 1024 * 1024
-
-        with open(file_path) as file:
-            while True:
-                data_chunk = file.read(one_mb)
-                buffer += data_chunk
-
-                matches = re.finditer(separator_regex, buffer)
-                prev_index = -1
-
-                for match in matches:
-                    index = match.end()
-                    read_data = buffer[prev_index + 1:index + 1]
-                    prev_index = index
-                    yield read_data
-
-                buffer = buffer[prev_index + 1:]
-
-                if not data_chunk:
-                    break
 
     @staticmethod
     def upload_to_azure(db, blob_name, container_name, upload_file_path):
