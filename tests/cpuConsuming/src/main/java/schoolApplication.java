@@ -58,8 +58,8 @@ public class schoolApplication {
 
         // 10000 queries, 10000 documents ->
 
-//          IndexOptions indexOptions = new IndexOptions();
-//          school.createIndex(new Document("marks", 1), indexOptions);
+          IndexOptions indexOptions = new IndexOptions();
+          school.createIndex(new Document("marks", 1), indexOptions);
 
         Thread dbQueryThread = new Thread(() -> {
             for (int i = 0; i < 10000; i++) {
@@ -83,13 +83,13 @@ public class schoolApplication {
             }
         });
 
-//        for(int i = 0; i < 10000; i++){
-//            school.insertOne(giveRandomStudent());
-//        }
+        for(int i = 0; i < 10000; i++){
+            school.insertOne(giveRandomStudent());
+        }
 
-        dbQueryThread.start();
-        giveFeedbackTillQuery.start();
-        dbQueryThread.join();
+//        dbQueryThread.start();
+//        giveFeedbackTillQuery.start();
+//        dbQueryThread.join();
 
         stopwatch.stop();
         System.out.println(stopwatch.getTime());

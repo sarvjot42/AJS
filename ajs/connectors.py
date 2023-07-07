@@ -144,7 +144,12 @@ class Connectors:
         for thread in threads:
             if thread.nid not in db.threads:
                 db.threads[thread.nid] = []
-            db.threads[thread.nid].append(thread)
+
+            # store only first and last occurence of a thread
+            if len(db.threads[thread.nid]) < 2:
+                db.threads[thread.nid].append(thread)
+            else:
+                db.threads[thread.nid][1] = thread
 
             thread_state = thread.thread_state
             if thread_state == "unknown_state":
@@ -202,13 +207,14 @@ class Connectors:
     def output_cpu_consuming_threads_jstack(config, db, cpu_wise_sorted_thread_indexes, cpu_field_not_present, time_between_jstacks):
         cpu_consuming_threads_header = "CPU CONSUMING THREADS (JSTACK)"
         cpu_consuming_threads_header = Utils.borderify_text(db, cpu_consuming_threads_header, 1) + "\n\n"
-        cpu_consuming_threads_header += "TOTAL TIME BETWEEN JSTACKS " + str(time_between_jstacks.total_seconds()) + "s\n\n"
 
         cpu_consuming_threads_text = ""
 
         if cpu_field_not_present is True:
             cpu_consuming_threads_text += "'cpu' field not present in JStack\n\n"
         else:
+            cpu_consuming_threads_header += "TOTAL TIME BETWEEN JSTACKS " + str(time_between_jstacks.total_seconds()) + "s\n\n"
+
             for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
                 nid = cpu_wise_sorted_thread_index["nid"]
                 time = cpu_wise_sorted_thread_index["time"]
@@ -224,8 +230,10 @@ class Connectors:
                 cpu_consuming_threads_text += "Last Occurrence:\n"
                 cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
 
-        if cpu_consuming_threads_text != "":
-            Utils.append_to_file(config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
+        if cpu_consuming_threads_text == "":
+            cpu_consuming_threads_text = "No CPU consuming threads found\n\n"
+        
+        Utils.append_to_file(config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
 
     @staticmethod
     def output_cpu_consuming_threads_top(config, db):
@@ -259,8 +267,10 @@ class Connectors:
         else:
             cpu_consuming_threads_text += "System not compatible with top\n\n"
 
-        if cpu_consuming_threads_text != "":
-            Utils.append_to_file(config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
+        if cpu_consuming_threads_text == "":
+            cpu_consuming_threads_text += "No CPU consuming threads found\n\n"
+        
+        Utils.append_to_file(config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
 
     @staticmethod
     def output_jstacks_in_one_file(config, db, num_jstacks):
