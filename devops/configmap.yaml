@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cpu-consuming-config
+data:
+  MONGODB_HOST: mongodb-service 
+  DB: schoolWithIndex

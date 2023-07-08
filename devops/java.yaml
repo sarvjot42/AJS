@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    metadata:
+      labels:
+        app: java-app
+    spec:
+      containers:
+      - name: java-app 
+        image: sarvjot/cpu-consuming:v2
+        env:
+        - name: MONGODB_HOST 
+          valueFrom: 
+            configMapKeyRef:
+              name: cpu-consuming-config
+              key: MONGODB_HOST
+        - name: DB
+          valueFrom: 
+            configMapKeyRef:
+              name: cpu-consuming-config
+              key: DB 
