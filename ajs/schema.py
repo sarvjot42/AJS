@@ -10,6 +10,7 @@ class Config:
         args = Config.setup_cli()
 
         self.session_id = Config.generate_session_id(args.session_name)
+        self.jstack_folder_path = ".ajs/jstacks/"
         self.analysis_file_path = ".ajs/analysis.txt"
         self.jstacks_file_path = ".ajs/jstacks.txt"
 
@@ -23,8 +24,11 @@ class Config:
         cli.add_argument("session_name", type=str, help="Name of the debugging session")
         cli.add_argument("-b", "--benchmark", action="store_true", help="Run in [b]enchmark mode")
         cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
-        cli.add_argument("-n", "--num-jstacks", type=int, metavar="", default=3, help="[n]umber of JStacks, default is 3 [applicable when -f is not used]")
         cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=10000, help="[d]elay between two JStacks in ms, default is 10000 [applicable when -f is not used]")
+        cli.add_argument("-n", "--namespace", type=str, metavar="", help="[n]amespace of the pod [applicable when -f is not used]")
+        cli.add_argument("-p", "--pod_name", type=str, metavar="", help="[p]od name [applicable when -f is not used]")
+        cli.add_argument("-c", "--container_name", type=str, metavar="", help="[c]ontainer name [applicable when -f is not used]")
+        cli.add_argument("-N", "--num-jstacks", type=int, metavar="", default=3, help="[n]umber of JStacks, default is 3 [applicable when -f is not used]")
 
         cli.add_argument("-A", "--full-analysis", action="store_true", help="Perform [A]ll analysis, equivalent to -IOSCRJTF")
         cli.add_argument("-I", "--include-only", action="store_true", help="Only [I]nclude configured threads")
@@ -64,7 +68,7 @@ class Config:
         try:
             Config.setup_token_config(config, args, config_file)
             Config.setup_filter_config(config, args, config_file)
-            Config.setup_file_input_config(config, args, config_file)
+            Config.setup_input_config(config, args, config_file)
             Config.setup_classification_config(config, args, config_file)
 
             config.thread_state_frequency_table = args.thread_state_frequency_table
@@ -108,15 +112,19 @@ class Config:
             config.filter_out = None
 
     @staticmethod
-    def setup_file_input_config(config, args, config_file):
-        if args.file_input is not None:
-            config.file_input = True
+    def setup_input_config(config, args, config_file):
+        config.file_input = args.file_input
+
+        if args.file_input is True:
             config.top_file_path = str(config_file["top_file_path"]) if "top_file_path" in config_file else None
             config.jstack_file_path = str(config_file["jstack_file_path"]) if "jstack_file_path" in config_file else None
         else:
-            config.file_input = False
-            config.top_file_path = None
-            config.jstack_file_path = None
+            if args.namespace is None or args.pod_name is None or args.container_name is None:
+                exit("\nPlease provide namespace, pod name and container name when 'not' using file input")
+
+            config.namespace = args.namespace
+            config.pod_name = args.pod_name
+            config.container_name = args.container_name
             config.num_jstacks = args.num_jstacks
             config.delay_bw_jstacks = args.delay_bw_jstacks
 

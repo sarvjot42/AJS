@@ -45,7 +45,7 @@ class Database {
 
 class DBQueryRunnable implements Runnable {
     public void run(){
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 5000; i++) {
             int marks = (int) (Math.random() * 100);
             int count = Database.findCountOfStudentsWithMarks(marks);
 
@@ -54,50 +54,88 @@ class DBQueryRunnable implements Runnable {
             }
         }
 
-        for(int i = 5; i <= 100; i++){
-            Database.takeAwayMarks(i);
+        for (int i = 0; i < 5000; i++) {
+            int marks = (int) (Math.random() * 100);
+            int count = Database.findCountOfStudentsWithMarks(marks);
+
+            if (count > 0 && marks >= 5) {
+                Database.takeAwayMarks(marks);
+            }
         }
     }
 }
 
 class TeacherStatusRunnable implements Runnable{
     private String teacher;
-    Thread teacherStatusThread;
+    Thread dbQueryThread;
 
-    TeacherStatusRunnable(String teacher, Thread teacherStatusThread){
+    TeacherStatusRunnable(String teacher, Thread dbQueryThread){
         this.teacher = teacher;
-        this.teacherStatusThread = teacherStatusThread;
+        this.dbQueryThread = dbQueryThread;
     }
     public void run(){
-        while(teacherStatusThread.isAlive()){
+        while(dbQueryThread.isAlive()){
             System.out.println("Processing " + teacher + "'s request");
         }
     }
 }
 
 public class EmulateTeachers{
-    static void emulateQueueOfTeachers() throws InterruptedException {
-        while(true) {
-            teacherQuery(new Faker().name().fullName());
-            Thread.sleep(10000);
+    static void checkConection(){
+        System.out.println("Environment variables:");
+        System.out.println("MONGODB_HOST: " + Database.dotenv.get("MONGODB_HOST"));
+        System.out.println("DB: " + Database.dotenv.get("DB"));
+        System.out.println("Number of documents in school collection: " + Database.school.count());
+    }
+
+    static void populateDB(){
+        String db = Database.dotenv.get("DB");
+
+        if (db.equals("schoolWithIndex")) {
+            populateIndexedDB();
+        } else if (db.equals("schoolWithoutIndex")) {
+            populateNonIndexedDB();
+        } else {
+            System.out.println("Invalid DB name");
         }
     }
 
-    static public void teacherQuery(String teacher){
+    static void populateIndexedDB(){
+        IndexOptions indexOptions = new IndexOptions();
+        Database.school.createIndex(new Document("marks", 1), indexOptions);
+
+        for(int i = 0; i < 10000; i++){
+            Database.school.insertOne(Database.giveRandomStudent());
+        }
+    }
+
+    static void populateNonIndexedDB(){
+        for(int i = 0; i < 10000; i++){
+            Database.school.insertOne(Database.giveRandomStudent());
+        }
+    }
+
+    static void emulateQueueOfTeachers() throws InterruptedException {
+        while(true) {
+            teacherQuery(new Faker().name().fullName());
+            Thread.sleep(60000);
+        }
+    }
+
+    static public void teacherQuery(String teacher) throws InterruptedException {
         Thread dbQueryThread = new Thread(new DBQueryRunnable());
         Thread teacherStatusThread = new Thread(new TeacherStatusRunnable(teacher, dbQueryThread));
 
         dbQueryThread.start();
         teacherStatusThread.start();
+//        dbQueryThread.join();
+//        System.out.println("Finished processing " + teacher + "'s request");
+//        System.out.println("Current Time in human readable format: " + new java.util.Date());
     }
 
     public static void main(String args[]) throws InterruptedException {
+//        checkConection();
+//        populateDB();
         emulateQueueOfTeachers();
-//        IndexOptions indexOptions = new IndexOptions();
-//        Database.school.createIndex(new Document("marks", 1), indexOptions);
-
-//        for(int i = 0; i < 10000; i++){
-//            Database.school.insertOne(Database.giveRandomStudent());
-//        }
     }
 }

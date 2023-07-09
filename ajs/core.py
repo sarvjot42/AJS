@@ -47,11 +47,11 @@ class Core:
         num_jstacks = config.num_jstacks
         delay_bw_jstacks = config.delay_bw_jstacks
 
-        Connectors.get_java_processes(db)
+        Connectors.get_java_processes(config, db)
 
         for jstack_index in range(num_jstacks):
             for process_id in db.process_id_vs_name:
-                jstack = Connectors.get_jstack_of_java_process(process_id)
+                jstack = Connectors.get_jstack_of_java_process(config, process_id)
                 Connectors.output_jstack(config, jstack_index, jstack, process_id)
 
             if jstack_index != num_jstacks - 1:
@@ -63,7 +63,19 @@ class Core:
         if config.cpu_consuming_threads_top is False:
             return
 
-        command_list = ["top", "-H", "-b", "-n", "1"]
+        num_top = 2
+        delay_bw_tops = config.delay_bw_jstacks * (config.num_jstacks - 1) / 1000
+
+        command_list = [
+            "kubectl", "exec", "-it", 
+            '-n', config.namespace, config.pod_name, 
+            "-c", config.container_name, 
+            "--", 
+            "top", "-H", "-b", 
+            "-n", str(num_top), 
+            "-d", str(delay_bw_tops)
+        ]
+
         for process_id in db.process_id_vs_name: 
             command_list.append("-p")
             command_list.append(process_id)

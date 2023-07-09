@@ -9,7 +9,7 @@ def main():
     db = Database(config)
 
     Utils.setup_interrupt()
-    Connectors.reset_output_files(config)
+    Connectors.clear_existing_files(config)
 
     num_jstacks = 0
 
@@ -23,10 +23,12 @@ def main():
 
     for jstack_index in range(num_jstacks):
         Core.analyse_jstacks(config, db, jstack_index)
+    
 
     Core.compare_jstacks(config, db, num_jstacks)
     Connectors.prepend_contents(config, db)
     # Connectors.upload_output_files(config, db)
+    Connectors.clear_auxilliary_folder(config)
 
     return db.files_deployed_to_azure
 

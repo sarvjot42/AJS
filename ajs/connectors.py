@@ -4,9 +4,13 @@ from prettytable import PrettyTable
 
 class Connectors:
     @staticmethod
-    def reset_output_files(config):
+    def clear_existing_files(config):
         Utils.remove_if_there(config.analysis_file_path)
         Utils.remove_if_there(config.jstacks_file_path)
+
+    @staticmethod
+    def clear_auxilliary_folder(config):
+        Utils.remove_if_there(config.jstack_folder_path)
 
     @staticmethod
     def parse_jstack_file(config, jstack_file_path):
@@ -49,23 +53,36 @@ class Connectors:
             exit("Given top file is not in the correct format")
 
     @staticmethod
-    def get_java_processes(db):
-        output = Utils.subprocess_call(["ps", "-ef"])["output"]
-        lines = output.split(b"\n")
+    def get_java_processes(config, db):
+        output = Utils.subprocess_call([
+            "kubectl", "exec", "-it", 
+            '-n', config.namespace, config.pod_name, 
+            "-c", config.container_name, 
+            "--", 
+             "ps", "-ef"
+        ])
+
+        output = output["output"]
+        lines = output.split("\n")
 
         for line in lines:
-            if b"java" in line:
+            if "java" in line:
                 cols = line.split()
-                process_id = cols[0]
-                process_name = ""
-                for i in range(3, len(cols)):
-                    process_name = process_name + cols[i].decode("utf-8") + " "
+                process_id = cols[1]
+                process_name = cols[7]
                 db.add_process(process_id, process_name)
 
     @staticmethod
-    def get_jstack_of_java_process(process_id):
-        jstack = Utils.subprocess_call(["jstack", str(process_id)])["output"]
-        return jstack 
+    def get_jstack_of_java_process(config, process_id):
+        jstack = Utils.subprocess_call([
+            "kubectl", "exec", "-it", 
+            '-n', config.namespace, config.pod_name, 
+            "-c", config.container_name, 
+            "--", 
+             "jstack", str(process_id)
+        ])["output"]
+
+        return jstack
 
     @staticmethod
     def output_jstack(config, jstack_index, jstack, process_id):
@@ -74,7 +91,7 @@ class Connectors:
 
     @staticmethod
     def get_jstack_file_path(config, jstack_index, process_id):
-        jstack_output_path = ".ajs/jstacks/" + config.session_id
+        jstack_output_path = config.jstack_folder_path + config.session_id
         jstack_file_path = jstack_output_path + "/Cycle-" + str(jstack_index) + "/" + process_id + ".txt"
         return jstack_file_path
 

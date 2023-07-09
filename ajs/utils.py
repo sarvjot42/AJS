@@ -125,7 +125,7 @@ class Utils:
         result = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, err = result.communicate()
 
-        return { "output": output.strip(), "err": err }
+        return { "output": output.strip().decode("utf-8"), "err": err.decode("utf-8") }
 
     @staticmethod
     def setup_interrupt():
