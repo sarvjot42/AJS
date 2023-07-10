@@ -1,9 +1,7 @@
 {
-  "search_tokens": [
-    {
-      "text": "Finalizer",
-      "output_all_matches": true 
-    }
+  "include_only": [
+    { "regex": "mongo" },
+    { "regex": "RUNNABLE" }
   ],
   "filter_out": [
     { "regex": "cluster-ClusterId"},
@@ -12,6 +10,12 @@
     { "regex": "broadcastRedisContainer" },
     { "regex": "cluster-rtt-ClusterId" },
     { "regex": "CompilerThread0" }
+  ],
+  "search_tokens": [
+    {
+      "text": "Finalizer",
+      "output_all_matches": true 
+    }
   ],
   "classification_groups": [
     [
@@ -25,6 +29,16 @@
       { "regex": ".*elasticsearch.*", "tag": "Elasticsearch" }
     ]
   ],
+
   "top_file_path": "/Users/sarvjot.singh/AJS/sample_data/top.txt",
-  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/jstack.txt"
+  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/jstack.txt",
+
+  "namespace": "default",
+  "pod_name": "java-deployment-66c74f6dbd-vjzhq",
+  "container_name": "java-app",
+  "num_of_jstacks": 5,
+  "delay_bw_jstacks": 1,
+
+  "thread_cpu_threshold_limit": 5,
+  "limit_syscalls": true
 }

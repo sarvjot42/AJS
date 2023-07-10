@@ -33,6 +33,7 @@ def main():
         Core.analyse_jstacks(config, db, jstack_index)
 
     Core.compare_jstacks(config, db, num_jstacks)
+    Connectors.output_jstacks_in_one_file(config, db, num_jstacks)
     Connectors.prepend_contents(db)
     # Connectors.upload_output_files(config, db)
     Connectors.clear_auxilliary_folder(config)

@@ -24,11 +24,6 @@ class Config:
         cli.add_argument("session_name", type=str, help="Name of the debugging session")
         cli.add_argument("-b", "--benchmark", action="store_true", help="Run in [b]enchmark mode")
         cli.add_argument("-f", "--file-input", action="store_true", help="Use configured JStack and Top [f]iles as input")
-        cli.add_argument("-d", "--delay-bw-jstacks", type=int, metavar="", default=10000, help="[d]elay between two JStacks in ms, default is 10000 [applicable when -f is not used]")
-        cli.add_argument("-n", "--namespace", type=str, metavar="", help="[n]amespace of the pod [applicable when -f is not used]")
-        cli.add_argument("-p", "--pod_name", type=str, metavar="", help="[p]od name [applicable when -f is not used]")
-        cli.add_argument("-c", "--container_name", type=str, metavar="", help="[c]ontainer name [applicable when -f is not used]")
-        cli.add_argument("-N", "--num-jstacks", type=int, metavar="", default=3, help="[n]umber of JStacks, default is 3 [applicable when -f is not used]")
 
         cli.add_argument("-A", "--full-analysis", action="store_true", help="Perform [A]ll analysis, equivalent to -IOSCRJTF")
         cli.add_argument("-I", "--include-only", action="store_true", help="Only [I]nclude configured threads")
@@ -66,10 +61,12 @@ class Config:
             config_file = json.load(file)
 
         try:
-            Config.setup_token_config(config, args, config_file)
             Config.setup_filter_config(config, args, config_file)
-            Config.setup_input_config(config, args, config_file)
+            Config.setup_token_config(config, args, config_file)
             Config.setup_classification_config(config, args, config_file)
+            Config.setup_input_config(config, args, config_file)
+
+            config.thread_cpu_threshold_limit = config_file["thread_cpu_threshold_limit"] if "thread_cpu_threshold_limit" in config_file else 0.0
 
             config.thread_state_frequency_table = args.thread_state_frequency_table
             config.cpu_consuming_threads_jstack = args.cpu_consuming_threads_jstack
@@ -80,18 +77,6 @@ class Config:
 
         except KeyError as e:
             exit("\nKey " + str(e) + " not found in config file, please refer to the sample config file")
-
-    @staticmethod
-    def setup_token_config(config, args, config_file):
-        if args.search_tokens is True:
-            tokens = []
-            for token in config_file["search_tokens"]:
-                token_text = str(token["text"])
-                output_all_matches = token["output_all_matches"]
-                tokens.append({"text": token_text, "output_all_matches": output_all_matches})
-            config.tokens = tokens
-        else:
-            config.tokens = None
 
     @staticmethod
     def setup_filter_config(config, args, config_file):
@@ -112,21 +97,16 @@ class Config:
             config.filter_out = None
 
     @staticmethod
-    def setup_input_config(config, args, config_file):
-        config.file_input = args.file_input
-
-        if args.file_input is True:
-            config.top_file_path = str(config_file["top_file_path"]) if "top_file_path" in config_file else None
-            config.jstack_file_path = str(config_file["jstack_file_path"]) if "jstack_file_path" in config_file else None
+    def setup_token_config(config, args, config_file):
+        if args.search_tokens is True:
+            tokens = []
+            for token in config_file["search_tokens"]:
+                token_text = str(token["text"])
+                output_all_matches = token["output_all_matches"]
+                tokens.append({"text": token_text, "output_all_matches": output_all_matches})
+            config.tokens = tokens
         else:
-            if args.namespace is None or args.pod_name is None or args.container_name is None:
-                exit("\nPlease provide namespace, pod name and container name when 'not' using file input")
-
-            config.namespace = args.namespace
-            config.pod_name = args.pod_name
-            config.container_name = args.container_name
-            config.num_jstacks = args.num_jstacks
-            config.delay_bw_jstacks = args.delay_bw_jstacks
+            config.tokens = None
 
     @staticmethod
     def setup_classification_config(config, args, config_file):
@@ -145,14 +125,29 @@ class Config:
         else:
             config.classification_groups = None
 
+    @staticmethod
+    def setup_input_config(config, args, config_file):
+        config.file_input = args.file_input
+
+        if args.file_input is True:
+            config.top_file_path = str(config_file["top_file_path"])
+            config.jstack_file_path = str(config_file["jstack_file_path"])
+        else:
+            config.namespace = str(config_file["namespace"])
+            config.pod_name = str(config_file["pod_name"])
+            config.container_name = str(config_file["container_name"])
+            config.num_jstacks = int(config_file["num_jstacks"]) if "num_jstacks" in config_file else 3 
+            config.delay_bw_jstacks = int(config_file["delay_bw_jstacks"]) if "delay_bw_jstacks" in config_file else 10000 
+
 class Database:
     def __init__(self, config):
         self.threads = {}
+        self.pod_cpu_time = 0
+        self.file_contents = []
         self.token_frequency = {}
         self.process_id_vs_name = {}
         self.jstack_time_stamps = []
         self.state_frequency_dicts = [] 
-        self.analysis_file_contents = []
         self.files_deployed_to_azure = []
         self.top_cpu_consuming_threads = []
         self.system_compatible_with_top = True 

@@ -233,8 +233,6 @@ class Core:
         Core.cpu_consuming_threads_jstack(config, db)
         Core.cpu_consuming_threads_top(config, db)
 
-        Connectors.output_jstacks_in_one_file(config, db, num_jstacks)
-
     @staticmethod
     def thread_state_frequency(config, db):
         if config.thread_state_frequency_table is False:
@@ -250,7 +248,7 @@ class Core:
         first_jstack_time_stamp = db.jstack_time_stamps[0]
         last_jstack_time_stamp = db.jstack_time_stamps[-1]
 
-        time_between_jstacks = Utils.diff_between_time_stamps(first_jstack_time_stamp, last_jstack_time_stamp)
+        time_between_jstacks = Utils.diff_between_time_stamps(first_jstack_time_stamp, last_jstack_time_stamp).total_seconds()
 
         cpu_field_not_present = False
         cpu_wise_sorted_thread_indexes = [] 

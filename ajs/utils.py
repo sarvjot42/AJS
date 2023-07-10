@@ -23,7 +23,7 @@ class Utils:
     @staticmethod
     def borderify_text(db, text, current_layer, output_file, max_layer=-1, sep='*'):
         if current_layer == 0:
-            db.analysis_file_contents.append([text, max_layer, output_file])
+            db.file_contents.append([text, max_layer, output_file])
             text = text.center(80, sep)
             return text
 

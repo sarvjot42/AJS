@@ -230,12 +230,16 @@ class Connectors:
         if cpu_field_not_present is True:
             cpu_consuming_threads_text += "'cpu' field not present in JStack\n\n"
         else:
-            cpu_consuming_threads_header += "TOTAL TIME BETWEEN JSTACKS " + str(time_between_jstacks.total_seconds()) + "s\n\n"
+            cpu_consuming_threads_header += "TOTAL TIME BETWEEN JSTACKS " + str(time_between_jstacks) + "s\n\n"
 
             for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
-                nid = cpu_wise_sorted_thread_index["nid"]
                 time = cpu_wise_sorted_thread_index["time"]
+
+                if time / time_between_jstacks * 100 <= config.thread_cpu_threshold_limit:
+                    break
+
                 time_in_seconds = "{:.2f}s".format(time / 1000)
+                nid = cpu_wise_sorted_thread_index["nid"]
                 db_thread = db.threads[nid]
 
                 first_thread_instance = db_thread[0]
@@ -264,7 +268,7 @@ class Connectors:
                 nid = thread["nid"]
                 cpu_usage = thread["cpu_usage"]
 
-                if nid not in db.threads:
+                if nid not in db.threads or float(cpu_usage) <= config.thread_cpu_threshold_limit:
                     continue
 
                 db_thread = db.threads[nid]
@@ -290,6 +294,7 @@ class Connectors:
         Utils.append_to_file(config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
 
     @staticmethod
+    @Utils.benchmark_time("output jstacks in one file")
     def output_jstacks_in_one_file(config, db, num_jstacks):
         output_jstack_text = ""
         for jstack_index in range(num_jstacks):
@@ -306,7 +311,7 @@ class Connectors:
     def prepend_contents(db):
         file_contents_dict = {}
 
-        for content in db.analysis_file_contents:
+        for content in db.file_contents:
             file = content[2]
             if file not in file_contents_dict:
                 file_contents_dict[file] = []
