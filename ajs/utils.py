@@ -21,15 +21,14 @@ class Utils:
         return time_difference
 
     @staticmethod
-    def borderify_text(db, text, current_layer, store_contents=True, max_layer=-1, sep='*'):
+    def borderify_text(db, text, current_layer, output_file, max_layer=-1, sep='*'):
         if current_layer == 0:
-            if store_contents is True:
-                db.analysis_file_contents.append([text, max_layer])
+            db.analysis_file_contents.append([text, max_layer, output_file])
             text = text.center(80, sep)
             return text
 
         max_layer = max(max_layer, current_layer)
-        inner_text = Utils.borderify_text(db, text, current_layer - 1, store_contents, max_layer, sep)
+        inner_text = Utils.borderify_text(db, text, current_layer - 1, output_file, max_layer, sep)
 
         lines = inner_text.split("\n")
         column_width = len(lines[0]) + 2

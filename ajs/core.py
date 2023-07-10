@@ -172,7 +172,7 @@ class Core:
         tokens = config.tokens
 
         matching_threads = "MATCHING THREADS"
-        matching_threads = Utils.borderify_text(db, matching_threads, 1) + "\n\n"
+        matching_threads = Utils.borderify_text(db, matching_threads, 1, config.analysis_file_path) + "\n\n"
         for thread in threads:
             for token in tokens:
                 token_text = token["text"]

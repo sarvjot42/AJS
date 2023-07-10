@@ -31,16 +31,17 @@ def main():
 
     for jstack_index in range(num_jstacks):
         Core.analyse_jstacks(config, db, jstack_index)
-    
 
     Core.compare_jstacks(config, db, num_jstacks)
-    Connectors.prepend_contents(config, db)
+    Connectors.prepend_contents(db)
     # Connectors.upload_output_files(config, db)
     Connectors.clear_auxilliary_folder(config)
 
     return db.files_deployed_to_azure
 
 if __name__ == "__main__":
+    print("Starting script execution...")
+
     azure_files = main()
 
     Utils.benchmark_cpu()
