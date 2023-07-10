@@ -156,6 +156,7 @@ class Database:
     state_frequency_dicts = [] 
     files_deployed_to_azure = []
     top_cpu_consuming_threads = []
+    system_calls_total_cpu_time = 0
     system_compatible_with_top = True 
 
     @staticmethod

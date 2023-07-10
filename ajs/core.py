@@ -72,9 +72,8 @@ class Core:
             '-n', Config.namespace, Config.pod_name, 
             "-c", Config.container_name, 
             "--", 
-            "top", "-H", "-b", 
-            "-n", str(num_top), 
-            "-d", str(delay_bw_tops)
+            "bash", "-c",
+            "time top -H -b -n " + str(num_top) + " -d " + str(delay_bw_tops)
         ]
 
         for process_id in Database.process_id_vs_name: 

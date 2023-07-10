@@ -11,6 +11,8 @@ def main():
     Utils.setup_interrupt()
     Connectors.clear_existing_files()
 
+    print("Starting script execution...")
+
     num_jstacks = 0
 
     if Config.file_input is True:
@@ -40,16 +42,13 @@ def main():
     return Database.files_deployed_to_azure
 
 if __name__ == "__main__":
-    print("Starting script execution...\n")
-
     azure_files = main()
 
     Utils.benchmark_cpu()
     Utils.benchmark_memory()
+    Utils.benchmark_pod_cpu()
 
     if len(azure_files) > 0:
         print("\nOutput files deployed to Azure:")
     for file in azure_files:
         print(file)
-
-    print("\nScript execution completed.")

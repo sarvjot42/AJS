@@ -60,7 +60,8 @@ class Connectors:
             '-n', Config.namespace, Config.pod_name, 
             "-c", Config.container_name, 
             "--", 
-             "ps", "-ef"
+            "bash", "-c",
+            "time ps -ef"
         ])
 
         output = output["output"]
@@ -80,7 +81,8 @@ class Connectors:
             '-n', Config.namespace, Config.pod_name, 
             "-c", Config.container_name, 
             "--", 
-             "jstack", str(process_id)
+            "bash", "-c",
+            "time jstack " + str(process_id)
         ])["output"]
 
         return jstack

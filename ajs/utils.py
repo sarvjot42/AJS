@@ -52,7 +52,7 @@ class Utils:
                 time_taken = "{:.3f}".format(end - start)
 
                 if Config.do_benchmark is True:
-                    print("TIME BENCHMARKING:\t" + time_taken + "s '" + label + "'")
+                    print("SCRIPT BENCHMARKING:\t" + time_taken + "s '" + label + "'")
                 return result
             return wrapper
         return decorator_function
@@ -71,7 +71,7 @@ class Utils:
             max_memory_usage_mb = rusage.ru_maxrss / 1024 
 
         max_memory_usage_mb = "{:.3f}".format(max_memory_usage_mb)
-        print("MEMORY BENCHMARKING:\t" + str(max_memory_usage_mb) + "MB 'max memory usage'")
+        print("SCRIPT BENCHMARKING:\t" + str(max_memory_usage_mb) + "MB 'max memory usage'")
 
     @staticmethod
     def benchmark_cpu():
@@ -82,7 +82,15 @@ class Utils:
         cpu_time = rusage.ru_utime + rusage.ru_stime
 
         cpu_time = "{:.3f}".format(cpu_time)
-        print("CPU BENCHMARKING:\t" + str(cpu_time) + "s '[user + system] cpu time'")
+        print("SCRIPT BENCHMARKING:\t" + str(cpu_time) + "s '[user + system] cpu time'")
+
+    @staticmethod
+    def benchmark_pod_cpu():
+        if Config.do_benchmark is False or Config.file_input is True:
+            return
+
+        pod_cpu_time = "{:.3f}".format(Database.system_calls_total_cpu_time)
+        print("POD BENACHMARKING:\t" + str(pod_cpu_time) + "s '[user + system] cpu time'")
 
     @staticmethod
     def convert_number_to_alphabet(number):
@@ -120,16 +128,38 @@ class Utils:
             f.write(data + content)
 
     @staticmethod
+    def parse_time_from_row(row):
+        row = row.replace("s", " ").replace("m", " ")
+        time_min = float(row.split(" ")[0])
+        time_sec = float(row.split(" ")[1])
+        return time_min * 60 + time_sec
+
+    @staticmethod
     def subprocess_call(command_list):
         result = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, err = result.communicate()
 
-        return { "output": output.strip().decode("utf-8"), "err": err.decode("utf-8") }
+        output = output.decode("utf-8")
+        err = err.decode("utf-8")
+
+        output = output.strip().replace("\r", "")
+        time_output = output.split("\n\n")[-1]
+        output = output.replace(time_output, "")
+
+        sys_time = time_output.split("\n")[-1].split("\t")[-1]
+        sys_time = Utils.parse_time_from_row(sys_time)
+
+        user_time = time_output.split("\n")[-2].split("\t")[-1]
+        user_time = Utils.parse_time_from_row(user_time)
+
+        Database.system_calls_total_cpu_time += sys_time + user_time
+
+        return { "output": output, "err": err }
 
     @staticmethod
     def setup_interrupt():
         def handle_interrupt(signal, thread):
-            exit("\nReceived SIGINT, exiting")
+            exit("\nReceived SIGINT, exiting\n")
 
         signal.signal(signal.SIGINT, handle_interrupt)
 
