@@ -231,6 +231,7 @@ class Core:
         Core.thread_state_frequency()
         Core.cpu_consuming_threads_jstack()
         Core.cpu_consuming_threads_top()
+        Core.most_blocked_threads()
 
     @staticmethod
     def thread_state_frequency():
@@ -278,3 +279,34 @@ class Core:
             return
 
         Connectors.output_cpu_consuming_threads_top()
+
+    @staticmethod
+    def most_blocked_threads():
+        if Config.most_blocked_threads is False:
+            return
+
+        elapsed_field_not_present = False
+        time_wise_sorted_blocked_thread_indexes = []
+        
+        for thread_nid in Database.threads:
+            threads_with_thread_nid = Database.threads[thread_nid]
+
+            if len(threads_with_thread_nid) == 1:
+                continue
+
+            first_thread = threads_with_thread_nid[0]
+            last_thread = threads_with_thread_nid[-1]
+
+            if first_thread.thread_state != "BLOCKED" or last_thread.thread_state != "BLOCKED": 
+                continue
+
+            if first_thread.elapsed == -1:
+                elapsed_field_not_present = True
+                break
+
+            time = last_thread.elapsed - first_thread.elapsed
+            time_wise_sorted_blocked_thread_indexes.append({"nid": thread_nid, "time": time})
+
+        time_wise_sorted_blocked_thread_indexes.sort(key=lambda thread: thread["time"], reverse=True)
+
+        Connectors.output_most_blocked_threads_jstack(time_wise_sorted_blocked_thread_indexes, elapsed_field_not_present)

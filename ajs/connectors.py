@@ -297,6 +297,40 @@ class Connectors:
         Utils.append_to_file(Config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
 
     @staticmethod
+    def output_most_blocked_threads_jstack(time_wise_blocked_thread_indexes, elapsed_field_not_present):
+        most_blocked_threads_header = "MOST BLOCKED THREADS"
+        most_blocked_threads_header = Utils.borderify_text(most_blocked_threads_header, 1, Config.analysis_file_path) + "\n\n"
+
+        most_blocked_threads_text = ""
+
+        if elapsed_field_not_present is True:
+            most_blocked_threads_text += "'elapsed' field not present in JStack\n\n"
+        else:
+            for blocked_thread_index in time_wise_blocked_thread_indexes:
+                time = blocked_thread_index["time"]
+
+                if time <= Config.thread_blocked_threshold_limit:
+                    break
+
+                time_in_seconds = "{:.2f}s".format(time)
+                nid = blocked_thread_index["nid"]
+                db_thread = Database.threads[nid]
+
+                first_thread_instance = db_thread[0]
+                last_thread_instance = db_thread[-1]
+
+                most_blocked_threads_text += "Thread NID: {} Blocked for: {}\n".format(first_thread_instance.nid, time_in_seconds)
+                most_blocked_threads_text += "First Occurrence:\n"
+                most_blocked_threads_text += first_thread_instance.text + "\n"
+                most_blocked_threads_text += "Last Occurrence:\n"
+                most_blocked_threads_text += last_thread_instance.text + "\n\n"
+
+        if most_blocked_threads_text == "":
+            most_blocked_threads_text = "No highly blocked threads found\n\n"
+
+        Utils.append_to_file(Config.analysis_file_path, most_blocked_threads_header + most_blocked_threads_text)
+
+    @staticmethod
     @Utils.benchmark_time("output jstacks in one file")
     def output_jstacks_in_one_file(num_jstacks):
         output_jstack_text = ""

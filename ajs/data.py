@@ -32,6 +32,7 @@ class Config:
         cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, calculated using [J]stacks [supported in jdk11+]")
         cli.add_argument("-T", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU Intensive threads, calculated using [T]op utility")
         cli.add_argument("-F", "--thread-state-frequency-table", action="store_true", help="Output thread state [F]requency table for all jstacks")
+        cli.add_argument("-B", "--most-blocked-threads", action="store_true", help="Output most [B]locked threads")
 
         args = cli.parse_args()
 
@@ -44,6 +45,7 @@ class Config:
             args.cpu_consuming_threads_jstack = True
             args.cpu_consuming_threads_top = True
             args.thread_state_frequency_table = True
+            args.most_blocked_threads = True
 
         return args
 
@@ -65,11 +67,13 @@ class Config:
             Config.setup_input_config(args, config_file)
 
             Config.thread_cpu_threshold_limit = config_file["thread_cpu_threshold_limit"] if "thread_cpu_threshold_limit" in config_file else 0.0
+            Config.thread_blocked_threshold_limit = config_file["thread_blocked_threshold_limit"] if "thread_blocked_threshold_limit" in config_file else 0.0
 
             Config.thread_state_frequency_table = args.thread_state_frequency_table
             Config.cpu_consuming_threads_jstack = args.cpu_consuming_threads_jstack
             Config.cpu_consuming_threads_top = args.cpu_consuming_threads_top
             Config.repetitive_stack_trace = args.repetitive_stack_trace
+            Config.most_blocked_threads = args.most_blocked_threads
 
             Config.do_benchmark = args.benchmark
 
