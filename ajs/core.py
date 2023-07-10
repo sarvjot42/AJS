@@ -304,6 +304,12 @@ class Core:
                 elapsed_field_not_present = True
                 break
 
+            first_thread_text = first_thread.text.split("\n", 1)[1]
+            last_thread_text = last_thread.text.split("\n", 1)[1]
+
+            if first_thread_text != last_thread_text:
+                continue
+
             time = last_thread.elapsed - first_thread.elapsed
             time_wise_sorted_blocked_thread_indexes.append({"nid": thread_nid, "time": time})
 
