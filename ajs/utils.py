@@ -9,7 +9,7 @@ from resource import getrusage, RUSAGE_SELF
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 
-from schema import Config
+from data import Config, Database
 
 class Utils:
     @staticmethod
@@ -21,14 +21,14 @@ class Utils:
         return time_difference
 
     @staticmethod
-    def borderify_text(db, text, current_layer, output_file, max_layer=-1, sep='*'):
+    def borderify_text(text, current_layer, output_file, max_layer=-1, sep='*'):
         if current_layer == 0:
-            db.file_contents.append([text, max_layer, output_file])
+            Database.file_contents.append([text, max_layer, output_file])
             text = text.center(80, sep)
             return text
 
         max_layer = max(max_layer, current_layer)
-        inner_text = Utils.borderify_text(db, text, current_layer - 1, output_file, max_layer, sep)
+        inner_text = Utils.borderify_text(text, current_layer - 1, output_file, max_layer, sep)
 
         lines = inner_text.split("\n")
         column_width = len(lines[0]) + 2
@@ -134,7 +134,7 @@ class Utils:
         signal.signal(signal.SIGINT, handle_interrupt)
 
     @staticmethod
-    def upload_to_azure(db, blob_name, container_name, upload_file_path):
+    def upload_to_azure(blob_name, container_name, upload_file_path):
         if os.path.exists(upload_file_path) is False:
             return
 
@@ -149,7 +149,7 @@ class Utils:
                 data = f.read()
                 blob_client.upload_blob(data)
 
-            db.files_deployed_to_azure.append(blob_client.url)
+            Database.files_deployed_to_azure.append(blob_client.url)
 
         except Exception as ex:
             print(traceback.format_exc())

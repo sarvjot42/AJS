@@ -2,26 +2,25 @@ import threading
 from utils import Utils
 from core import Core
 from connectors import Connectors
-from schema import Config, Database
+from data import Config, Database
 
 @Utils.benchmark_time("entire script execution")
 def main():
-    config = Config()
-    db = Database(config)
-
+    Config.init_config()
+    Database.init_database()
     Utils.setup_interrupt()
-    Connectors.clear_existing_files(config)
+    Connectors.clear_existing_files()
 
     num_jstacks = 0
 
-    if config.file_input is True:
-        num_jstacks = Core.handle_jstack_file_input(config, db)
-        Core.handle_top_file_input(config, db)
+    if Config.file_input is True:
+        num_jstacks = Core.handle_jstack_file_input()
+        Core.handle_top_file_input()
     else:
-        num_jstacks = config.num_jstacks
+        num_jstacks = Config.num_jstacks
 
-        thread1 = threading.Thread(target=Core.handle_jstack_generation, args=(config, db))
-        thread2 = threading.Thread(target=Core.handle_top_generation, args=(config, db))
+        thread1 = threading.Thread(target=Core.handle_jstack_generation)
+        thread2 = threading.Thread(target=Core.handle_top_generation)
 
         thread1.start()
         thread2.start()
@@ -30,18 +29,18 @@ def main():
         thread2.join()
 
     for jstack_index in range(num_jstacks):
-        Core.analyse_jstacks(config, db, jstack_index)
+        Core.analyse_jstacks(jstack_index)
 
-    Core.compare_jstacks(config, db, num_jstacks)
-    Connectors.output_jstacks_in_one_file(config, db, num_jstacks)
-    Connectors.prepend_contents(db)
-    # Connectors.upload_output_files(config, db)
-    Connectors.clear_auxilliary_folder(config)
+    Core.compare_jstacks()
+    Connectors.output_jstacks_in_one_file(num_jstacks)
+    Connectors.prepend_contents()
+    # Connectors.upload_output_files()
+    Connectors.clear_auxilliary_folder()
 
-    return db.files_deployed_to_azure
+    return Database.files_deployed_to_azure
 
 if __name__ == "__main__":
-    print("Starting script execution...")
+    print("Starting script execution...\n")
 
     azure_files = main()
 
@@ -52,3 +51,5 @@ if __name__ == "__main__":
         print("\nOutput files deployed to Azure:")
     for file in azure_files:
         print(file)
+
+    print("\nScript execution completed.")

@@ -37,5 +37,5 @@
   "pod_name": "java-deployment-66c74f6dbd-vjzhq",
   "container_name": "java-app",
 
-  "thread_cpu_threshold_limit": 0,
+  "thread_cpu_threshold_limit": 5
 }
