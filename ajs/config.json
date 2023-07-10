@@ -1,12 +1,7 @@
 {
-  "search_tokens": [
-    {
-      "text": "Finalizer",
-      "output_all_matches": true 
-    }
-  ],
   "include_only": [
-    { "regex": ".*" }
+    { "regex": "mongo" },
+    { "regex": "RUNNABLE" }
   ],
   "filter_out": [
     { "regex": "cluster-ClusterId"},
@@ -15,6 +10,12 @@
     { "regex": "broadcastRedisContainer" },
     { "regex": "cluster-rtt-ClusterId" },
     { "regex": "CompilerThread0" }
+  ],
+  "search_tokens": [
+    {
+      "text": "Finalizer",
+      "output_all_matches": true 
+    }
   ],
   "classification_groups": [
     [

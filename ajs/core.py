@@ -58,7 +58,7 @@ class Core:
                 time.sleep(delay_bw_jstacks / 1000)
 
     @staticmethod
-    @Utils.benchmark_time("top generation")
+    @Utils.benchmark_time("top generation [parallel to jstack generation]")
     def handle_top_generation(config, db):
         if config.cpu_consuming_threads_top is False:
             return

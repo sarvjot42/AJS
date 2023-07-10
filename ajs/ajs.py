@@ -1,3 +1,4 @@
+import threading
 from utils import Utils
 from core import Core
 from connectors import Connectors
@@ -18,8 +19,15 @@ def main():
         Core.handle_top_file_input(config, db)
     else:
         num_jstacks = config.num_jstacks
-        Core.handle_jstack_generation(config, db)
-        Core.handle_top_generation(config, db)
+
+        thread1 = threading.Thread(target=Core.handle_jstack_generation, args=(config, db))
+        thread2 = threading.Thread(target=Core.handle_top_generation, args=(config, db))
+
+        thread1.start()
+        thread2.start()
+
+        thread1.join()
+        thread2.join()
 
     for jstack_index in range(num_jstacks):
         Core.analyse_jstacks(config, db, jstack_index)

@@ -72,6 +72,13 @@ def get_threads_stats(top_output) :
 
 def get_pid(tid,namespace,pod,container):
     get_pid_command = "kubectl exec -it -n {} {} -c {} -- sh -c 'cat /proc/{}/status'".format(namespace,pod,container,str(tid))
+
+    # https://unix.stackexchange.com/questions/491691/are-tgid-and-pid-ever-different-for-a-process-or-lightweight-process
+    # you get get the process id (tgid) from thread id (pid) by following the “/proc/{}/status” method
+    # and now if you get the pid from tid, you can essentially check whether a given thread from top is actually part of a important process or not
+    # so basically author of previous top script, was interested to know whether or not a given top thread is part of a important(cpu consuming) java process
+    # If not he will not compute jstack for it, as simple as that
+
     try:
         output = subprocess.check_output(get_pid_command, shell=True).decode("utf-8")
     except Exception as error:
