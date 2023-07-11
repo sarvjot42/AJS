@@ -182,7 +182,7 @@ class Connectors:
 
     @staticmethod
     def output_jstack_comparison_header():
-        state_frequency_is_off = Config.thread_state_frequency_table is False
+        state_frequency_is_off = Config.thread_state_frequency is False
         cpu_consuming_threads_top_is_off = Config.cpu_consuming_threads_top is False
         cpu_consuming_threads_jstack_is_off = Config.cpu_consuming_threads_jstack is False
 
@@ -195,8 +195,10 @@ class Connectors:
 
     @staticmethod
     def output_thread_state_frequency():
-        thread_state_frequency = "THREAD STATE FREQUENCY"
-        thread_state_frequency = Utils.borderify_text(thread_state_frequency, 1, Config.analysis_file_path) + "\n\n"
+        thread_state_frequency_header = "THREAD STATE FREQUENCY"
+        thread_state_frequency_header = Utils.borderify_text(thread_state_frequency_header, 1, Config.analysis_file_path) + "\n\n"
+
+        thread_state_frequency_text = ""
 
         possible_states = []
         for frequency_dict in Database.state_frequency_dicts:
@@ -221,7 +223,17 @@ class Connectors:
             possible_states.insert(0, "JStack #")
             table.field_names = possible_states
 
-            Utils.append_to_file(Config.analysis_file_path, thread_state_frequency + str(table) + "\n\n")
+            thread_state_frequency_text += str(table) + "\n\n"
+
+        if len(Database.unchanged_threads) > 0:
+            thread_state_frequency_text += "Threads which are stuck with same stack trace in all JStacks:\n\n"
+
+            for state in sorted(Database.unchanged_threads):
+                thread_frequency = Database.unchanged_threads[state]
+                thread_state_frequency_text += state + " : " + str(thread_frequency) + "\n"
+
+        if thread_state_frequency_text != "":
+            Utils.append_to_file(Config.analysis_file_path, thread_state_frequency_header + thread_state_frequency_text + "\n")
 
     @staticmethod
     def output_cpu_consuming_threads_jstack(cpu_wise_sorted_thread_indexes, cpu_field_not_present, time_between_jstacks):
@@ -238,7 +250,7 @@ class Connectors:
             for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
                 time = cpu_wise_sorted_thread_index["time"]
 
-                if time / 1000 / time_between_jstacks * 100 <= Config.thread_cpu_threshold_limit:
+                if time / 1000 / time_between_jstacks * 100 <= Config.thread_cpu_threshold_percentage:
                     break
 
                 time_in_seconds = "{:.2f}s".format(time / 1000)
@@ -271,7 +283,7 @@ class Connectors:
                 nid = thread["nid"]
                 cpu_usage = thread["cpu_usage"]
 
-                if nid not in Database.threads or float(cpu_usage) <= Config.thread_cpu_threshold_limit:
+                if nid not in Database.threads or float(cpu_usage) <= Config.thread_cpu_threshold_percentage:
                     continue
 
                 db_thread = Database.threads[nid]
@@ -295,40 +307,6 @@ class Connectors:
             cpu_consuming_threads_text += "No CPU consuming threads found\n\n"
         
         Utils.append_to_file(Config.analysis_file_path, cpu_consuming_threads_header + cpu_consuming_threads_text)
-
-    @staticmethod
-    def output_most_blocked_threads_jstack(time_wise_blocked_thread_indexes, elapsed_field_not_present):
-        most_blocked_threads_header = "MOST BLOCKED THREADS"
-        most_blocked_threads_header = Utils.borderify_text(most_blocked_threads_header, 1, Config.analysis_file_path) + "\n\n"
-
-        most_blocked_threads_text = ""
-
-        if elapsed_field_not_present is True:
-            most_blocked_threads_text += "'elapsed' field not present in JStack\n\n"
-        else:
-            for blocked_thread_index in time_wise_blocked_thread_indexes:
-                time = blocked_thread_index["time"]
-
-                if time <= Config.thread_blocked_threshold_limit:
-                    break
-
-                time_in_seconds = "{:.2f}s".format(time)
-                nid = blocked_thread_index["nid"]
-                db_thread = Database.threads[nid]
-
-                first_thread_instance = db_thread[0]
-                last_thread_instance = db_thread[-1]
-
-                most_blocked_threads_text += "Thread NID: {} Blocked for: {}\n".format(first_thread_instance.nid, time_in_seconds)
-                most_blocked_threads_text += "First Occurrence:\n"
-                most_blocked_threads_text += first_thread_instance.text + "\n"
-                most_blocked_threads_text += "Last Occurrence:\n"
-                most_blocked_threads_text += last_thread_instance.text + "\n\n"
-
-        if most_blocked_threads_text == "":
-            most_blocked_threads_text = "No highly blocked threads found\n\n"
-
-        Utils.append_to_file(Config.analysis_file_path, most_blocked_threads_header + most_blocked_threads_text)
 
     @staticmethod
     @Utils.benchmark_time("output jstacks in one file")

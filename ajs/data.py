@@ -31,8 +31,7 @@ class Config:
         cli.add_argument("-R", "--repetitive-stack-trace", action="store_true", help="Detect [R]epetitive stack traces in threads")
         cli.add_argument("-J", "--cpu-consuming-threads-jstack", action="store_true", help="Output most CPU Intensive threads, calculated using [J]stacks [supported in jdk11+]")
         cli.add_argument("-T", "--cpu-consuming-threads-top", action="store_true", help="Output most CPU Intensive threads, calculated using [T]op utility")
-        cli.add_argument("-F", "--thread-state-frequency-table", action="store_true", help="Output thread state [F]requency table for all jstacks")
-        cli.add_argument("-B", "--most-blocked-threads", action="store_true", help="Output most [B]locked threads")
+        cli.add_argument("-F", "--thread-state-frequency", action="store_true", help="Analyse thread state [F]requencies for all jstacks")
 
         args = cli.parse_args()
 
@@ -44,8 +43,7 @@ class Config:
             args.repetitive_stack_trace = True
             args.cpu_consuming_threads_jstack = True
             args.cpu_consuming_threads_top = True
-            args.thread_state_frequency_table = True
-            args.most_blocked_threads = True
+            args.thread_state_frequency = True
 
         return args
 
@@ -66,14 +64,12 @@ class Config:
             Config.setup_classification_config(args, config_file)
             Config.setup_input_config(args, config_file)
 
-            Config.thread_cpu_threshold_limit = config_file["thread_cpu_threshold_limit"] if "thread_cpu_threshold_limit" in config_file else 0.0
-            Config.thread_blocked_threshold_limit = config_file["thread_blocked_threshold_limit"] if "thread_blocked_threshold_limit" in config_file else 0.0
+            Config.thread_cpu_threshold_percentage = config_file["thread_cpu_threshold_percentage"] if "thread_cpu_threshold_percentage" in config_file else 0.0
 
-            Config.thread_state_frequency_table = args.thread_state_frequency_table
+            Config.thread_state_frequency = args.thread_state_frequency
             Config.cpu_consuming_threads_jstack = args.cpu_consuming_threads_jstack
             Config.cpu_consuming_threads_top = args.cpu_consuming_threads_top
             Config.repetitive_stack_trace = args.repetitive_stack_trace
-            Config.most_blocked_threads = args.most_blocked_threads
 
             Config.do_benchmark = args.benchmark
 
@@ -155,6 +151,7 @@ class Database:
     pod_cpu_time = 0
     file_contents = []
     token_frequency = {}
+    unchanged_threads = {}
     process_id_vs_name = {}
     jstack_time_stamps = []
     state_frequency_dicts = [] 

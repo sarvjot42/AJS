@@ -30,15 +30,14 @@
     ]
   ],
 
-  "top_file_path": "/Users/sarvjot.singh/AJS/sample_data/top.txt",
-  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/jstack.txt",
-
   "namespace": "default",
   "pod_name": "java-deployment-66c74f6dbd-vjzhq",
   "container_name": "java-app",
   "num_of_jstacks": 5,
   "delay_bw_jstacks": 1,
 
-  "thread_cpu_threshold_limit": 5,
-  "limit_syscalls": true
+  "top_file_path": "/path/to/top/file",
+  "jstack_file_path": "/path/to/jstack/file",
+
+  "thread_cpu_threshold_percentage": 5,
 }

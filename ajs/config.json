@@ -30,13 +30,12 @@
     ]
   ],
 
-  "top_file_path": "/Users/sarvjot.singh/AJS/sample_data/top.txt",
-  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/multiple_jstacks/shalabh.txt",
-
   "namespace": "default",
   "pod_name": "java-deployment-66c74f6dbd-vjzhq",
   "container_name": "java-app",
 
-  "thread_cpu_threshold_limit": 10,
-  "thread_blocked_threshold_limit": 0.1 
+  "top_file_path": "/Users/sarvjot.singh/AJS/sample_data/top.txt",
+  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/multiple_jstacks/shalabh.txt",
+
+  "thread_cpu_threshold_percentage": 10
 }
