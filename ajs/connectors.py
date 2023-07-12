@@ -1,20 +1,22 @@
+import os
 import re
+from context import Context 
 from utils import Utils
-from data import Config, Database
+from configuration import Config
 from prettytable import PrettyTable
 
 class Connectors:
     @staticmethod
-    def clear_existing_files():
+    def delete_existing_files():
         Utils.remove_if_there(Config.analysis_file_path)
         Utils.remove_if_there(Config.jstacks_file_path)
 
     @staticmethod
-    def clear_auxilliary_folder():
+    def delete_auxilliary_folder():
         Utils.remove_if_there(Config.jstack_folder_path)
 
     @staticmethod
-    def parse_jstack_file(jstack_file_path):
+    def parse_and_store_jstacks_in_disk(jstack_file_path):
         jstack_index = 0
         jstack_last_line_regex = r"(?m)(JNI global ref.*$)"
 
@@ -30,7 +32,7 @@ class Connectors:
                 buffer.extend(line)
 
                 if re.search(jstack_last_line_regex, line.decode("utf-8")):
-                    Connectors.output_jstack(jstack_index, buffer.decode("utf-8"), "unknown_process_id")
+                    Connectors.store_jstack_in_disk(jstack_index, buffer.decode("utf-8"), "unknown_process_id")
 
                     jstack_index += 1
                     buffer = bytearray()
@@ -49,22 +51,26 @@ class Connectors:
 
             threads = threads.split("\n")
             threads = [{ "nid": hex(int(thread.split()[0])), "cpu_usage": thread.split()[8] } for thread in threads if thread != ""]
-            Database.top_cpu_consuming_threads.extend(threads)
+            Context.top_cpu_consuming_threads.extend(threads)
         else: 
             exit("Given top file is not in the correct format")
 
     @staticmethod
-    def get_java_processes():
-        output = Utils.subprocess_call([
-            "kubectl", "exec", "-it", 
-            '-n', Config.namespace, Config.pod_name, 
-            "-c", Config.container_name, 
-            "--", 
-            "bash", "-c",
-            "time ps -ef"
-        ])
+    def find_java_processes():
+        try:
+            output = Utils.subprocess_call([
+                "kubectl", "exec", "-it", 
+                '-n', Config.namespace, Config.pod_name, 
+                "-c", Config.container_name, 
+                "--", 
+                "bash", "-c",
+                "time ps -ef"
+            ])
+        except Exception as e:
+            print("\nError in getting java processes")
+            print(e)
+            os._exit(1)
 
-        output = output["output"]
         lines = output.split("\n")
 
         for line in lines:
@@ -72,23 +78,28 @@ class Connectors:
                 cols = line.split()
                 process_id = cols[1]
                 process_name = cols[7]
-                Database.add_process(process_id, process_name)
+                Context.add_process(process_id, process_name)
 
     @staticmethod
     def get_jstack_of_java_process(process_id):
-        jstack = Utils.subprocess_call([
-            "kubectl", "exec", "-it", 
-            '-n', Config.namespace, Config.pod_name, 
-            "-c", Config.container_name, 
-            "--", 
-            "bash", "-c",
-            "time jstack " + str(process_id)
-        ])["output"]
+        try:
+            jstack = Utils.subprocess_call([
+                "kubectl", "exec", "-it", 
+                '-n', Config.namespace, Config.pod_name, 
+                "-c", Config.container_name, 
+                "--", 
+                "bash", "-c",
+                "time jstack " + str(process_id)
+            ])
+        except Exception as e:
+            print("\nError in getting jstack of process " + str(process_id))
+            print(e)
+            os._exit(1)
 
         return jstack
 
     @staticmethod
-    def output_jstack(jstack_index, jstack, process_id):
+    def store_jstack_in_disk(jstack_index, jstack, process_id):
         jstack_file_path = Connectors.get_jstack_file_path(jstack_index, process_id)
         Utils.write_to_file(jstack_file_path, jstack)
 
@@ -101,18 +112,18 @@ class Connectors:
     @staticmethod
     def output_new_jstack_header(jstack_index, process_id):
         matching_is_off = Config.tokens is None
-        classification_is_off = Config.classification_groups is None
+        classification_is_off = Config.thread_classes is None
         repetitive_stack_trace_is_off = Config.repetitive_stack_trace is False
 
         if classification_is_off and matching_is_off and repetitive_stack_trace_is_off:
             return
 
         new_jstack_header = "JSTACK " + str(jstack_index) + " FOR PROCESS " + str(process_id)
-        new_jstack_header = Utils.borderify_text(new_jstack_header, 2, Config.analysis_file_path) + "\n\n"
+        new_jstack_header = Utils.borderify_text_and_update_contents(new_jstack_header, 2, Config.analysis_file_path) + "\n\n"
         Utils.append_to_file(Config.analysis_file_path, new_jstack_header)
 
     @staticmethod
-    def read_jstack(jstack_index, process_id):
+    def read_jstack_from_disk(jstack_index, process_id):
         jstack_file_path = Connectors.get_jstack_file_path(jstack_index, process_id)
 
         with open(jstack_file_path, "r") as f:
@@ -120,10 +131,10 @@ class Connectors:
             return jstack
 
     @staticmethod
-    def add_jstack_time_stamp_to_db(jstack):
+    def update_jstack_time_stamp_context(jstack):
         jstack = jstack.strip()
         jstack_time_stamp = jstack.split("\n")[0]
-        Database.jstack_time_stamps.append(jstack_time_stamp)
+        Context.jstack_time_stamps.append(jstack_time_stamp)
 
     @staticmethod
     def output_matching_threads(matching_threads_text):
@@ -131,45 +142,66 @@ class Connectors:
 
     @staticmethod
     def output_classified_threads(classified_threads):
-        classified_threads = sorted(classified_threads, key=lambda thread: str(thread.tags))
+        classified_threads_header = "THREAD CATEGORIES"
+        classified_threads_header = Utils.borderify_text_and_update_contents(classified_threads_header, 1, Config.analysis_file_path) + "\n\n"
 
-        classified_threads_output = "THREADS SORTED BY CATEGORIES"
-        classified_threads_output = Utils.borderify_text(classified_threads_output, 1, Config.analysis_file_path) + "\n\n"
-        for thread in classified_threads:
-            if (thread.tags == []):
-                continue
+        classified_threads_text = ""
 
-            classified_threads_output += "Tags: " + str(thread.tags) + "\n"
-            classified_threads_output += thread.text + "\n\n"
+        for tag in classified_threads:
+            thread_class_sorted_by_state = classified_threads[tag]
+            num_threads_in_class = len(thread_class_sorted_by_state) 
 
-        Utils.append_to_file(Config.analysis_file_path, classified_threads_output)
+            classified_threads_text += "{} {} threads found\n\n".format(num_threads_in_class, tag)
+
+            for it in range(num_threads_in_class):
+                current_thread = thread_class_sorted_by_state[it]
+                if it == 0 or current_thread.thread_state != thread_class_sorted_by_state[it - 1].thread_state:
+                    state_header = "{} threads".format(current_thread.thread_state)
+                    classified_threads_text += Utils.borderify_text_and_update_contents(state_header, 0, Config.analysis_file_path) + "\n\n"
+
+                if Config.classification_print_trace is False:
+                    header_and_trace = current_thread.text.split("\n", 1)
+                    header = header_and_trace[0]
+                    classified_threads_text += header + "\n\n"
+                else:
+                    classified_threads_text += current_thread.text + "\n\n"
+
+        if classified_threads_text == "":
+            classified_threads_text = "No threads found for configured classes\n\n"
+
+        Utils.append_to_file(Config.analysis_file_path, classified_threads_header + classified_threads_text)
 
     @staticmethod
     def output_repetitive_stack_trace(stack_trace_counter):
-        repetitive_stack_trace_output = "REPEATED STACK TRACES"
-        repetitive_stack_trace_output = Utils.borderify_text(repetitive_stack_trace_output, 1, Config.analysis_file_path) + "\n\n"
+        repetitive_stack_trace_header = "REPEATED STACK TRACES"
+        repetitive_stack_trace_header = Utils.borderify_text_and_update_contents(repetitive_stack_trace_header, 1, Config.analysis_file_path) + "\n\n"
+
+        repetitive_stack_trace_text = ""
         for stack_trace in stack_trace_counter:
             if stack_trace[1] == 1:
                 break
             
-            repetitive_stack_trace_output += "Count: " + str(stack_trace[1]) + "\n"
-            repetitive_stack_trace_output += stack_trace[0] + "\n\n"
+            repetitive_stack_trace_text += "Count: " + str(stack_trace[1]) + "\n"
+            repetitive_stack_trace_text += stack_trace[0] + "\n\n"
         
-        Utils.append_to_file(Config.analysis_file_path, repetitive_stack_trace_output)
+        if repetitive_stack_trace_text == "":
+            repetitive_stack_trace_text = "No repetitive stack traces found\n\n"
+
+        Utils.append_to_file(Config.analysis_file_path, repetitive_stack_trace_header + repetitive_stack_trace_text)
 
     @staticmethod
-    def store_threads_in_db(threads):
+    def update_threads_context(threads):
         state_frequency_dict = {}
 
         for thread in threads:
-            if thread.nid not in Database.threads:
-                Database.threads[thread.nid] = []
+            if thread.nid not in Context.threads:
+                Context.threads[thread.nid] = []
 
             # store only first and last occurence of a thread
-            if len(Database.threads[thread.nid]) < 2:
-                Database.threads[thread.nid].append(thread)
+            if len(Context.threads[thread.nid]) < 2:
+                Context.threads[thread.nid].append(thread)
             else:
-                Database.threads[thread.nid][1] = thread
+                Context.threads[thread.nid][1] = thread
 
             thread_state = thread.thread_state
             if thread_state == "unknown_state":
@@ -178,7 +210,7 @@ class Connectors:
                 state_frequency_dict[thread_state] = 0
             state_frequency_dict[thread_state] += 1
 
-        Database.state_frequency_dicts.append(state_frequency_dict)
+        Context.state_frequency_dicts.append(state_frequency_dict)
 
     @staticmethod
     def output_jstack_comparison_header():
@@ -190,18 +222,18 @@ class Connectors:
             return
 
         new_jstack_header = "JSTACKS COMPARISON"
-        new_jstack_header = Utils.borderify_text(new_jstack_header, 2, Config.analysis_file_path) + "\n\n"
+        new_jstack_header = Utils.borderify_text_and_update_contents(new_jstack_header, 2, Config.analysis_file_path) + "\n\n"
         Utils.append_to_file(Config.analysis_file_path, new_jstack_header)
 
     @staticmethod
     def output_thread_state_frequency():
         thread_state_frequency_header = "THREAD STATE FREQUENCY"
-        thread_state_frequency_header = Utils.borderify_text(thread_state_frequency_header, 1, Config.analysis_file_path) + "\n\n"
+        thread_state_frequency_header = Utils.borderify_text_and_update_contents(thread_state_frequency_header, 1, Config.analysis_file_path) + "\n\n"
 
         thread_state_frequency_text = ""
 
         possible_states = []
-        for frequency_dict in Database.state_frequency_dicts:
+        for frequency_dict in Context.state_frequency_dicts:
             for state in frequency_dict:
                 if state not in possible_states:
                     possible_states.append(state)
@@ -209,7 +241,7 @@ class Connectors:
 
         table = PrettyTable()
 
-        for jstack_index, frequency_dict in enumerate(Database.state_frequency_dicts):
+        for jstack_index, frequency_dict in enumerate(Context.state_frequency_dicts):
             row = []
             row.append(jstack_index)
             for state in possible_states:
@@ -225,20 +257,15 @@ class Connectors:
 
             thread_state_frequency_text += str(table) + "\n\n"
 
-        if len(Database.unchanged_threads) > 0:
-            thread_state_frequency_text += "Threads which are stuck with same stack trace in all JStacks:\n\n"
+        if thread_state_frequency_text == "":
+            thread_state_frequency_text = "No thread states to display\n\n"
 
-            for state in sorted(Database.unchanged_threads):
-                thread_frequency = Database.unchanged_threads[state]
-                thread_state_frequency_text += state + " : " + str(thread_frequency) + "\n"
-
-        if thread_state_frequency_text != "":
-            Utils.append_to_file(Config.analysis_file_path, thread_state_frequency_header + thread_state_frequency_text + "\n")
+        Utils.append_to_file(Config.analysis_file_path, thread_state_frequency_header + thread_state_frequency_text)
 
     @staticmethod
     def output_cpu_consuming_threads_jstack(cpu_wise_sorted_thread_indexes, cpu_field_not_present, time_between_jstacks):
         cpu_consuming_threads_header = "CPU CONSUMING THREADS (JSTACK)"
-        cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1, Config.analysis_file_path) + "\n\n"
+        cpu_consuming_threads_header = Utils.borderify_text_and_update_contents(cpu_consuming_threads_header, 1, Config.analysis_file_path) + "\n\n"
 
         cpu_consuming_threads_text = ""
 
@@ -250,15 +277,15 @@ class Connectors:
             for cpu_wise_sorted_thread_index in cpu_wise_sorted_thread_indexes:
                 time = cpu_wise_sorted_thread_index["time"]
 
-                if time / 1000 / time_between_jstacks * 100 <= Config.thread_cpu_threshold_percentage:
+                if time / 1000 / time_between_jstacks * 100 <= Config.cpu_threshold_percentage:
                     break
 
                 time_in_seconds = "{:.2f}s".format(time / 1000)
                 nid = cpu_wise_sorted_thread_index["nid"]
-                db_thread = Database.threads[nid]
+                thread = Context.threads[nid]
 
-                first_thread_instance = db_thread[0]
-                last_thread_instance = db_thread[-1]
+                first_thread_instance = thread[0]
+                last_thread_instance = thread[-1]
 
                 cpu_consuming_threads_text += "Thread NID: {} CPU: {}\n".format(first_thread_instance.nid, time_in_seconds)
                 cpu_consuming_threads_text += "First Occurrence:\n" 
@@ -274,34 +301,31 @@ class Connectors:
     @staticmethod
     def output_cpu_consuming_threads_top():
         cpu_consuming_threads_header = "CPU CONSUMING THREADS (TOP)"
-        cpu_consuming_threads_header = Utils.borderify_text(cpu_consuming_threads_header, 1, Config.analysis_file_path) + "\n\n"
+        cpu_consuming_threads_header = Utils.borderify_text_and_update_contents(cpu_consuming_threads_header, 1, Config.analysis_file_path) + "\n\n"
 
         cpu_consuming_threads_text = ""
 
-        if Database.system_compatible_with_top is True:
-            for thread in Database.top_cpu_consuming_threads:
-                nid = thread["nid"]
-                cpu_usage = thread["cpu_usage"]
+        for top_thread in Context.top_cpu_consuming_threads:
+            nid = top_thread["nid"]
+            cpu_usage = top_thread["cpu_usage"]
 
-                if nid not in Database.threads or float(cpu_usage) <= Config.thread_cpu_threshold_percentage:
-                    continue
+            if nid not in Context.threads or float(cpu_usage) <= Config.cpu_threshold_percentage:
+                continue
 
-                db_thread = Database.threads[nid]
+            thread = Context.threads[nid]
 
-                cpu_consuming_threads_text += "Thread NID: {} CPU: {}%\n".format(nid, cpu_usage)
-                if len(db_thread) == 1:
-                    thread_instance = db_thread[0]
-                    cpu_consuming_threads_text += thread_instance.text + "\n\n"
-                else:
-                    first_thread_instance = db_thread[0]
-                    last_thread_instance = db_thread[-1]
+            cpu_consuming_threads_text += "Thread NID: {} CPU: {}%\n".format(nid, cpu_usage)
+            if len(thread) == 1:
+                thread_instance = thread[0]
+                cpu_consuming_threads_text += thread_instance.text + "\n\n"
+            else:
+                first_thread_instance = thread[0]
+                last_thread_instance = thread[-1]
 
-                    cpu_consuming_threads_text += "First Occurrence:\n"
-                    cpu_consuming_threads_text += first_thread_instance.text + "\n"
-                    cpu_consuming_threads_text += "Last Occurrence:\n"
-                    cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
-        else:
-            cpu_consuming_threads_text += "System not compatible with top\n\n"
+                cpu_consuming_threads_text += "First Occurrence:\n"
+                cpu_consuming_threads_text += first_thread_instance.text + "\n"
+                cpu_consuming_threads_text += "Last Occurrence:\n"
+                cpu_consuming_threads_text += last_thread_instance.text + "\n\n"
 
         if cpu_consuming_threads_text == "":
             cpu_consuming_threads_text += "No CPU consuming threads found\n\n"
@@ -310,13 +334,13 @@ class Connectors:
 
     @staticmethod
     @Utils.benchmark_time("output jstacks in one file")
-    def output_jstacks_in_one_file(num_jstacks):
+    def store_jstacks_in_one_file(num_jstacks):
         output_jstack_text = ""
         for jstack_index in range(num_jstacks):
-            for process_id in Database.process_id_vs_name:
-                jstack = Connectors.read_jstack(jstack_index, process_id)
+            for process_id in Context.process_id_vs_name:
+                jstack = Connectors.read_jstack_from_disk(jstack_index, process_id)
                 jstack_header = "JStack #{} Process ID: {}".format(jstack_index, process_id)
-                jstack_header = Utils.borderify_text(jstack_header, 1, Config.jstacks_file_path) + "\n\n"
+                jstack_header = Utils.borderify_text_and_update_contents(jstack_header, 1, Config.jstacks_file_path) + "\n\n"
                 output_jstack_text += jstack_header
                 output_jstack_text += jstack + "\n\n"
 
@@ -326,7 +350,7 @@ class Connectors:
     def prepend_contents():
         file_contents_dict = {}
 
-        for content in Database.file_contents:
+        for content in Context.file_contents:
             file = content[2]
             if file not in file_contents_dict:
                 file_contents_dict[file] = []

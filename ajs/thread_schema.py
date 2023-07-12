@@ -14,7 +14,6 @@ class Thread:
         thread_name = re.search(thread_name_regex, text)
         thread_state = re.search(thread_state_regex, text)
 
-        self.tags = []
         self.text = text
         self.process_id = process_id
         self.nid = nid.group(1) if nid is not None else -1

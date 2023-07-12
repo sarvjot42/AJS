@@ -12,12 +12,12 @@ class Config:
     def init_config():
         args = Config.setup_cli()
         Config.session_id = Config.generate_session_id(args.session_name)
-        Config.setup_config(args)
+        Config.setup_config_file(args)
 
     @staticmethod
     def setup_cli():
         formatter = lambda prog: argparse.HelpFormatter(prog,max_help_position=52)
-        cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps. Configure settings in 'config.json', Sample config file is given in 'config.sample.json'", formatter_class=formatter)
+        cli = argparse.ArgumentParser(description="Analyse JStacks, a tool to analyze java thread dumps. Configure settings in 'config.json', Sample config file is given in '.ajs/config.sample.json'", formatter_class=formatter)
 
         cli.add_argument("session_name", type=str, help="Name of the debugging session")
         cli.add_argument("-b", "--benchmark", action="store_true", help="Run in [b]enchmark mode")
@@ -54,8 +54,8 @@ class Config:
         return session_id
 
     @staticmethod
-    def setup_config(args):
-        with open("config.json") as file:
+    def setup_config_file(args):
+        with open(".ajs/config.json") as file:
             config_file = json.load(file)
 
         try:
@@ -64,7 +64,7 @@ class Config:
             Config.setup_classification_config(args, config_file)
             Config.setup_input_config(args, config_file)
 
-            Config.thread_cpu_threshold_percentage = config_file["thread_cpu_threshold_percentage"] if "thread_cpu_threshold_percentage" in config_file else 0.0
+            Config.cpu_threshold_percentage = config_file["cpu_threshold_percentage"] if "cpu_threshold_percentage" in config_file else 0.0
 
             Config.thread_state_frequency = args.thread_state_frequency
             Config.cpu_consuming_threads_jstack = args.cpu_consuming_threads_jstack
@@ -109,19 +109,18 @@ class Config:
     @staticmethod
     def setup_classification_config(args, config_file):
         if args.classify_threads is True:
-            classification_groups = []
+            thread_classes = []
 
-            for group in config_file["classification_groups"]:
-                group_items = []
-                for item in group:
-                    tag = str(item["tag"])
-                    regex = str(item["regex"])
-                    group_items.append({"tag": tag, "regex": regex})
-                classification_groups.append(group_items)
+            for thread_class in config_file["classification"]:
+                tag = str(thread_class["tag"])
+                regex = str(thread_class["regex"])
+                thread_classes.append({"tag": tag, "regex": regex})
 
-            Config.classification_groups = classification_groups
+            Config.thread_classes = thread_classes
+            Config.classification_print_trace = config_file["classification_print_trace"]
         else:
-            Config.classification_groups = None
+            Config.thread_classes = None 
+            Config.classification_print_trace = None
 
     @staticmethod
     def setup_input_config(args, config_file):
@@ -145,32 +144,3 @@ class Config:
             Config.container_name = str(config_file["container_name"])
             Config.num_jstacks = int(config_file["num_jstacks"]) if "num_jstacks" in config_file else 3
             Config.delay_bw_jstacks = int(config_file["delay_bw_jstacks"]) if "delay_bw_jstacks" in config_file else 10000
-
-class Database:
-    threads = {}
-    pod_cpu_time = 0
-    file_contents = []
-    token_frequency = {}
-    unchanged_threads = {}
-    process_id_vs_name = {}
-    jstack_time_stamps = []
-    state_frequency_dicts = [] 
-    files_deployed_to_azure = []
-    top_cpu_consuming_threads = []
-    system_calls_total_cpu_time = 0
-    system_compatible_with_top = True 
-
-    @staticmethod
-    def init_database():
-        tokens = Config.tokens
-        if tokens is not None:
-            for token in tokens:
-                Database.token_frequency[token["text"]] = 0
-
-    @staticmethod
-    def found_token(token):
-        Database.token_frequency[token["text"]] += 1
-
-    @staticmethod
-    def add_process(process_id, process_name):
-        Database.process_id_vs_name[process_id] = process_name

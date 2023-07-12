@@ -9,7 +9,8 @@ from resource import getrusage, RUSAGE_SELF
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 
-from data import Config, Database
+from context import Context 
+from configuration import Config
 
 class Utils:
     @staticmethod
@@ -21,14 +22,15 @@ class Utils:
         return time_difference
 
     @staticmethod
-    def borderify_text(text, current_layer, output_file, max_layer=-1, sep='*'):
+    def borderify_text_and_update_contents(text, current_layer, output_file, max_layer=0, sep='*'):
         if current_layer == 0:
-            Database.file_contents.append([text, max_layer, output_file])
+            if max_layer != 0:
+                Context.file_contents.append([text, max_layer, output_file])
             text = text.center(80, sep)
             return text
 
         max_layer = max(max_layer, current_layer)
-        inner_text = Utils.borderify_text(text, current_layer - 1, output_file, max_layer, sep)
+        inner_text = Utils.borderify_text_and_update_contents(text, current_layer - 1, output_file, max_layer, sep)
 
         lines = inner_text.split("\n")
         column_width = len(lines[0]) + 2
@@ -52,7 +54,7 @@ class Utils:
                 time_taken = "{:.3f}".format(end - start)
 
                 if Config.do_benchmark is True:
-                    print("SCRIPT BENCHMARKING:\t" + time_taken + "s '" + label + "'")
+                    print("SCRIPT TIME BENCHMARKING:\t" + time_taken + "s '" + label + "'")
                 return result
             return wrapper
         return decorator_function
@@ -71,7 +73,7 @@ class Utils:
             max_memory_usage_mb = rusage.ru_maxrss / 1024 
 
         max_memory_usage_mb = "{:.3f}".format(max_memory_usage_mb)
-        print("SCRIPT BENCHMARKING:\t" + str(max_memory_usage_mb) + "MB 'max memory usage'")
+        print("\nSCRIPT MEMORY FOOTPRINT:\t" + str(max_memory_usage_mb) + "MB 'max memory usage'")
 
     @staticmethod
     def benchmark_cpu():
@@ -82,15 +84,15 @@ class Utils:
         cpu_time = rusage.ru_utime + rusage.ru_stime
 
         cpu_time = "{:.3f}".format(cpu_time)
-        print("SCRIPT BENCHMARKING:\t" + str(cpu_time) + "s '[user + system] cpu time'")
+        print("SCRIPT CPU UTILISATION:\t\t" + str(cpu_time) + "s '[user + system] cpu time'")
 
     @staticmethod
     def benchmark_pod_cpu():
         if Config.do_benchmark is False or Config.file_input is True:
             return
 
-        pod_cpu_time = "{:.3f}".format(Database.system_calls_total_cpu_time)
-        print("POD BENACHMARKING:\t" + str(pod_cpu_time) + "s '[user + system] cpu time'")
+        pod_cpu_time = "{:.3f}".format(Context.system_calls_total_cpu_time)
+        print("\nPOD CPU UTILISATION:\t" + str(pod_cpu_time) + "s '[user + system] cpu time'")
 
     @staticmethod
     def convert_number_to_alphabet(number):
@@ -139,8 +141,13 @@ class Utils:
         result = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, err = result.communicate()
 
+        if result.returncode != 0:
+            err_string = "Error in subprocess call: "
+            err_string += " ".join(command_list) + "\n"
+            err_string += err.decode("utf-8")
+            raise Exception(err_string)
+
         output = output.decode("utf-8")
-        err = err.decode("utf-8")
 
         output = output.strip().replace("\r", "")
         time_output = output.split("\n\n")[-1]
@@ -152,9 +159,9 @@ class Utils:
         user_time = time_output.split("\n")[-2].split("\t")[-1]
         user_time = Utils.parse_time_from_row(user_time)
 
-        Database.system_calls_total_cpu_time += sys_time + user_time
+        Context.system_calls_total_cpu_time += sys_time + user_time
 
-        return { "output": output, "err": err }
+        return output
 
     @staticmethod
     def setup_interrupt():
@@ -179,7 +186,7 @@ class Utils:
                 data = f.read()
                 blob_client.upload_blob(data)
 
-            Database.files_deployed_to_azure.append(blob_client.url)
+            Context.files_uploaded_to_azure.append(blob_client.url)
 
         except Exception as ex:
             print(traceback.format_exc())

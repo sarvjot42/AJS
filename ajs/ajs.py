@@ -1,15 +1,16 @@
 import threading
-from utils import Utils
 from core import Core
+from utils import Utils
+from context import Context
+from configuration import Config
 from connectors import Connectors
-from data import Config, Database
 
 @Utils.benchmark_time("entire script execution")
 def main():
     Config.init_config()
-    Database.init_database()
+    Context.init_database()
     Utils.setup_interrupt()
-    Connectors.clear_existing_files()
+    Connectors.delete_existing_files()
 
     print("Starting script execution...")
 
@@ -30,25 +31,26 @@ def main():
         thread1.join()
         thread2.join()
 
-    for jstack_index in range(num_jstacks):
-        Core.analyse_jstacks(jstack_index)
+    for process_id in Context.process_id_vs_name:
+        for jstack_index in range(num_jstacks):
+            Core.analyse_individual_jstack(jstack_index, process_id)
 
     Core.compare_jstacks()
-    Connectors.output_jstacks_in_one_file(num_jstacks)
+    Connectors.store_jstacks_in_one_file(num_jstacks)
     Connectors.prepend_contents()
-    # Connectors.upload_output_files()
-    Connectors.clear_auxilliary_folder()
+    Connectors.upload_output_files()
+    Connectors.delete_auxilliary_folder()
 
-    return Database.files_deployed_to_azure
+    return Context.files_uploaded_to_azure
 
 if __name__ == "__main__":
     azure_files = main()
 
-    Utils.benchmark_cpu()
     Utils.benchmark_memory()
+    Utils.benchmark_cpu()
     Utils.benchmark_pod_cpu()
 
     if len(azure_files) > 0:
-        print("\nOutput files deployed to Azure:")
+        print("\nOutput files uploaded to Azure:")
     for file in azure_files:
         print(file)
