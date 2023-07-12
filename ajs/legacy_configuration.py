@@ -2,6 +2,9 @@ import json
 import argparse
 import datetime
 
+# jenkins does not support config file, hence not using this
+# however keeping the config file support here, in case we need it in the future
+
 class Config:
     session_id = "" 
     jstack_folder_path = ".ajs/jstacks/"
@@ -12,7 +15,7 @@ class Config:
     def init_config():
         args = Config.setup_cli()
         Config.session_id = Config.generate_session_id(args.session_name)
-        Config.setup_config_file(args)
+        Config.setup_config(args)
 
     @staticmethod
     def setup_cli():
@@ -54,7 +57,7 @@ class Config:
         return session_id
 
     @staticmethod
-    def setup_config_file(args):
+    def setup_config(args):
         with open(".ajs/config.json") as file:
             config_file = json.load(file)
 
