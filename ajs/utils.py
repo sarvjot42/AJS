@@ -6,6 +6,13 @@ import subprocess
 from sys import platform
 from datetime import datetime
 from resource import getrusage, RUSAGE_SELF
+
+# uncomment for python2
+# import logging
+# import warnings
+# logging.basicConfig(filename='.ajs/warnings.log', level=logging.WARNING)
+# warnings.filterwarnings("ignore", message=".*Python 2 is no longer supported by the Python core team.*")
+
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 
