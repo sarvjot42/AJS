@@ -1,0 +1,428 @@
+FILE CONTENTS [Use this for navigating to the relevant sections]
+
+JStack #0 Process ID: 1
+JStack #1 Process ID: 1
+JStack #2 Process ID: 1
+
+**********************************************************************************
+*****************************JStack #0 Process ID: 1******************************
+**********************************************************************************
+
+2023-07-12 06:15:20
+Full thread dump OpenJDK 64-Bit Server VM (11.0.16+8 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x00007fea78002a40, length=14, elements={
+0x00007feaa4026800, 0x00007feaa40c8000, 0x00007feaa40ca000, 0x00007feaa40d1800,
+0x00007feaa40d3800, 0x00007feaa40d6000, 0x00007feaa40d8000, 0x00007feaa40da000,
+0x00007feaa4119000, 0x00007feaa4263800, 0x00007feaa4265000, 0x00007fea5c129800,
+0x00007fea5c13e000, 0x00007fea78001000
+}
+
+"main" #1 prio=5 os_prio=0 cpu=247.23ms elapsed=4.55s tid=0x00007feaa4026800 nid=0x7 waiting on condition  [0x00007feaa9b74000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.16/Native Method)
+	at EmulateTeachers.emulateQueueOfTeachers(EmulateTeachers.java:121)
+	at EmulateTeachers.main(EmulateTeachers.java:136)
+
+"Reference Handler" #2 daemon prio=10 os_prio=0 cpu=0.86ms elapsed=4.54s tid=0x00007feaa40c8000 nid=0x9 waiting on condition  [0x00007feaa85f1000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.16/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.16/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.16/Reference.java:213)
+
+"Finalizer" #3 daemon prio=8 os_prio=0 cpu=0.30ms elapsed=4.54s tid=0x00007feaa40ca000 nid=0xa in Object.wait()  [0x00007feaa84f0000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.16/Native Method)
+	- waiting on <0x00000000fd646230> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x00000000fd646230> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@11.0.16/Finalizer.java:170)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=0 cpu=0.31ms elapsed=4.54s tid=0x00007feaa40d1800 nid=0xb runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=0 cpu=0.10ms elapsed=4.54s tid=0x00007feaa40d3800 nid=0xc runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=0 cpu=465.69ms elapsed=4.54s tid=0x00007feaa40d6000 nid=0xd waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=347.62ms elapsed=4.54s tid=0x00007feaa40d8000 nid=0xe waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #8 daemon prio=9 os_prio=0 cpu=0.16ms elapsed=4.54s tid=0x00007feaa40da000 nid=0xf runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #9 daemon prio=8 os_prio=0 cpu=0.73ms elapsed=4.52s tid=0x00007feaa4119000 nid=0x11 in Object.wait()  [0x00007fea8c40a000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.16/Native Method)
+	- waiting on <0x00000000fd6469f8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x00000000fd6469f8> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.16/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.16/InnocuousThread.java:161)
+
+"Thread-0" #11 prio=5 os_prio=0 cpu=289.45ms elapsed=4.08s tid=0x00007feaa4263800 nid=0x12 waiting on condition  [0x00007fea67de8000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd9a8a08> (a java.util.concurrent.CountDownLatch$Sync)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.doAcquireSharedNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:1079)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.tryAcquireSharedNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:1369)
+	at java.util.concurrent.CountDownLatch.await(java.base@11.0.16/CountDownLatch.java:278)
+	at com.mongodb.internal.connection.BaseCluster.getDescription(BaseCluster.java:202)
+	at com.mongodb.internal.connection.SingleServerCluster.getDescription(SingleServerCluster.java:41)
+	at com.mongodb.client.internal.MongoClientDelegate.getConnectedClusterDescription(MongoClientDelegate.java:145)
+	at com.mongodb.client.internal.MongoClientDelegate.createClientSession(MongoClientDelegate.java:100)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.getClientSession(MongoClientDelegate.java:277)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.execute(MongoClientDelegate.java:181)
+	at com.mongodb.client.internal.MongoCollectionImpl.executeCount(MongoCollectionImpl.java:252)
+	at com.mongodb.client.internal.MongoCollectionImpl.count(MongoCollectionImpl.java:187)
+	at com.mongodb.client.internal.MongoCollectionImpl.count(MongoCollectionImpl.java:181)
+	at Database.findCountOfStudentsWithMarks(EmulateTeachers.java:30)
+	at DBQueryRunnable.run(EmulateTeachers.java:50)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"Thread-1" #12 prio=5 os_prio=0 cpu=2228.11ms elapsed=4.08s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"cluster-ClusterId{value='64ae44f50c2eaa51506ba2b8', description='null'}-mongodb-service:27017" #13 daemon prio=5 os_prio=0 cpu=10.58ms elapsed=3.07s tid=0x00007fea5c129800 nid=0x14 runnable  [0x00007fea679a0000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.Inet4AddressImpl.lookupAllHostAddr(java.base@11.0.16/Native Method)
+	at java.net.InetAddress$PlatformNameService.lookupAllHostAddr(java.base@11.0.16/InetAddress.java:929)
+	at java.net.InetAddress.getAddressesFromNameService(java.base@11.0.16/InetAddress.java:1529)
+	at java.net.InetAddress$NameServiceAddresses.get(java.base@11.0.16/InetAddress.java:848)
+	- locked <0x00000000fd9b85a0> (a java.net.InetAddress$NameServiceAddresses)
+	at java.net.InetAddress.getAllByName0(java.base@11.0.16/InetAddress.java:1519)
+	at java.net.InetAddress.getAllByName(java.base@11.0.16/InetAddress.java:1378)
+	at java.net.InetAddress.getAllByName(java.base@11.0.16/InetAddress.java:1306)
+	at com.mongodb.ServerAddress.getSocketAddresses(ServerAddress.java:203)
+	at com.mongodb.internal.connection.SocketStream.initializeSocket(SocketStream.java:75)
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:65)
+	at com.mongodb.internal.connection.InternalStreamConnection.open(InternalStreamConnection.java:128)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:117)
+	- locked <0x00000000fd9a8c30> (a com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"CleanCursors-1-thread-1" #14 daemon prio=5 os_prio=0 cpu=1.05ms elapsed=2.99s tid=0x00007fea5c13e000 nid=0x15 waiting on condition  [0x00007fea6789f000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd9b8758> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:1182)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@11.0.16/ThreadPoolExecutor.java:1054)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.16/ThreadPoolExecutor.java:1114)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.16/ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"Attach Listener" #15 daemon prio=9 os_prio=0 cpu=0.43ms elapsed=0.10s tid=0x00007fea78001000 nid=0x36 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"VM Thread" os_prio=0 cpu=72.06ms elapsed=4.55s tid=0x00007feaa40c5000 nid=0x8 runnable  
+
+"VM Periodic Task Thread" os_prio=0 cpu=3.48ms elapsed=4.53s tid=0x00007feaa4116800 nid=0x10 waiting on condition  
+
+JNI global refs: 13, weak refs: 0
+
+
+
+**********************************************************************************
+*****************************JStack #1 Process ID: 1******************************
+**********************************************************************************
+
+2023-07-12 06:15:30
+Full thread dump OpenJDK 64-Bit Server VM (11.0.16+8 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x00007fea78002a40, length=14, elements={
+0x00007feaa4026800, 0x00007feaa40c8000, 0x00007feaa40ca000, 0x00007feaa40d1800,
+0x00007feaa40d3800, 0x00007feaa40d6000, 0x00007feaa40d8000, 0x00007feaa40da000,
+0x00007feaa4119000, 0x00007feaa4263800, 0x00007feaa4265000, 0x00007fea5c129800,
+0x00007fea5c13e000, 0x00007fea78001000
+}
+
+"main" #1 prio=5 os_prio=0 cpu=247.23ms elapsed=15.25s tid=0x00007feaa4026800 nid=0x7 waiting on condition  [0x00007feaa9b74000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.16/Native Method)
+	at EmulateTeachers.emulateQueueOfTeachers(EmulateTeachers.java:121)
+	at EmulateTeachers.main(EmulateTeachers.java:136)
+
+"Reference Handler" #2 daemon prio=10 os_prio=0 cpu=0.91ms elapsed=15.24s tid=0x00007feaa40c8000 nid=0x9 waiting on condition  [0x00007feaa85f1000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.16/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.16/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.16/Reference.java:213)
+
+"Finalizer" #3 daemon prio=8 os_prio=0 cpu=0.30ms elapsed=15.24s tid=0x00007feaa40ca000 nid=0xa in Object.wait()  [0x00007feaa84f0000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.16/Native Method)
+	- waiting on <0x00000000fd646230> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x00000000fd646230> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@11.0.16/Finalizer.java:170)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=0 cpu=0.31ms elapsed=15.23s tid=0x00007feaa40d1800 nid=0xb runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=0 cpu=0.10ms elapsed=15.23s tid=0x00007feaa40d3800 nid=0xc runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=0 cpu=466.79ms elapsed=15.23s tid=0x00007feaa40d6000 nid=0xd waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=354.60ms elapsed=15.23s tid=0x00007feaa40d8000 nid=0xe waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #8 daemon prio=9 os_prio=0 cpu=0.16ms elapsed=15.23s tid=0x00007feaa40da000 nid=0xf runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #9 daemon prio=8 os_prio=0 cpu=0.73ms elapsed=15.22s tid=0x00007feaa4119000 nid=0x11 in Object.wait()  [0x00007fea8c40a000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.16/Native Method)
+	- waiting on <0x00000000fd6469f8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x00000000fd6469f8> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.16/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.16/InnocuousThread.java:161)
+
+"Thread-0" #11 prio=5 os_prio=0 cpu=291.59ms elapsed=14.77s tid=0x00007feaa4263800 nid=0x12 waiting on condition  [0x00007fea67de8000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fc280000> (a java.util.concurrent.CountDownLatch$Sync)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.doAcquireSharedNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:1079)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.tryAcquireSharedNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:1369)
+	at java.util.concurrent.CountDownLatch.await(java.base@11.0.16/CountDownLatch.java:278)
+	at com.mongodb.internal.connection.BaseCluster.getDescription(BaseCluster.java:202)
+	at com.mongodb.internal.connection.SingleServerCluster.getDescription(SingleServerCluster.java:41)
+	at com.mongodb.client.internal.MongoClientDelegate.getConnectedClusterDescription(MongoClientDelegate.java:145)
+	at com.mongodb.client.internal.MongoClientDelegate.createClientSession(MongoClientDelegate.java:100)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.getClientSession(MongoClientDelegate.java:277)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.execute(MongoClientDelegate.java:181)
+	at com.mongodb.client.internal.MongoCollectionImpl.executeCount(MongoCollectionImpl.java:252)
+	at com.mongodb.client.internal.MongoCollectionImpl.count(MongoCollectionImpl.java:187)
+	at com.mongodb.client.internal.MongoCollectionImpl.count(MongoCollectionImpl.java:181)
+	at Database.findCountOfStudentsWithMarks(EmulateTeachers.java:30)
+	at DBQueryRunnable.run(EmulateTeachers.java:50)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"Thread-1" #12 prio=5 os_prio=0 cpu=9890.87ms elapsed=14.77s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:606)
+	- eliminated <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.print(java.base@11.0.16/PrintStream.java:745)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:882)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"cluster-ClusterId{value='64ae44f50c2eaa51506ba2b8', description='null'}-mongodb-service:27017" #13 daemon prio=5 os_prio=0 cpu=21.75ms elapsed=13.77s tid=0x00007fea5c129800 nid=0x14 waiting on condition  [0x00007fea679a0000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.16/Native Method)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.waitForNext(DefaultServerMonitor.java:217)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	- locked <0x00000000fd9a8c30> (a com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"CleanCursors-1-thread-1" #14 daemon prio=5 os_prio=0 cpu=2.25ms elapsed=13.69s tid=0x00007fea5c13e000 nid=0x15 waiting on condition  [0x00007fea6789f000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd9b8758> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:1182)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@11.0.16/ThreadPoolExecutor.java:1054)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.16/ThreadPoolExecutor.java:1114)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.16/ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"Attach Listener" #15 daemon prio=9 os_prio=0 cpu=0.75ms elapsed=10.79s tid=0x00007fea78001000 nid=0x36 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"VM Thread" os_prio=0 cpu=147.45ms elapsed=15.24s tid=0x00007feaa40c5000 nid=0x8 runnable  
+
+"VM Periodic Task Thread" os_prio=0 cpu=9.95ms elapsed=15.22s tid=0x00007feaa4116800 nid=0x10 waiting on condition  
+
+JNI global refs: 13, weak refs: 0
+
+
+
+**********************************************************************************
+*****************************JStack #2 Process ID: 1******************************
+**********************************************************************************
+
+2023-07-12 06:15:41
+Full thread dump OpenJDK 64-Bit Server VM (11.0.16+8 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x00007fea78002a40, length=14, elements={
+0x00007feaa4026800, 0x00007feaa40c8000, 0x00007feaa40ca000, 0x00007feaa40d1800,
+0x00007feaa40d3800, 0x00007feaa40d6000, 0x00007feaa40d8000, 0x00007feaa40da000,
+0x00007feaa4119000, 0x00007feaa4263800, 0x00007feaa4265000, 0x00007fea5c129800,
+0x00007fea5c13e000, 0x00007fea78001000
+}
+
+"main" #1 prio=5 os_prio=0 cpu=247.23ms elapsed=25.95s tid=0x00007feaa4026800 nid=0x7 waiting on condition  [0x00007feaa9b74000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.16/Native Method)
+	at EmulateTeachers.emulateQueueOfTeachers(EmulateTeachers.java:121)
+	at EmulateTeachers.main(EmulateTeachers.java:136)
+
+"Reference Handler" #2 daemon prio=10 os_prio=0 cpu=0.94ms elapsed=25.94s tid=0x00007feaa40c8000 nid=0x9 waiting on condition  [0x00007feaa85f1000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.16/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@11.0.16/Reference.java:241)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.16/Reference.java:213)
+
+"Finalizer" #3 daemon prio=8 os_prio=0 cpu=0.30ms elapsed=25.94s tid=0x00007feaa40ca000 nid=0xa in Object.wait()  [0x00007feaa84f0000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.16/Native Method)
+	- waiting on <0x00000000fd646230> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x00000000fd646230> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@11.0.16/Finalizer.java:170)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=0 cpu=0.31ms elapsed=25.94s tid=0x00007feaa40d1800 nid=0xb runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=0 cpu=0.10ms elapsed=25.94s tid=0x00007feaa40d3800 nid=0xc runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=0 cpu=468.20ms elapsed=25.94s tid=0x00007feaa40d6000 nid=0xd waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=361.66ms elapsed=25.94s tid=0x00007feaa40d8000 nid=0xe waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #8 daemon prio=9 os_prio=0 cpu=0.16ms elapsed=25.94s tid=0x00007feaa40da000 nid=0xf runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #9 daemon prio=8 os_prio=0 cpu=0.73ms elapsed=25.92s tid=0x00007feaa4119000 nid=0x11 in Object.wait()  [0x00007fea8c40a000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@11.0.16/Native Method)
+	- waiting on <0x00000000fd6469f8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@11.0.16/ReferenceQueue.java:155)
+	- waiting to re-lock in wait() <0x00000000fd6469f8> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@11.0.16/CleanerImpl.java:148)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+	at jdk.internal.misc.InnocuousThread.run(java.base@11.0.16/InnocuousThread.java:161)
+
+"Thread-0" #11 prio=5 os_prio=0 cpu=293.89ms elapsed=25.47s tid=0x00007feaa4263800 nid=0x12 waiting on condition  [0x00007fea67de8000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fc280000> (a java.util.concurrent.CountDownLatch$Sync)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.doAcquireSharedNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:1079)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.tryAcquireSharedNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:1369)
+	at java.util.concurrent.CountDownLatch.await(java.base@11.0.16/CountDownLatch.java:278)
+	at com.mongodb.internal.connection.BaseCluster.getDescription(BaseCluster.java:202)
+	at com.mongodb.internal.connection.SingleServerCluster.getDescription(SingleServerCluster.java:41)
+	at com.mongodb.client.internal.MongoClientDelegate.getConnectedClusterDescription(MongoClientDelegate.java:145)
+	at com.mongodb.client.internal.MongoClientDelegate.createClientSession(MongoClientDelegate.java:100)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.getClientSession(MongoClientDelegate.java:277)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.execute(MongoClientDelegate.java:181)
+	at com.mongodb.client.internal.MongoCollectionImpl.executeCount(MongoCollectionImpl.java:252)
+	at com.mongodb.client.internal.MongoCollectionImpl.count(MongoCollectionImpl.java:187)
+	at com.mongodb.client.internal.MongoCollectionImpl.count(MongoCollectionImpl.java:181)
+	at Database.findCountOfStudentsWithMarks(EmulateTeachers.java:30)
+	at DBQueryRunnable.run(EmulateTeachers.java:50)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"Thread-1" #12 prio=5 os_prio=0 cpu=17294.68ms elapsed=25.47s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"cluster-ClusterId{value='64ae44f50c2eaa51506ba2b8', description='null'}-mongodb-service:27017" #13 daemon prio=5 os_prio=0 cpu=31.27ms elapsed=24.47s tid=0x00007fea5c129800 nid=0x14 waiting on condition  [0x00007fea679a0000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@11.0.16/Native Method)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.waitForNext(DefaultServerMonitor.java:217)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	- locked <0x00000000fd9a8c30> (a com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"CleanCursors-1-thread-1" #14 daemon prio=5 os_prio=0 cpu=3.48ms elapsed=24.39s tid=0x00007fea5c13e000 nid=0x15 waiting on condition  [0x00007fea6789f000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd9b8758> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:1182)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@11.0.16/ThreadPoolExecutor.java:1054)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.16/ThreadPoolExecutor.java:1114)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.16/ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+"Attach Listener" #15 daemon prio=9 os_prio=0 cpu=0.92ms elapsed=21.50s tid=0x00007fea78001000 nid=0x36 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"VM Thread" os_prio=0 cpu=215.76ms elapsed=25.94s tid=0x00007feaa40c5000 nid=0x8 runnable  
+
+"VM Periodic Task Thread" os_prio=0 cpu=15.89ms elapsed=25.92s tid=0x00007feaa4116800 nid=0x10 waiting on condition  
+
+JNI global refs: 13, weak refs: 0
+
+
+

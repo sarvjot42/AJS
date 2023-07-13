@@ -1,0 +1,222 @@
+FILE CONTENTS [Use this for navigating to the relevant sections]
+
+JSTACK 0 FOR PROCESS 1
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACK 1 FOR PROCESS 1
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACK 2 FOR PROCESS 1
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACKS COMPARISON
+	THREAD STATE FREQUENCY
+	CPU CONSUMING THREADS (JSTACK)
+	CPU CONSUMING THREADS (TOP)
+
+************************************************************************************
+************************************************************************************
+*******************************JSTACK 0 FOR PROCESS 1*******************************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+No thread matches configured tokens
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+No threads found for configured classes
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 4
+   java.lang.Thread.State: RUNNABLE
+
+Count: 2
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+************************************************************************************
+************************************************************************************
+*******************************JSTACK 1 FOR PROCESS 1*******************************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+No thread matches configured tokens
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+No threads found for configured classes
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 4
+   java.lang.Thread.State: RUNNABLE
+
+Count: 2
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+************************************************************************************
+************************************************************************************
+*******************************JSTACK 2 FOR PROCESS 1*******************************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+No thread matches configured tokens
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+No threads found for configured classes
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 4
+   java.lang.Thread.State: RUNNABLE
+
+Count: 2
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+************************************************************************************
+************************************************************************************
+*********************************JSTACKS COMPARISON*********************************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+******************************THREAD STATE FREQUENCY******************************
+**********************************************************************************
+
++----------+----------+---------------+
+| JStack # | RUNNABLE | TIMED_WAITING |
++----------+----------+---------------+
+|    0     |    9     |       1       |
+|    1     |    8     |       2       |
+|    2     |    8     |       2       |
++----------+----------+---------------+
+
+**********************************************************************************
+**************************CPU CONSUMING THREADS (JSTACK)**************************
+**********************************************************************************
+
+TOTAL TIME BETWEEN JSTACKS 21.0s
+
+Thread NID: 0x13 CPU: 15.07s
+First Occurrence:
+"Thread-1" #12 prio=5 os_prio=0 cpu=2228.11ms elapsed=4.08s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+Last Occurrence:
+"Thread-1" #12 prio=5 os_prio=0 cpu=17294.68ms elapsed=25.47s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+**********************************************************************************
+***************************CPU CONSUMING THREADS (TOP)****************************
+**********************************************************************************
+
+Thread NID: 0x13 CPU: 70.5%
+First Occurrence:
+"Thread-1" #12 prio=5 os_prio=0 cpu=2228.11ms elapsed=4.08s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+Last Occurrence:
+"Thread-1" #12 prio=5 os_prio=0 cpu=17294.68ms elapsed=25.47s tid=0x00007feaa4265000 nid=0x13 runnable  [0x00007fea67ce7000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd5759d0> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd575a28> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd6561c8> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+

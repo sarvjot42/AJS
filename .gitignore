@@ -1,7 +1,6 @@
 venv
 ajs_venv
 *.pyc
-.ajs
 .DS_Store
 __pycache__
 *.class

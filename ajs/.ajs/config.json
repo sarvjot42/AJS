@@ -1,0 +1,34 @@
+{
+  "include_only": [
+    { "regex": "mongo" },
+    { "regex": "RUNNABLE" }
+  ],
+  "filter_out": [
+    { "regex": "cluster-ClusterId"},
+    { "regex": "grpc-default" },
+    { "regex": "kafka-producer-network-thread" },
+    { "regex": "broadcastRedisContainer" },
+    { "regex": "cluster-rtt-ClusterId" },
+    { "regex": "CompilerThread0" }
+  ],
+  "search_tokens": [
+    {
+      "text": "Finalizer",
+      "output_all_matches": true 
+    }
+  ],
+  "classification": [
+    { "regex": ".*MongoTemplateInternal.*", "tag": "Mongo" },
+    { "regex": ".*elasticsearch.*", "tag": "Elasticsearch" }
+  ],
+  "classification_print_trace": true,
+
+  "namespace": "default",
+  "pod_name": "java-deployment-775b8847dd-s6bjb",
+  "container_name": "java-app",
+
+  "top_file_path": "/Users/sarvjot.singh/AJS/sample_data/top.txt",
+  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/multiple_jstacks/shalabh.txt",
+
+  "cpu_threshold_percentage": 10
+}
