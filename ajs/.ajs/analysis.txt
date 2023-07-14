@@ -1,483 +1,24 @@
 FILE CONTENTS [Use this for navigating to the relevant sections]
 
-JSTACK 0 FOR PROCESS unknown_process_id
-	MATCHING THREADS
+JSTACK 0 FOR PROCESS 1
 	THREAD CATEGORIES
 	REPEATED STACK TRACES
-JSTACK 1 FOR PROCESS unknown_process_id
-	MATCHING THREADS
+JSTACK 1 FOR PROCESS 1
 	THREAD CATEGORIES
 	REPEATED STACK TRACES
-JSTACK 2 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 3 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 4 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 5 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 6 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 7 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 8 FOR PROCESS unknown_process_id
-	MATCHING THREADS
-	THREAD CATEGORIES
-	REPEATED STACK TRACES
-JSTACK 9 FOR PROCESS unknown_process_id
-	MATCHING THREADS
+JSTACK 2 FOR PROCESS 1
 	THREAD CATEGORIES
 	REPEATED STACK TRACES
 JSTACKS COMPARISON
 	THREAD STATE FREQUENCY
 	CPU CONSUMING THREADS (JSTACK)
+	CPU CONSUMING THREADS (TOP)
 
 ************************************************************************************
 ************************************************************************************
-**********************JSTACK 0 FOR PROCESS unknown_process_id***********************
+*******************************JSTACK 0 FOR PROCESS 1*******************************
 ************************************************************************************
 ************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-1 Mongo threads found
-
-********************************RUNNABLE threads********************************
-
-"RULE_105_2528_-100_MSG_WECHAT?146?24139869134833540?ACCOUNT?92464?1686150487000?2023_06_5f315c698c5f5118396020ed_1686150493868" #7261 prio=5 os_prio=0 cpu=951.07ms elapsed=157.30s tid=0x00007f69700c3000 nid=0x1d3f runnable  [0x00007f68e5b80000]
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.sendAndReceive(InternalStreamConnection.java:337)
-	at com.mongodb.internal.connection.UsageTrackingInternalConnection.sendAndReceive(UsageTrackingInternalConnection.java:116)
-	at com.mongodb.internal.connection.DefaultConnectionPool$PooledConnection.sendAndReceive(DefaultConnectionPool.java:644)
-	at com.mongodb.internal.connection.CommandProtocolImpl.execute(CommandProtocolImpl.java:71)
-	at com.mongodb.internal.connection.DefaultServer$DefaultServerProtocolExecutor.execute(DefaultServer.java:240)
-	at com.mongodb.internal.connection.DefaultServerConnection.executeProtocol(DefaultServerConnection.java:226)
-	at com.mongodb.internal.connection.DefaultServerConnection.command(DefaultServerConnection.java:126)
-	at com.mongodb.internal.connection.DefaultServerConnection.command(DefaultServerConnection.java:116)
-	at com.mongodb.internal.connection.DefaultServer$OperationCountTrackingConnection.command(DefaultServer.java:345)
-	at com.mongodb.internal.operation.CommandOperationHelper.createReadCommandAndExecute(CommandOperationHelper.java:232)
-	at com.mongodb.internal.operation.FindOperation.lambda$execute$1(FindOperation.java:695)
-	at com.mongodb.internal.operation.FindOperation$$Lambda$411/0x00000008004b6440.apply(Unknown Source)
-	at com.mongodb.internal.operation.OperationHelper.lambda$withSourceAndConnection$2(OperationHelper.java:575)
-	at com.mongodb.internal.operation.OperationHelper$$Lambda$421/0x00000008004c9840.apply(Unknown Source)
-	at com.mongodb.internal.operation.OperationHelper.withSuppliedResource(OperationHelper.java:600)
-	at com.mongodb.internal.operation.OperationHelper.lambda$withSourceAndConnection$3(OperationHelper.java:574)
-	at com.mongodb.internal.operation.OperationHelper$$Lambda$412/0x00000008004b5c40.apply(Unknown Source)
-	at com.mongodb.internal.operation.OperationHelper.withSuppliedResource(OperationHelper.java:600)
-	at com.mongodb.internal.operation.OperationHelper.withSourceAndConnection(OperationHelper.java:573)
-	at com.mongodb.internal.operation.FindOperation.lambda$execute$2(FindOperation.java:690)
-	at com.mongodb.internal.operation.FindOperation$$Lambda$407/0x00000008004b7440.get(Unknown Source)
-	at com.mongodb.internal.async.function.RetryingSyncSupplier.get(RetryingSyncSupplier.java:65)
-	at com.mongodb.internal.operation.FindOperation.execute(FindOperation.java:722)
-	at com.mongodb.internal.operation.FindOperation.execute(FindOperation.java:86)
-	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.execute(MongoClientDelegate.java:191)
-	at com.mongodb.client.internal.FindIterableImpl.first(FindIterableImpl.java:213)
-	at org.springframework.data.mongodb.core.MongoTemplate$FindOneCallback.doInCollection(MongoTemplate.java:2972)
-	at org.springframework.data.mongodb.core.MongoTemplate$FindOneCallback.doInCollection(MongoTemplate.java:2943)
-	at org.springframework.data.mongodb.core.MongoTemplate.executeFindOneInternal(MongoTemplate.java:2821)
-	at org.springframework.data.mongodb.core.MongoTemplate.doFindOne(MongoTemplate.java:2529)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal.access$001(MongoTemplateInternal.java:83)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal$1.doExecute(MongoTemplateInternal.java:184)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal$FindQueryOp.execute(MongoTemplateInternal.java:702)
-	at com.spr.utils.core.interceptor.TrackingInterceptor$$Lambda$2599/0x0000000802388440.execute(Unknown Source)
-	at com.spr.utils.core.RequestContextProvider.safeTrackCall(RequestContextProvider.java:313)
-	at com.spr.utils.core.interceptor.TrackingInterceptor.run(TrackingInterceptor.java:15)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.StuckThreadInterceptor.run(StuckThreadInterceptor.java:77)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.BulkheadInterceptor.run(BulkheadInterceptor.java:31)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.RateLimiterInterceptor.run(RateLimiterInterceptor.java:30)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.CircuitBreakerInterceptor.run(CircuitBreakerInterceptor.java:29)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:53)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:45)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal.doFindOne(MongoTemplateInternal.java:181)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.doFindOne(SprinklrMongoTemplate.java:131)
-	at org.springframework.data.mongodb.core.MongoTemplate.findOne(MongoTemplate.java:811)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.lambda$findOne$5(SprinklrMonitoringMongoTemplate.java:84)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate$$Lambda$5233/0x0000000802fc8c40.call(Unknown Source)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.setMonitoringAttributesAndExecute(SprinklrMonitoringMongoTemplate.java:258)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.findOne(SprinklrMonitoringMongoTemplate.java:84)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.findOne(SprinklrMongoTemplate.java:328)
-	at org.springframework.data.mongodb.core.MongoTemplate.findOne(MongoTemplate.java:798)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.findOne(SprinklrMongoTemplate.java:644)
-	at com.spr.sam.service.SocialAssetManagementServiceImpl.find(SocialAssetManagementServiceImpl.java:1000)
-	at jdk.internal.reflect.GeneratedMethodAccessor634.invoke(Unknown Source)
-	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(java.base@11.0.6/DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(java.base@11.0.6/Method.java:566)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
-	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:208)
-	at com.sun.proxy.$Proxy119.find(Unknown Source)
-	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.getSuggestionsFromBotResponse(BotReplySuggestionAction.java:232)
-	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.doExecute(BotReplySuggestionAction.java:173)
-	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.executeInternal(BotReplySuggestionAction.java:67)
-	at com.spr.ruleengine.framework.api.AbstractAction.execute(AbstractAction.java:37)
-	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeBotReplySuggestion(InboundActions.java:2208)
-	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeInternal(InboundActions.java:674)
-	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeInternal(InboundActions.java:286)
-	at com.spr.ruleengine.framework.api.AbstractAction.execute(AbstractAction.java:37)
-	at com.spr.ruleengine.framework.beans.WorkflowAction.run(WorkflowAction.java:23)
-	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:40)
-	at com.spr.ruleengine.framework.beans.Workflow.run(Workflow.java:116)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflowWithStats(RuleEngineImpl.java:2165)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflow(RuleEngineImpl.java:2021)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflows(RuleEngineImpl.java:1847)
-	at com.spr.ruleengine.framework.SingleRuleExecutor.runWorkflowForRule(SingleRuleExecutor.java:415)
-	at com.spr.ruleengine.framework.selective.AbstractEntityRuleExecutor.applyRules(AbstractEntityRuleExecutor.java:56)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:150)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:128)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:74)
-	at com.spr.ruleengine.framework.RuleEngineImpl.process(RuleEngineImpl.java:2751)
-	at com.spr.beans.ruleengine.RuleEngineClient.processSelectiveRules(RuleEngineClient.java:1098)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.execute(AbstractRuleExecutionActionVariantService.java:115)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.executeMulti(AbstractRuleExecutionActionVariantService.java:100)
-	at com.spr.ruleengine.framework.ruleexecutionaction.RuleExecutionActionHandler.executeMulti(RuleExecutionActionHandler.java:77)
-	at com.spr.se.TriggerActionsExecutor.executeTrigger(TriggerActionsExecutor.java:164)
-	at com.spr.se.TriggerActionsExecutor.execute(TriggerActionsExecutor.java:80)
-	at com.spr.orchestrator.PipelineExecutor.executeWithInMemoryRetry(PipelineExecutor.java:137)
-	at com.spr.orchestrator.PipelineExecutor.executeInternal(PipelineExecutor.java:81)
-	at com.spr.orchestrator.PipelineExecutor.execute(PipelineExecutor.java:47)
-	at com.spr.orchestrator.PipelineOrchestrator.lambda$executeAsync$3(PipelineOrchestrator.java:257)
-	at com.spr.orchestrator.PipelineOrchestrator$$Lambda$5863/0x0000000803320840.run(Unknown Source)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.6/ThreadPoolExecutor.java:1128)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.6/ThreadPoolExecutor.java:628)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 1 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-Process Name: unknown_process, Process Id: unknown_process_id
-"Finalizer" #3 daemon prio=8 os_prio=0 cpu=45.38ms elapsed=8755.62s tid=0x00007f6b99a2b800 nid=0x15 runnable  [0x00007f6b48c0f000]
-   java.lang.Thread.State: RUNNABLE
-	at java.lang.System$2.invokeFinalize(java.base@11.0.6/System.java:2120)
-	at java.lang.ref.Finalizer.runFinalizer(java.base@11.0.6/Finalizer.java:87)
-	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@11.0.6/Finalizer.java:171)
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-1 Mongo threads found
-
-********************************RUNNABLE threads********************************
-
-"RULE_105_2528_-100_MSG_WECHAT?146?24139868520100880??ACCOUNT?92464?1686150503000?2023_06_5f315c698c5f5118396020ed_1686150506940" #6868 prio=5 os_prio=0 cpu=18914.66ms elapsed=713.20s tid=0x00007f69700f0000 nid=0x1bb6 runnable  [0x00007f68f0bfc000]
-   java.lang.Thread.State: RUNNABLE
-	at org.bson.io.ByteBufferBsonInput.skipCString(ByteBufferBsonInput.java:167)
-	at org.bson.io.ByteBufferBsonInput.readCString(ByteBufferBsonInput.java:131)
-	at org.bson.BsonBinaryReader.readBsonType(BsonBinaryReader.java:122)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:178)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:44)
-	at org.bson.internal.LazyCodec.decode(LazyCodec.java:48)
-	at org.bson.codecs.ContainerCodecHelper.readValue(ContainerCodecHelper.java:61)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:180)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:44)
-	at org.bson.internal.LazyCodec.decode(LazyCodec.java:48)
-	at org.bson.codecs.ContainerCodecHelper.readValue(ContainerCodecHelper.java:61)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:180)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:44)
-	at org.bson.internal.LazyCodec.decode(LazyCodec.java:48)
-	at org.bson.codecs.ContainerCodecHelper.readValue(ContainerCodecHelper.java:61)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:180)
-	at org.bson.codecs.DocumentCodec.decode(DocumentCodec.java:44)
-	at com.mongodb.internal.operation.CommandResultArrayCodec.decode(CommandResultArrayCodec.java:52)
-	at com.mongodb.internal.operation.CommandResultDocumentCodec.readValue(CommandResultDocumentCodec.java:60)
-	at org.bson.codecs.BsonDocumentCodec.decode(BsonDocumentCodec.java:87)
-	at org.bson.codecs.BsonDocumentCodec.decode(BsonDocumentCodec.java:42)
-	at org.bson.internal.LazyCodec.decode(LazyCodec.java:48)
-	at org.bson.codecs.BsonDocumentCodec.readValue(BsonDocumentCodec.java:104)
-	at com.mongodb.internal.operation.CommandResultDocumentCodec.readValue(CommandResultDocumentCodec.java:63)
-	at org.bson.codecs.BsonDocumentCodec.decode(BsonDocumentCodec.java:87)
-	at org.bson.codecs.BsonDocumentCodec.decode(BsonDocumentCodec.java:42)
-	at com.mongodb.internal.connection.ReplyMessage.<init>(ReplyMessage.java:51)
-	at com.mongodb.internal.connection.InternalStreamConnection.getCommandResult(InternalStreamConnection.java:535)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:420)
-	at com.mongodb.internal.connection.InternalStreamConnection.sendAndReceive(InternalStreamConnection.java:337)
-	at com.mongodb.internal.connection.UsageTrackingInternalConnection.sendAndReceive(UsageTrackingInternalConnection.java:116)
-	at com.mongodb.internal.connection.DefaultConnectionPool$PooledConnection.sendAndReceive(DefaultConnectionPool.java:644)
-	at com.mongodb.internal.connection.CommandProtocolImpl.execute(CommandProtocolImpl.java:71)
-	at com.mongodb.internal.connection.DefaultServer$DefaultServerProtocolExecutor.execute(DefaultServer.java:240)
-	at com.mongodb.internal.connection.DefaultServerConnection.executeProtocol(DefaultServerConnection.java:226)
-	at com.mongodb.internal.connection.DefaultServerConnection.command(DefaultServerConnection.java:126)
-	at com.mongodb.internal.connection.DefaultServerConnection.command(DefaultServerConnection.java:116)
-	at com.mongodb.internal.connection.DefaultServer$OperationCountTrackingConnection.command(DefaultServer.java:345)
-	at com.mongodb.internal.operation.CommandOperationHelper.createReadCommandAndExecute(CommandOperationHelper.java:232)
-	at com.mongodb.internal.operation.FindOperation.lambda$execute$1(FindOperation.java:695)
-	at com.mongodb.internal.operation.FindOperation$$Lambda$411/0x00000008004b6440.apply(Unknown Source)
-	at com.mongodb.internal.operation.OperationHelper.lambda$withSourceAndConnection$2(OperationHelper.java:575)
-	at com.mongodb.internal.operation.OperationHelper$$Lambda$421/0x00000008004c9840.apply(Unknown Source)
-	at com.mongodb.internal.operation.OperationHelper.withSuppliedResource(OperationHelper.java:600)
-	at com.mongodb.internal.operation.OperationHelper.lambda$withSourceAndConnection$3(OperationHelper.java:574)
-	at com.mongodb.internal.operation.OperationHelper$$Lambda$412/0x00000008004b5c40.apply(Unknown Source)
-	at com.mongodb.internal.operation.OperationHelper.withSuppliedResource(OperationHelper.java:600)
-	at com.mongodb.internal.operation.OperationHelper.withSourceAndConnection(OperationHelper.java:573)
-	at com.mongodb.internal.operation.FindOperation.lambda$execute$2(FindOperation.java:690)
-	at com.mongodb.internal.operation.FindOperation$$Lambda$407/0x00000008004b7440.get(Unknown Source)
-	at com.mongodb.internal.async.function.RetryingSyncSupplier.get(RetryingSyncSupplier.java:65)
-	at com.mongodb.internal.operation.FindOperation.execute(FindOperation.java:722)
-	at com.mongodb.internal.operation.FindOperation.execute(FindOperation.java:86)
-	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.execute(MongoClientDelegate.java:191)
-	at com.mongodb.client.internal.MongoIterableImpl.execute(MongoIterableImpl.java:135)
-	at com.mongodb.client.internal.MongoIterableImpl.iterator(MongoIterableImpl.java:92)
-	at org.springframework.data.mongodb.core.MongoTemplate.executeFindMultiInternal(MongoTemplate.java:2853)
-	at org.springframework.data.mongodb.core.MongoTemplate.doFind(MongoTemplate.java:2581)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal.access$101(MongoTemplateInternal.java:83)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal$2.doExecute(MongoTemplateInternal.java:197)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal$2.doExecute(MongoTemplateInternal.java:194)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal$FindQueryOp.execute(MongoTemplateInternal.java:702)
-	at com.spr.utils.core.interceptor.TrackingInterceptor$$Lambda$2599/0x0000000802388440.execute(Unknown Source)
-	at com.spr.utils.core.RequestContextProvider.safeTrackCall(RequestContextProvider.java:313)
-	at com.spr.utils.core.interceptor.TrackingInterceptor.run(TrackingInterceptor.java:15)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.StuckThreadInterceptor.run(StuckThreadInterceptor.java:77)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.BulkheadInterceptor.run(BulkheadInterceptor.java:31)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.RateLimiterInterceptor.run(RateLimiterInterceptor.java:30)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.CircuitBreakerInterceptor.run(CircuitBreakerInterceptor.java:29)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:53)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:45)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal.doFind(MongoTemplateInternal.java:194)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.doFind(SprinklrMongoTemplate.java:141)
-	at org.springframework.data.mongodb.core.MongoTemplate.doFind(MongoTemplate.java:2563)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.doFind(SprinklrMongoTemplate.java:1147)
-	at org.springframework.data.mongodb.core.MongoTemplate.find(MongoTemplate.java:868)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.lambda$find$7(SprinklrMonitoringMongoTemplate.java:94)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate$$Lambda$5223/0x0000000802fab440.call(Unknown Source)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.setMonitoringAttributesAndExecute(SprinklrMonitoringMongoTemplate.java:258)
-	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.find(SprinklrMonitoringMongoTemplate.java:94)
-	at org.springframework.data.mongodb.core.MongoTemplateInternal.find(MongoTemplateInternal.java:291)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.find(SprinklrMongoTemplate.java:243)
-	at org.springframework.data.mongodb.core.MongoTemplate.find(MongoTemplate.java:854)
-	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.find(SprinklrMongoTemplate.java:671)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.fetchUniversalCasesFromMongo(UniversalCaseRepositoryServiceImpl.java:744)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.fetchUniversalCasesFromMongo(UniversalCaseRepositoryServiceImpl.java:727)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.fetchUniversalCases(UniversalCaseRepositoryServiceImpl.java:813)
-	at com.spr.ruleengine.components.universalmessage.UniversalMessageModel.getMessageCases(UniversalMessageModel.java:417)
-	at com.spr.ruleengine.components.util.BotUtils.getCaseId(BotUtils.java:305)
-	at com.spr.ruleengine.components.util.BotUtils.createBotAgentQueryDTO(BotUtils.java:293)
-	at com.spr.ruleengine.components.util.BotUtils.createBotAgentQueryDTO(BotUtils.java:180)
-	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.doExecute(BotReplySuggestionAction.java:164)
-	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.executeInternal(BotReplySuggestionAction.java:67)
-	at com.spr.ruleengine.framework.api.AbstractAction.execute(AbstractAction.java:37)
-	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeBotReplySuggestion(InboundActions.java:2208)
-	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeInternal(InboundActions.java:674)
-	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeInternal(InboundActions.java:286)
-	at com.spr.ruleengine.framework.api.AbstractAction.execute(AbstractAction.java:37)
-	at com.spr.ruleengine.framework.beans.WorkflowAction.run(WorkflowAction.java:23)
-	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:40)
-	at com.spr.ruleengine.framework.beans.Workflow.run(Workflow.java:116)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflowWithStats(RuleEngineImpl.java:2165)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflow(RuleEngineImpl.java:2021)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflows(RuleEngineImpl.java:1847)
-	at com.spr.ruleengine.framework.SingleRuleExecutor.runWorkflowForRule(SingleRuleExecutor.java:415)
-	at com.spr.ruleengine.framework.selective.AbstractEntityRuleExecutor.applyRules(AbstractEntityRuleExecutor.java:56)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:150)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:128)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:74)
-	at com.spr.ruleengine.framework.RuleEngineImpl.process(RuleEngineImpl.java:2751)
-	at com.spr.beans.ruleengine.RuleEngineClient.processSelectiveRules(RuleEngineClient.java:1098)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.execute(AbstractRuleExecutionActionVariantService.java:115)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.executeMulti(AbstractRuleExecutionActionVariantService.java:100)
-	at com.spr.ruleengine.framework.ruleexecutionaction.RuleExecutionActionHandler.executeMulti(RuleExecutionActionHandler.java:77)
-	at com.spr.se.TriggerActionsExecutor.executeTrigger(TriggerActionsExecutor.java:164)
-	at com.spr.se.TriggerActionsExecutor.execute(TriggerActionsExecutor.java:80)
-	at com.spr.orchestrator.PipelineExecutor.executeWithInMemoryRetry(PipelineExecutor.java:137)
-	at com.spr.orchestrator.PipelineExecutor.executeInternal(PipelineExecutor.java:81)
-	at com.spr.orchestrator.PipelineExecutor.execute(PipelineExecutor.java:47)
-	at com.spr.orchestrator.PipelineOrchestrator.lambda$executeAsync$3(PipelineOrchestrator.java:257)
-	at com.spr.orchestrator.PipelineOrchestrator$$Lambda$5863/0x0000000803320840.run(Unknown Source)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.6/ThreadPoolExecutor.java:1128)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.6/ThreadPoolExecutor.java:628)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 141
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 140
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 5
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 2 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
 
 **********************************************************************************
 ********************************THREAD CATEGORIES*********************************
@@ -489,55 +30,8 @@ No threads found for configured classes
 ******************************REPEATED STACK TRACES*******************************
 **********************************************************************************
 
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
 Count: 4
    java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
 
 Count: 2
    java.lang.Thread.State: RUNNABLE
@@ -545,200 +39,9 @@ Count: 2
 
 ************************************************************************************
 ************************************************************************************
-**********************JSTACK 3 FOR PROCESS unknown_process_id***********************
+*******************************JSTACK 1 FOR PROCESS 1*******************************
 ************************************************************************************
 ************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-1 Elasticsearch threads found
-
-********************************RUNNABLE threads********************************
-
-"RULE_105_2528_-100_MSG_GOOGLE_BUSINESS?326?3CBCB09C-1FF5-46AB-9005-0A2683F08125?ACCOUNT?375430?1686150528567?2023_06_61c303dd1ad5410721a081ec_1686150531406_case3-es7" #7261 prio=5 os_prio=0 cpu=2703.91ms elapsed=194.38s tid=0x00007f69700c3000 nid=0x1d3f runnable  [0x00007f68e5b7f000]
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at org.apache.http.impl.io.SessionInputBufferImpl.streamRead(SessionInputBufferImpl.java:137)
-	at org.apache.http.impl.io.SessionInputBufferImpl.fillBuffer(SessionInputBufferImpl.java:153)
-	at org.apache.http.impl.io.SessionInputBufferImpl.readLine(SessionInputBufferImpl.java:280)
-	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:138)
-	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:56)
-	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
-	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
-	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:157)
-	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
-	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
-	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:272)
-	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
-	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
-	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
-	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:72)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:221)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:191)
-	at org.elasticsearch.client.rest.support.InternalRestClientBuilder$2.execute(InternalRestClientBuilder.java:358)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequestAsync(InternalRestClient.java:354)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequestAsync(InternalRestClient.java:247)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequest(InternalRestClient.java:218)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequest(InternalRestClient.java:185)
-	at org.elasticsearch.client.rest.support.RestExecuteUtil.execute(RestExecuteUtil.java:70)
-	at org.elasticsearch.client.rest.RestClient.execute(RestClient.java:105)
-	at org.elasticsearch.client.support.AbstractClient.search(AbstractClient.java:348)
-	at org.elasticsearch.action.search.SearchRequestBuilder.doExecute(SearchRequestBuilder.java:1196)
-	at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:94)
-	at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:68)
-	at com.spr.utils.elasticsearch.ElasticSearchUtil.executeActionGet(ElasticSearchUtil.java:516)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder.doExecuteActionGet(AbstractESRequestBuilder.java:174)
-	at com.spr.search.repository.elasticsearch.es.ESSearchRequestBuilder.doExecuteActionGet(ESSearchRequestBuilder.java:240)
-	at com.spr.search.repository.elasticsearch.es.ESSearchRequestBuilder.doExecuteActionGet(ESSearchRequestBuilder.java:59)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder.lambda$executeActionGet$0(AbstractESRequestBuilder.java:102)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder$$Lambda$6262/0x000000080359a040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.TrackingInterceptor$$Lambda$2599/0x0000000802388440.execute(Unknown Source)
-	at com.spr.utils.core.RequestContextProvider.safeTrackCall(RequestContextProvider.java:313)
-	at com.spr.utils.core.interceptor.TrackingInterceptor.run(TrackingInterceptor.java:15)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.StuckThreadInterceptor.run(StuckThreadInterceptor.java:77)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.BulkheadInterceptor.run(BulkheadInterceptor.java:31)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.RateLimiterInterceptor.run(RateLimiterInterceptor.java:30)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.CircuitBreakerInterceptor.run(CircuitBreakerInterceptor.java:29)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:53)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:45)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder.executeActionGet(AbstractESRequestBuilder.java:100)
-	at com.spr.search.repository.elasticsearch.ESSearchRepositoryImpl.search(ESSearchRepositoryImpl.java:274)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.lambda$searchOnES$0(UniversalCaseRepositoryServiceImpl.java:355)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl$$Lambda$6242/0x0000000803583c40.call(Unknown Source)
-	at com.spr.reconcile.UniversalCaseQueryReconciler.getResult(UniversalCaseQueryReconciler.java:58)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.searchOnES(UniversalCaseRepositoryServiceImpl.java:363)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.query(UniversalCaseRepositoryServiceImpl.java:285)
-	at com.spr.integrations.service.UniversalCaseRepositoryServiceImpl.fetchUniversalCases(UniversalCaseRepositoryServiceImpl.java:823)
-	at com.spr.ruleengine.components.universalmessage.UniversalMessageModel.getMessageCasesFromAnyAccount(UniversalMessageModel.java:615)
-	at com.spr.ruleengine.components.universalmessage.conditions.InboundConditions.evaluateCaseSourceCondition(InboundConditions.java:3076)
-	at com.spr.ruleengine.components.universalmessage.conditions.InboundConditions.evaluateInboundCaseConditions(InboundConditions.java:2698)
-	at com.spr.ruleengine.components.universalmessage.conditions.InboundConditions.evaluateInternal(InboundConditions.java:368)
-	at com.spr.ruleengine.framework.api.AbstractCondition.evaluate(AbstractCondition.java:31)
-	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:25)
-	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:40)
-	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:31)
-	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:40)
-	at com.spr.ruleengine.framework.beans.Workflow.run(Workflow.java:116)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflowWithStats(RuleEngineImpl.java:2165)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflow(RuleEngineImpl.java:2021)
-	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflows(RuleEngineImpl.java:1847)
-	at com.spr.ruleengine.framework.SingleRuleExecutor.runWorkflowForRule(SingleRuleExecutor.java:415)
-	at com.spr.ruleengine.framework.selective.AbstractEntityRuleExecutor.applyRules(AbstractEntityRuleExecutor.java:56)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:150)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:128)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:74)
-	at com.spr.ruleengine.framework.RuleEngineImpl.process(RuleEngineImpl.java:2751)
-	at com.spr.beans.ruleengine.RuleEngineClient.processSelectiveRules(RuleEngineClient.java:1098)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.execute(AbstractRuleExecutionActionVariantService.java:115)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.executeMulti(AbstractRuleExecutionActionVariantService.java:100)
-	at com.spr.ruleengine.framework.ruleexecutionaction.RuleExecutionActionHandler.executeMulti(RuleExecutionActionHandler.java:77)
-	at com.spr.se.TriggerActionsExecutor.executeTrigger(TriggerActionsExecutor.java:164)
-	at com.spr.se.TriggerActionsExecutor.execute(TriggerActionsExecutor.java:80)
-	at com.spr.orchestrator.PipelineExecutor.executeWithInMemoryRetry(PipelineExecutor.java:137)
-	at com.spr.orchestrator.PipelineExecutor.executeInternal(PipelineExecutor.java:81)
-	at com.spr.orchestrator.PipelineExecutor.execute(PipelineExecutor.java:47)
-	at com.spr.orchestrator.PipelineOrchestrator.lambda$executeAsync$3(PipelineOrchestrator.java:257)
-	at com.spr.orchestrator.PipelineOrchestrator$$Lambda$5863/0x0000000803320840.run(Unknown Source)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.6/ThreadPoolExecutor.java:1128)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.6/ThreadPoolExecutor.java:628)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 4 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
 
 **********************************************************************************
 ********************************THREAD CATEGORIES*********************************
@@ -750,55 +53,8 @@ No threads found for configured classes
 ******************************REPEATED STACK TRACES*******************************
 **********************************************************************************
 
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
 Count: 4
    java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
 
 Count: 2
    java.lang.Thread.State: RUNNABLE
@@ -806,15 +62,9 @@ Count: 2
 
 ************************************************************************************
 ************************************************************************************
-**********************JSTACK 5 FOR PROCESS unknown_process_id***********************
+*******************************JSTACK 2 FOR PROCESS 1*******************************
 ************************************************************************************
 ************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
 
 **********************************************************************************
 ********************************THREAD CATEGORIES*********************************
@@ -826,462 +76,8 @@ No threads found for configured classes
 ******************************REPEATED STACK TRACES*******************************
 **********************************************************************************
 
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
 Count: 4
    java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 6 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-No threads found for configured classes
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 7 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-1 Elasticsearch threads found
-
-********************************RUNNABLE threads********************************
-
-"SE_WORKER_THREAD_105_task_64809db0f9ef4a759c1827c5_time_1686150578354_case3-es7" #7349 prio=5 os_prio=0 cpu=2190.46ms elapsed=138.51s tid=0x00007f69700dc000 nid=0x1d99 runnable  [0x00007f68e5d81000]
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at org.apache.http.impl.io.SessionInputBufferImpl.streamRead(SessionInputBufferImpl.java:137)
-	at org.apache.http.impl.io.SessionInputBufferImpl.fillBuffer(SessionInputBufferImpl.java:153)
-	at org.apache.http.impl.io.SessionInputBufferImpl.readLine(SessionInputBufferImpl.java:280)
-	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:138)
-	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:56)
-	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
-	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
-	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:157)
-	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
-	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
-	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:272)
-	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
-	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
-	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
-	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:72)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:221)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:191)
-	at org.elasticsearch.client.rest.support.InternalRestClientBuilder$2.execute(InternalRestClientBuilder.java:358)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequestAsync(InternalRestClient.java:354)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequestAsync(InternalRestClient.java:247)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequest(InternalRestClient.java:218)
-	at org.elasticsearch.client.rest.support.InternalRestClient.performRequest(InternalRestClient.java:185)
-	at org.elasticsearch.client.rest.support.RestExecuteUtil.execute(RestExecuteUtil.java:70)
-	at org.elasticsearch.client.rest.RestClient.execute(RestClient.java:105)
-	at org.elasticsearch.client.support.AbstractClient.index(AbstractClient.java:102)
-	at org.elasticsearch.action.index.IndexRequestBuilder.doExecute(IndexRequestBuilder.java:313)
-	at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:94)
-	at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:68)
-	at com.spr.utils.elasticsearch.ElasticSearchUtil.executeActionGet(ElasticSearchUtil.java:484)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder.doExecuteActionGet(AbstractESRequestBuilder.java:146)
-	at com.spr.search.repository.elasticsearch.es.ESIndexRequestBuilder.doExecuteActionGet(ESIndexRequestBuilder.java:76)
-	at com.spr.search.repository.elasticsearch.es.ESIndexRequestBuilder.doExecuteActionGet(ESIndexRequestBuilder.java:26)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder.lambda$executeActionGet$0(AbstractESRequestBuilder.java:102)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder$$Lambda$6262/0x000000080359a040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.TrackingInterceptor$$Lambda$2599/0x0000000802388440.execute(Unknown Source)
-	at com.spr.utils.core.RequestContextProvider.safeTrackCall(RequestContextProvider.java:313)
-	at com.spr.utils.core.interceptor.TrackingInterceptor.run(TrackingInterceptor.java:15)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.StuckThreadInterceptor.run(StuckThreadInterceptor.java:77)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.BulkheadInterceptor.run(BulkheadInterceptor.java:31)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.RateLimiterInterceptor.run(RateLimiterInterceptor.java:30)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.CircuitBreakerInterceptor.run(CircuitBreakerInterceptor.java:29)
-	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:53)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
-	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:45)
-	at com.spr.search.repository.elasticsearch.es.AbstractESRequestBuilder.executeActionGet(AbstractESRequestBuilder.java:100)
-	at com.spr.search.repository.elasticsearch.ESSearchRepositoryImpl.executeSaveOrUpdateWithVersionSupport(ESSearchRepositoryImpl.java:792)
-	at com.spr.search.repository.elasticsearch.ESSearchRepositoryImpl.executeSaveOrUpdate(ESSearchRepositoryImpl.java:738)
-	at com.spr.search.repository.elasticsearch.ESSearchRepositoryImpl.saveOrUpdate(ESSearchRepositoryImpl.java:302)
-	at com.spr.integrations.service.UniversalCaseServiceV2Impl.updateCasesInDB(UniversalCaseServiceV2Impl.java:2616)
-	at com.spr.integrations.service.UniversalCaseServiceV2Impl.update(UniversalCaseServiceV2Impl.java:1811)
-	at com.spr.integrations.service.UniversalCaseServiceImpl.updateCases(UniversalCaseServiceImpl.java:679)
-	at com.spr.integrations.service.UniversalCaseServiceImpl.update(UniversalCaseServiceImpl.java:621)
-	at com.spr.ruleengine.components.universalmessage.handler.UniversalMessageTypeHandler.addSuggestionsToCase(UniversalMessageTypeHandler.java:3275)
-	at com.spr.ruleengine.components.universalmessage.handler.UniversalMessageTypeHandler.updateMessageAndCaseWithSuggestions(UniversalMessageTypeHandler.java:3238)
-	at com.spr.ruleengine.components.universalmessage.handler.UniversalMessageTypeHandler.updateBotSuggestions(UniversalMessageTypeHandler.java:3197)
-	at com.spr.ruleengine.components.universalmessage.handler.UniversalMessageTypeHandler.commitActions(UniversalMessageTypeHandler.java:1212)
-	at com.spr.ruleengine.components.universalmessage.handler.UniversalMessageTypeHandler.commitMessage(UniversalMessageTypeHandler.java:704)
-	at com.spr.ruleengine.framework.MessageTypeHandlers.commitMessage(MessageTypeHandlers.java:57)
-	at com.spr.ruleengine.framework.RuleEngineImpl.doPostProcess(RuleEngineImpl.java:1760)
-	at com.spr.ruleengine.framework.SingleRuleExecutor.runWorkflowForRule(SingleRuleExecutor.java:419)
-	at com.spr.ruleengine.framework.selective.AbstractEntityRuleExecutor.applyRules(AbstractEntityRuleExecutor.java:56)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:150)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:128)
-	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:74)
-	at com.spr.ruleengine.framework.RuleEngineImpl.process(RuleEngineImpl.java:2751)
-	at com.spr.beans.ruleengine.RuleEngineClient.processSelectiveRules(RuleEngineClient.java:1098)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.execute(AbstractRuleExecutionActionVariantService.java:115)
-	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.executeMulti(AbstractRuleExecutionActionVariantService.java:100)
-	at com.spr.ruleengine.framework.ruleexecutionaction.RuleExecutionActionHandler.executeMulti(RuleExecutionActionHandler.java:77)
-	at com.spr.se.TriggerActionsExecutor.executeTrigger(TriggerActionsExecutor.java:164)
-	at com.spr.se.TriggerActionsExecutor.execute(TriggerActionsExecutor.java:80)
-	at com.spr.orchestrator.PipelineExecutor.executeWithInMemoryRetry(PipelineExecutor.java:137)
-	at com.spr.orchestrator.PipelineExecutor.executeInternal(PipelineExecutor.java:81)
-	at com.spr.orchestrator.PipelineExecutor.execute(PipelineExecutor.java:47)
-	at com.spr.orchestrator.PipelineOrchestrator.lambda$executeAsync$3(PipelineOrchestrator.java:257)
-	at com.spr.orchestrator.PipelineOrchestrator$$Lambda$5863/0x0000000803320840.run(Unknown Source)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.6/ThreadPoolExecutor.java:1128)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.6/ThreadPoolExecutor.java:628)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 8 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-No threads found for configured classes
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 5
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-   No compile task
-
-Count: 2
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-************************************************************************************
-************************************************************************************
-**********************JSTACK 9 FOR PROCESS unknown_process_id***********************
-************************************************************************************
-************************************************************************************
-
-**********************************************************************************
-*********************************MATCHING THREADS*********************************
-**********************************************************************************
-
-No thread matches configured tokens
-
-**********************************************************************************
-********************************THREAD CATEGORIES*********************************
-**********************************************************************************
-
-No threads found for configured classes
-
-**********************************************************************************
-******************************REPEATED STACK TRACES*******************************
-**********************************************************************************
-
-Count: 142
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
-	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
-	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
-	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
-	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
-	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
-	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 142
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(java.base@11.0.6/Native Method)
-	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
-	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
-	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-
-Count: 4
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:132)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:286)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:351)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
-
-Count: 3
-   java.lang.Thread.State: RUNNABLE
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:148)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:141)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:290)
-	at com.spr.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:347)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at com.spr.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at com.spr.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
 
 Count: 2
    java.lang.Thread.State: RUNNABLE
@@ -1297,26 +93,121 @@ Count: 2
 ******************************THREAD STATE FREQUENCY******************************
 **********************************************************************************
 
-+----------+----------+---------------+
-| JStack # | RUNNABLE | TIMED_WAITING |
-+----------+----------+---------------+
-|    0     |   192    |      142      |
-|    1     |   195    |      141      |
-|    2     |   192    |      142      |
-|    3     |   192    |      142      |
-|    4     |   191    |      142      |
-|    5     |   193    |      142      |
-|    6     |   193    |      142      |
-|    7     |   192    |      142      |
-|    8     |   192    |      142      |
-|    9     |   192    |      142      |
-+----------+----------+---------------+
++----------+----------+---------------+---------+
+| JStack # | RUNNABLE | TIMED_WAITING | WAITING |
++----------+----------+---------------+---------+
+|    0     |    7     |       4       |    1    |
+|    1     |    7     |       4       |    1    |
+|    2     |    7     |       4       |    1    |
++----------+----------+---------------+---------+
 
 **********************************************************************************
 **************************CPU CONSUMING THREADS (JSTACK)**************************
 **********************************************************************************
 
-TOTAL TIME BETWEEN JSTACKS 110.0s
+TOTAL TIME BETWEEN JSTACKS 21.0s
 
-No CPU consuming threads found
+Thread NID: 0x10 CPU: 0.03s
+First Occurrence:
+"VM Periodic Task Thread" os_prio=0 cpu=734.37ms elapsed=565.89s tid=0x00007fd700116800 nid=0x10 waiting on condition  
+Last Occurrence:
+"VM Periodic Task Thread" os_prio=0 cpu=764.92ms elapsed=586.79s tid=0x00007fd700116800 nid=0x10 waiting on condition  
+
+Thread NID: 0x15 CPU: 0.00s
+First Occurrence:
+"CleanCursors-1-thread-1" #14 daemon prio=5 os_prio=0 cpu=90.05ms elapsed=564.01s tid=0x00007fd6b41b1000 nid=0x15 waiting on condition  [0x00007fd6e2bb5000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd8ecc98> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:1182)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@11.0.16/ThreadPoolExecutor.java:1054)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.16/ThreadPoolExecutor.java:1114)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.16/ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+Last Occurrence:
+"CleanCursors-1-thread-1" #14 daemon prio=5 os_prio=0 cpu=92.48ms elapsed=584.91s tid=0x00007fd6b41b1000 nid=0x15 waiting on condition  [0x00007fd6e2bb5000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd8ecc98> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:1182)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@11.0.16/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@11.0.16/ThreadPoolExecutor.java:1054)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.16/ThreadPoolExecutor.java:1114)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.16/ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+Thread NID: 0x8 CPU: 0.00s
+First Occurrence:
+"VM Thread" os_prio=0 cpu=904.36ms elapsed=565.91s tid=0x00007fd7000c5000 nid=0x8 runnable  
+Last Occurrence:
+"VM Thread" os_prio=0 cpu=906.49ms elapsed=586.81s tid=0x00007fd7000c5000 nid=0x8 runnable  
+
+Thread NID: 0x14 CPU: 0.00s
+First Occurrence:
+"cluster-ClusterId{value='64b12db14104c32def26c94b', description='null'}-mongodb-service:27017" #13 daemon prio=5 os_prio=0 cpu=83.83ms elapsed=564.09s tid=0x00007fd6b4182000 nid=0x14 waiting on condition  [0x00007fd6e2cb6000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd8ecac0> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.waitForSignalOrTimeout(DefaultServerMonitor.java:229)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.waitForNext(DefaultServerMonitor.java:210)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	- locked <0x00000000fd8ecad8> (a com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+Last Occurrence:
+"cluster-ClusterId{value='64b12db14104c32def26c94b', description='null'}-mongodb-service:27017" #13 daemon prio=5 os_prio=0 cpu=85.12ms elapsed=584.99s tid=0x00007fd6b4182000 nid=0x14 waiting on condition  [0x00007fd6e2cb6000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@11.0.16/Native Method)
+	- parking to wait for  <0x00000000fd8ecac0> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.16/LockSupport.java:234)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@11.0.16/AbstractQueuedSynchronizer.java:2123)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.waitForSignalOrTimeout(DefaultServerMonitor.java:229)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.waitForNext(DefaultServerMonitor.java:210)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	- locked <0x00000000fd8ecad8> (a com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+
+Thread NID: 0x2f CPU: 0.00s
+First Occurrence:
+"Attach Listener" #15 daemon prio=9 os_prio=0 cpu=1.85ms elapsed=537.13s tid=0x00007fd6d8001000 nid=0x2f waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+Last Occurrence:
+"Attach Listener" #15 daemon prio=9 os_prio=0 cpu=2.31ms elapsed=558.03s tid=0x00007fd6d8001000 nid=0x2f waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+Thread NID: 0xd CPU: 0.00s
+First Occurrence:
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=0 cpu=4504.37ms elapsed=565.91s tid=0x00007fd7000d6000 nid=0xd waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+Last Occurrence:
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=0 cpu=4504.62ms elapsed=586.81s tid=0x00007fd7000d6000 nid=0xd waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+Thread NID: 0xe CPU: 0.00s
+First Occurrence:
+"C1 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=788.68ms elapsed=565.91s tid=0x00007fd7000d8000 nid=0xe waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+Last Occurrence:
+"C1 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=788.90ms elapsed=586.81s tid=0x00007fd7000d8000 nid=0xe waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+**********************************************************************************
+***************************CPU CONSUMING THREADS (TOP)****************************
+**********************************************************************************
+
+Thread NID: 0x10 CPU: 0.1%
+First Occurrence:
+"VM Periodic Task Thread" os_prio=0 cpu=734.37ms elapsed=565.89s tid=0x00007fd700116800 nid=0x10 waiting on condition  
+Last Occurrence:
+"VM Periodic Task Thread" os_prio=0 cpu=764.92ms elapsed=586.79s tid=0x00007fd700116800 nid=0x10 waiting on condition  
 

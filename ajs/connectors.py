@@ -2,7 +2,7 @@ import os
 import re
 from context import Context 
 from utils import Utils
-from legacy_configuration import Config
+from configuration import Config
 from prettytable import PrettyTable
 
 class Connectors:

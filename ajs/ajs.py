@@ -2,7 +2,7 @@ import threading
 from core import Core
 from utils import Utils
 from context import Context
-from legacy_configuration import Config
+from configuration import Config
 from connectors import Connectors
 
 @Utils.benchmark_time("entire script execution")

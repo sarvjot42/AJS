@@ -1,4 +1,4 @@
-from legacy_configuration import Config
+from configuration import Config
 
 class Context:
     threads = {}

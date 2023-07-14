@@ -5,7 +5,7 @@ from collections import Counter
 
 from utils import Utils
 from context import Context
-from legacy_configuration import Config
+from configuration import Config
 from thread_schema import Thread
 from connectors import Connectors
 

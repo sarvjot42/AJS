@@ -17,7 +17,7 @@ from resource import getrusage, RUSAGE_SELF
 # from azure.storage.blob import BlobServiceClient
 
 from context import Context 
-from legacy_configuration import Config
+from configuration import Config
 
 class Utils:
     @staticmethod
