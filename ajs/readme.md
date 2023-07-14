@@ -42,7 +42,7 @@ Depending on what you want to use, `jenkins_configuration.py` or `legacy_configu
 
 ### If you're using Python 2
 - Uncomment the following lines, for cleaner output
-  -`utils.py` : Line [10-14]
+  - `utils.py` : Line [10-14]
 
 ## Usage
 
