@@ -1,0 +1,50 @@
+**********************************************************************************
+**************************CPU CONSUMING THREADS (JSTACK)**************************
+**********************************************************************************
+
+TOTAL TIME BETWEEN JSTACKS 21.0s
+
+Thread NID: 0x17 CPU: 13.58s
+First Occurrence:
+"TeacherStatusThread" #16 prio=5 os_prio=0 cpu=11948.04ms elapsed=24.79s tid=0x00007f0ed81b0000 nid=0x17 runnable  [0x00007f0eb280d000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd575960> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd655d28> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd5759b8> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:606)
+	- eliminated <0x00000000fd655d28> (a java.io.PrintStream)
+	at java.io.PrintStream.print(java.base@11.0.16/PrintStream.java:745)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:882)
+	- locked <0x00000000fd655d28> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)
+Last Occurrence:
+"TeacherStatusThread" #16 prio=5 os_prio=0 cpu=25523.10ms elapsed=46.28s tid=0x00007f0ed81b0000 nid=0x17 runnable  [0x00007f0eb280d000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.FileOutputStream.writeBytes(java.base@11.0.16/Native Method)
+	at java.io.FileOutputStream.write(java.base@11.0.16/FileOutputStream.java:354)
+	at java.io.BufferedOutputStream.flushBuffer(java.base@11.0.16/BufferedOutputStream.java:81)
+	at java.io.BufferedOutputStream.flush(java.base@11.0.16/BufferedOutputStream.java:142)
+	- locked <0x00000000fd575960> (a java.io.BufferedOutputStream)
+	at java.io.PrintStream.write(java.base@11.0.16/PrintStream.java:561)
+	- locked <0x00000000fd655d28> (a java.io.PrintStream)
+	at sun.nio.cs.StreamEncoder.writeBytes(java.base@11.0.16/StreamEncoder.java:233)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(java.base@11.0.16/StreamEncoder.java:312)
+	at sun.nio.cs.StreamEncoder.flushBuffer(java.base@11.0.16/StreamEncoder.java:104)
+	- locked <0x00000000fd5759b8> (a java.io.OutputStreamWriter)
+	at java.io.OutputStreamWriter.flushBuffer(java.base@11.0.16/OutputStreamWriter.java:181)
+	at java.io.PrintStream.newLine(java.base@11.0.16/PrintStream.java:625)
+	- eliminated <0x00000000fd655d28> (a java.io.PrintStream)
+	at java.io.PrintStream.println(java.base@11.0.16/PrintStream.java:883)
+	- locked <0x00000000fd655d28> (a java.io.PrintStream)
+	at TeacherStatusRunnable.run(EmulateTeachers.java:78)
+	at java.lang.Thread.run(java.base@11.0.16/Thread.java:829)

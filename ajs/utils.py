@@ -1,20 +1,20 @@
 import os
 import time
 import signal
-import traceback
+# import traceback
 import subprocess
 from sys import platform
 from datetime import datetime
 from resource import getrusage, RUSAGE_SELF
 
-# uncomment for python2
+# Uncomment for cleaner output in python2
 # import logging
 # import warnings
 # logging.basicConfig(filename='.ajs/warnings.log', level=logging.WARNING)
 # warnings.filterwarnings("ignore", message=".*Python 2 is no longer supported by the Python core team.*")
 
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient
+# from azure.identity import DefaultAzureCredential
+# from azure.storage.blob import BlobServiceClient
 
 from context import Context 
 from legacy_configuration import Config
@@ -177,23 +177,23 @@ class Utils:
 
         signal.signal(signal.SIGINT, handle_interrupt)
 
-    @staticmethod
-    def upload_to_azure(blob_name, container_name, upload_file_path):
-        if os.path.exists(upload_file_path) is False:
-            return
-
-        account_url = "https://sarvjot.blob.core.windows.net"
-
-        try:
-            default_credential = DefaultAzureCredential()
-            blob_service_client = BlobServiceClient(account_url, credential=default_credential)
-            blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-
-            with open(upload_file_path, "rb") as f:
-                data = f.read()
-                blob_client.upload_blob(data)
-
-            Context.files_uploaded_to_azure.append(blob_client.url)
-
-        except Exception as ex:
-            print(traceback.format_exc())
+    # @staticmethod
+    # def upload_to_azure(blob_name, container_name, upload_file_path):
+    #     if os.path.exists(upload_file_path) is False:
+    #         return
+    #
+    #     account_url = "https://sarvjot.blob.core.windows.net"
+    #
+    #     try:
+    #         default_credential = DefaultAzureCredential()
+    #         blob_service_client = BlobServiceClient(account_url, credential=default_credential)
+    #         blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+    #
+    #         with open(upload_file_path, "rb") as f:
+    #             data = f.read()
+    #             blob_client.upload_blob(data)
+    #
+    #         Context.files_uploaded_to_azure.append(blob_client.url)
+    #
+    #     except Exception as ex:
+    #         print(traceback.format_exc())

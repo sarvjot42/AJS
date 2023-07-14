@@ -24,11 +24,11 @@
   "classification_print_trace": true,
 
   "namespace": "default",
-  "pod_name": "java-deployment-775b8847dd-s6bjb",
+  "pod_name": "java-deployment-77fb7767b8-8h4t2",
   "container_name": "java-app",
 
   "top_file_path": "/Users/sarvjot.singh/AJS/sample_data/top.txt",
-  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/multiple_jstacks/shalabh.txt",
+  "jstack_file_path": "/Users/sarvjot.singh/AJS/sample_data/multiple_jstacks/demo_jstack_filter.txt",
 
   "cpu_threshold_percentage": 10
 }

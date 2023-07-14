@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: java-app 
-        image: sarvjot/cpu-consuming:prod
+        image: sarvjot/cpu-consuming:prod2
         resources:
           requests:
             memory: "64Mi"

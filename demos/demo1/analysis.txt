@@ -1,0 +1,1147 @@
+FILE CONTENTS [Use this for navigating to the relevant sections]
+
+JSTACK 0 FOR PROCESS unknown_process_id
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACK 1 FOR PROCESS unknown_process_id
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACK 2 FOR PROCESS unknown_process_id
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACK 3 FOR PROCESS unknown_process_id
+	MATCHING THREADS
+	THREAD CATEGORIES
+	REPEATED STACK TRACES
+JSTACKS COMPARISON
+	THREAD STATE FREQUENCY
+	CPU CONSUMING THREADS (JSTACK)
+
+************************************************************************************
+************************************************************************************
+**********************JSTACK 0 FOR PROCESS unknown_process_id***********************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+Process Name: unknown_process, Process Id: unknown_process_id
+"Finalizer" #3 daemon prio=8 os_prio=0 tid=0x00007ff28dc95800 nid=0x6ecd in Object.wait() [0x00007fdd9e55c000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x00007fde7a1dbe88> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+1 Mongo threads found
+
+********************************RUNNABLE threads********************************
+
+"RULE_105_2528_-100_MSG_WECHAT?146?24139869134833540?ACCOUNT?92464?1686150487000?2023_06_5f315c698c5f5118396020ed_1686150493868" #7261 prio=5 os_prio=0 cpu=951.07ms elapsed=157.30s tid=0x00007f69700c3000 nid=0x1d3f runnable  [0x00007f68e5b80000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(java.base@11.0.6/Native Method)
+	at java.net.SocketInputStream.socketRead(java.base@11.0.6/SocketInputStream.java:115)
+	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:168)
+	at java.net.SocketInputStream.read(java.base@11.0.6/SocketInputStream.java:140)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
+	at com.mongodb.internal.connection.InternalStreamConnection.sendAndReceive(InternalStreamConnection.java:337)
+	at com.mongodb.internal.connection.UsageTrackingInternalConnection.sendAndReceive(UsageTrackingInternalConnection.java:116)
+	at com.mongodb.internal.connection.DefaultConnectionPool$PooledConnection.sendAndReceive(DefaultConnectionPool.java:644)
+	at com.mongodb.internal.connection.CommandProtocolImpl.execute(CommandProtocolImpl.java:71)
+	at com.mongodb.internal.connection.DefaultServer$DefaultServerProtocolExecutor.execute(DefaultServer.java:240)
+	at com.mongodb.internal.connection.DefaultServerConnection.executeProtocol(DefaultServerConnection.java:226)
+	at com.mongodb.internal.connection.DefaultServerConnection.command(DefaultServerConnection.java:126)
+	at com.mongodb.internal.connection.DefaultServerConnection.command(DefaultServerConnection.java:116)
+	at com.mongodb.internal.connection.DefaultServer$OperationCountTrackingConnection.command(DefaultServer.java:345)
+	at com.mongodb.internal.operation.CommandOperationHelper.createReadCommandAndExecute(CommandOperationHelper.java:232)
+	at com.mongodb.internal.operation.FindOperation.lambda$execute$1(FindOperation.java:695)
+	at com.mongodb.internal.operation.FindOperation$$Lambda$411/0x00000008004b6440.apply(Unknown Source)
+	at com.mongodb.internal.operation.OperationHelper.lambda$withSourceAndConnection$2(OperationHelper.java:575)
+	at com.mongodb.internal.operation.OperationHelper$$Lambda$421/0x00000008004c9840.apply(Unknown Source)
+	at com.mongodb.internal.operation.OperationHelper.withSuppliedResource(OperationHelper.java:600)
+	at com.mongodb.internal.operation.OperationHelper.lambda$withSourceAndConnection$3(OperationHelper.java:574)
+	at com.mongodb.internal.operation.OperationHelper$$Lambda$412/0x00000008004b5c40.apply(Unknown Source)
+	at com.mongodb.internal.operation.OperationHelper.withSuppliedResource(OperationHelper.java:600)
+	at com.mongodb.internal.operation.OperationHelper.withSourceAndConnection(OperationHelper.java:573)
+	at com.mongodb.internal.operation.FindOperation.lambda$execute$2(FindOperation.java:690)
+	at com.mongodb.internal.operation.FindOperation$$Lambda$407/0x00000008004b7440.get(Unknown Source)
+	at com.mongodb.internal.async.function.RetryingSyncSupplier.get(RetryingSyncSupplier.java:65)
+	at com.mongodb.internal.operation.FindOperation.execute(FindOperation.java:722)
+	at com.mongodb.internal.operation.FindOperation.execute(FindOperation.java:86)
+	at com.mongodb.client.internal.MongoClientDelegate$DelegateOperationExecutor.execute(MongoClientDelegate.java:191)
+	at com.mongodb.client.internal.FindIterableImpl.first(FindIterableImpl.java:213)
+	at org.springframework.data.mongodb.core.MongoTemplate$FindOneCallback.doInCollection(MongoTemplate.java:2972)
+	at org.springframework.data.mongodb.core.MongoTemplate$FindOneCallback.doInCollection(MongoTemplate.java:2943)
+	at org.springframework.data.mongodb.core.MongoTemplate.executeFindOneInternal(MongoTemplate.java:2821)
+	at org.springframework.data.mongodb.core.MongoTemplate.doFindOne(MongoTemplate.java:2529)
+	at org.springframework.data.mongodb.core.MongoTemplateInternal.access$001(MongoTemplateInternal.java:83)
+	at org.springframework.data.mongodb.core.MongoTemplateInternal$1.doExecute(MongoTemplateInternal.java:184)
+	at org.springframework.data.mongodb.core.MongoTemplateInternal$FindQueryOp.execute(MongoTemplateInternal.java:702)
+	at com.spr.utils.core.interceptor.TrackingInterceptor$$Lambda$2599/0x0000000802388440.execute(Unknown Source)
+	at com.spr.utils.core.RequestContextProvider.safeTrackCall(RequestContextProvider.java:313)
+	at com.spr.utils.core.interceptor.TrackingInterceptor.run(TrackingInterceptor.java:15)
+	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
+	at com.spr.utils.core.interceptor.StuckThreadInterceptor.run(StuckThreadInterceptor.java:77)
+	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
+	at com.spr.utils.core.interceptor.BulkheadInterceptor.run(BulkheadInterceptor.java:31)
+	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
+	at com.spr.utils.core.interceptor.RateLimiterInterceptor.run(RateLimiterInterceptor.java:30)
+	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
+	at com.spr.utils.core.interceptor.CircuitBreakerInterceptor.run(CircuitBreakerInterceptor.java:29)
+	at com.spr.utils.core.interceptor.Interceptors.lambda$run$1(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors$$Lambda$2598/0x0000000802388040.execute(Unknown Source)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:53)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:56)
+	at com.spr.utils.core.interceptor.Interceptors.run(Interceptors.java:45)
+	at org.springframework.data.mongodb.core.MongoTemplateInternal.doFindOne(MongoTemplateInternal.java:181)
+	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.doFindOne(SprinklrMongoTemplate.java:131)
+	at org.springframework.data.mongodb.core.MongoTemplate.findOne(MongoTemplate.java:811)
+	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.lambda$findOne$5(SprinklrMonitoringMongoTemplate.java:84)
+	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate$$Lambda$5233/0x0000000802fc8c40.call(Unknown Source)
+	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.setMonitoringAttributesAndExecute(SprinklrMonitoringMongoTemplate.java:258)
+	at org.springframework.data.mongodb.core.SprinklrMonitoringMongoTemplate.findOne(SprinklrMonitoringMongoTemplate.java:84)
+	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.findOne(SprinklrMongoTemplate.java:328)
+	at org.springframework.data.mongodb.core.MongoTemplate.findOne(MongoTemplate.java:798)
+	at org.springframework.data.mongodb.core.SprinklrMongoTemplate.findOne(SprinklrMongoTemplate.java:644)
+	at com.spr.sam.service.SocialAssetManagementServiceImpl.find(SocialAssetManagementServiceImpl.java:1000)
+	at jdk.internal.reflect.GeneratedMethodAccessor634.invoke(Unknown Source)
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(java.base@11.0.6/DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(java.base@11.0.6/Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:208)
+	at com.sun.proxy.$Proxy119.find(Unknown Source)
+	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.getSuggestionsFromBotResponse(BotReplySuggestionAction.java:232)
+	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.doExecute(BotReplySuggestionAction.java:173)
+	at com.spr.ruleengine.components.universalmessage.actions.bot.BotReplySuggestionAction.executeInternal(BotReplySuggestionAction.java:67)
+	at com.spr.ruleengine.framework.api.AbstractAction.execute(AbstractAction.java:37)
+	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeBotReplySuggestion(InboundActions.java:2208)
+	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeInternal(InboundActions.java:674)
+	at com.spr.ruleengine.components.universalmessage.actions.InboundActions.executeInternal(InboundActions.java:286)
+	at com.spr.ruleengine.framework.api.AbstractAction.execute(AbstractAction.java:37)
+	at com.spr.ruleengine.framework.beans.WorkflowAction.run(WorkflowAction.java:23)
+	at com.spr.ruleengine.framework.beans.WorkflowCondition.run(WorkflowCondition.java:40)
+	at com.spr.ruleengine.framework.beans.Workflow.run(Workflow.java:116)
+	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflowWithStats(RuleEngineImpl.java:2165)
+	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflow(RuleEngineImpl.java:2021)
+	at com.spr.ruleengine.framework.RuleEngineImpl.executeWorkflows(RuleEngineImpl.java:1847)
+	at com.spr.ruleengine.framework.SingleRuleExecutor.runWorkflowForRule(SingleRuleExecutor.java:415)
+	at com.spr.ruleengine.framework.selective.AbstractEntityRuleExecutor.applyRules(AbstractEntityRuleExecutor.java:56)
+	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:150)
+	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:128)
+	at com.spr.ruleengine.framework.selective.SelectiveRulesExecutorServiceImpl.applyRules(SelectiveRulesExecutorServiceImpl.java:74)
+	at com.spr.ruleengine.framework.RuleEngineImpl.process(RuleEngineImpl.java:2751)
+	at com.spr.beans.ruleengine.RuleEngineClient.processSelectiveRules(RuleEngineClient.java:1098)
+	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.execute(AbstractRuleExecutionActionVariantService.java:115)
+	at com.spr.ruleengine.framework.ruleexecutionaction.AbstractRuleExecutionActionVariantService.executeMulti(AbstractRuleExecutionActionVariantService.java:100)
+	at com.spr.ruleengine.framework.ruleexecutionaction.RuleExecutionActionHandler.executeMulti(RuleExecutionActionHandler.java:77)
+	at com.spr.se.TriggerActionsExecutor.executeTrigger(TriggerActionsExecutor.java:164)
+	at com.spr.se.TriggerActionsExecutor.execute(TriggerActionsExecutor.java:80)
+	at com.spr.orchestrator.PipelineExecutor.executeWithInMemoryRetry(PipelineExecutor.java:137)
+	at com.spr.orchestrator.PipelineExecutor.executeInternal(PipelineExecutor.java:81)
+	at com.spr.orchestrator.PipelineExecutor.execute(PipelineExecutor.java:47)
+	at com.spr.orchestrator.PipelineOrchestrator.lambda$executeAsync$3(PipelineOrchestrator.java:257)
+	at com.spr.orchestrator.PipelineOrchestrator$$Lambda$5863/0x0000000803320840.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.6/ThreadPoolExecutor.java:1128)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.6/ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 375
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.spr.collector.sink.text.TextBucketSink.put(TextBucketSink.java:139)
+	- waiting to lock <0x00007fe59b20a600> (a com.spr.collector.sink.text.TextBucketSink)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.put(CollectorServiceImpl.java:261)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.access$200(CollectorServiceImpl.java:213)
+	at com.spr.collector.service.CollectorServiceImpl.bin(CollectorServiceImpl.java:177)
+	at com.spr.collector.service.CollectorServiceImpl.archive(CollectorServiceImpl.java:159)
+	at com.spr.collector.service.CollectorServiceImpl.access$000(CollectorServiceImpl.java:43)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:60)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:56)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 97
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e8ac838> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
+	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
+	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 18
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.GenericBatcher.add(GenericBatcher.java:50)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:52)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:144)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:56)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent.processRaw(RawKafkaConsumerStandaloneComponent.java:246)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent$1.process(RawKafkaConsumerStandaloneComponent.java:296)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeRecord(RawKafkaStreamer.java:344)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeInternal(RawKafkaStreamer.java:335)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.doRun(RawKafkaStreamer.java:270)
+	at com.spr.ops.BaseContextTransferableThread.run(BaseContextTransferableThread.java:31)
+
+Count: 18
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:170)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 16
+   java.lang.Thread.State: RUNNABLE
+
+Count: 8
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdf9efa2ba8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 8
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fded7000558> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 5
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e6eb228> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fe058df3ae8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde81092130> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 2
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:180)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+************************************************************************************
+************************************************************************************
+**********************JSTACK 1 FOR PROCESS unknown_process_id***********************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+Process Name: unknown_process, Process Id: unknown_process_id
+"Finalizer" #3 daemon prio=8 os_prio=0 tid=0x00007ff28dc95800 nid=0x6ecd in Object.wait() [0x00007fdd9e55c000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x00007fde7a1dbe88> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+No threads found for configured classes
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 375
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.spr.collector.sink.text.TextBucketSink.put(TextBucketSink.java:139)
+	- waiting to lock <0x00007fe59b20a600> (a com.spr.collector.sink.text.TextBucketSink)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.put(CollectorServiceImpl.java:261)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.access$200(CollectorServiceImpl.java:213)
+	at com.spr.collector.service.CollectorServiceImpl.bin(CollectorServiceImpl.java:177)
+	at com.spr.collector.service.CollectorServiceImpl.archive(CollectorServiceImpl.java:159)
+	at com.spr.collector.service.CollectorServiceImpl.access$000(CollectorServiceImpl.java:43)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:60)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:56)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 97
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e8ac838> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
+	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
+	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 16
+   java.lang.Thread.State: RUNNABLE
+
+Count: 16
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.GenericBatcher.add(GenericBatcher.java:50)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:52)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:144)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:56)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent.processRaw(RawKafkaConsumerStandaloneComponent.java:246)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent$1.process(RawKafkaConsumerStandaloneComponent.java:296)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeRecord(RawKafkaStreamer.java:344)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeInternal(RawKafkaStreamer.java:335)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.doRun(RawKafkaStreamer.java:270)
+	at com.spr.ops.BaseContextTransferableThread.run(BaseContextTransferableThread.java:31)
+
+Count: 13
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:170)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 8
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdf9efa2ba8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 7
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fded7000558> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 6
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:180)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 5
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e6eb228> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fe058df3ae8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde81092130> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 2
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.Class.getEnclosingMethod0(Native Method)
+	at java.lang.Class.getEnclosingMethodInfo(Class.java:1072)
+	at java.lang.Class.isLocalOrAnonymousClass(Class.java:1462)
+	at java.lang.Class.getCanonicalName(Class.java:1390)
+	at java.lang.Enum.valueOf(Enum.java:238)
+	at com.spr.utils.EnumUtil.getEnumConstantOrNull(EnumUtil.java:137)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.getBigQueryType(BigQueryStandaloneComponent.java:302)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:140)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:56)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent.processRaw(RawKafkaConsumerStandaloneComponent.java:246)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent$1.process(RawKafkaConsumerStandaloneComponent.java:296)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeRecord(RawKafkaStreamer.java:344)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeInternal(RawKafkaStreamer.java:335)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.doRun(RawKafkaStreamer.java:270)
+	at com.spr.ops.BaseContextTransferableThread.run(BaseContextTransferableThread.java:31)
+
+************************************************************************************
+************************************************************************************
+**********************JSTACK 2 FOR PROCESS unknown_process_id***********************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+Process Name: unknown_process, Process Id: unknown_process_id
+"Finalizer" #3 daemon prio=8 os_prio=0 tid=0x00007ff28dc95800 nid=0x6ecd in Object.wait() [0x00007fdd9e55c000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x00007fde7a1dbe88> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+No threads found for configured classes
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 379
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.spr.collector.sink.text.TextBucketSink.put(TextBucketSink.java:139)
+	- waiting to lock <0x00007fe59b20a600> (a com.spr.collector.sink.text.TextBucketSink)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.put(CollectorServiceImpl.java:261)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.access$200(CollectorServiceImpl.java:213)
+	at com.spr.collector.service.CollectorServiceImpl.bin(CollectorServiceImpl.java:177)
+	at com.spr.collector.service.CollectorServiceImpl.archive(CollectorServiceImpl.java:159)
+	at com.spr.collector.service.CollectorServiceImpl.access$000(CollectorServiceImpl.java:43)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:60)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:56)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 97
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e8ac838> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
+	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
+	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 18
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.GenericBatcher.add(GenericBatcher.java:50)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:52)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:144)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:56)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent.processRaw(RawKafkaConsumerStandaloneComponent.java:246)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent$1.process(RawKafkaConsumerStandaloneComponent.java:296)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeRecord(RawKafkaStreamer.java:344)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeInternal(RawKafkaStreamer.java:335)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.doRun(RawKafkaStreamer.java:270)
+	at com.spr.ops.BaseContextTransferableThread.run(BaseContextTransferableThread.java:31)
+
+Count: 16
+   java.lang.Thread.State: RUNNABLE
+
+Count: 13
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:170)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 8
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdf9efa2ba8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 7
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fded7000558> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 5
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e6eb228> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fe058df3ae8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde81092130> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 3
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:180)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+************************************************************************************
+************************************************************************************
+**********************JSTACK 3 FOR PROCESS unknown_process_id***********************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+*********************************MATCHING THREADS*********************************
+**********************************************************************************
+
+Process Name: unknown_process, Process Id: unknown_process_id
+"Finalizer" #3 daemon prio=8 os_prio=0 tid=0x00007ff28dc95800 nid=0x6ecd in Object.wait() [0x00007fdd9e55c000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x00007fde7a1dbe88> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+**********************************************************************************
+********************************THREAD CATEGORIES*********************************
+**********************************************************************************
+
+No threads found for configured classes
+
+**********************************************************************************
+******************************REPEATED STACK TRACES*******************************
+**********************************************************************************
+
+Count: 377
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.spr.collector.sink.text.TextBucketSink.put(TextBucketSink.java:139)
+	- waiting to lock <0x00007fe59b20a600> (a com.spr.collector.sink.text.TextBucketSink)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.put(CollectorServiceImpl.java:261)
+	at com.spr.collector.service.CollectorServiceImpl$Bucket.access$200(CollectorServiceImpl.java:213)
+	at com.spr.collector.service.CollectorServiceImpl.bin(CollectorServiceImpl.java:177)
+	at com.spr.collector.service.CollectorServiceImpl.archive(CollectorServiceImpl.java:159)
+	at com.spr.collector.service.CollectorServiceImpl.access$000(CollectorServiceImpl.java:43)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:60)
+	at com.spr.collector.service.CollectorServiceImpl$1.process(CollectorServiceImpl.java:56)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 97
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e8ac838> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 83
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.mongodb.internal.connection.DefaultServerMonitor.waitForNext(DefaultServerMonitor.java:443)
+	at com.mongodb.internal.connection.DefaultServerMonitor.access$1500(DefaultServerMonitor.java:64)
+	at com.mongodb.internal.connection.DefaultServerMonitor$RoundTripTimeRunnable.run(DefaultServerMonitor.java:415)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 82
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:110)
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:135)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:713)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveMessageWithAdditionalTimeout(InternalStreamConnection.java:571)
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:410)
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:369)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.lookupServerDescription(DefaultServerMonitor.java:221)
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:157)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 16
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.GenericBatcher.add(GenericBatcher.java:50)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:52)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:144)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:56)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent.processRaw(RawKafkaConsumerStandaloneComponent.java:246)
+	at com.spr.messaging.kafka.raw.standalone.RawKafkaConsumerStandaloneComponent$1.process(RawKafkaConsumerStandaloneComponent.java:296)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeRecord(RawKafkaStreamer.java:344)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.consumeInternal(RawKafkaStreamer.java:335)
+	at com.spr.messaging.kafka.raw.consumer.RawKafkaStreamer$Consumer.doRun(RawKafkaStreamer.java:270)
+	at com.spr.ops.BaseContextTransferableThread.run(BaseContextTransferableThread.java:31)
+
+Count: 15
+   java.lang.Thread.State: RUNNABLE
+
+Count: 13
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:170)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 8
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdf9efa2ba8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 6
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fded7000558> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 5
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fdeba519500> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.put(LinkedBlockingQueue.java:350)
+	at com.spr.utils.ThreadUtil$BlockingPutRejectedExecutionHandler.rejectedExecution(ThreadUtil.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+	at com.spr.ops.executor.AbstractSprinklrExecutorService.submit(AbstractSprinklrExecutorService.java:127)
+	at com.spr.utils.batcher.GenericBatcher.addAll(GenericBatcher.java:82)
+	at com.spr.utils.batcher.AsyncBatcher.processAsync(AsyncBatcher.java:60)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:83)
+	at com.spr.collector.service.CollectorServiceImpl.collect(CollectorServiceImpl.java:68)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.process(BigQueryStandaloneComponent.java:180)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent.access$000(BigQueryStandaloneComponent.java:57)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.lambda$process$0(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1$$Lambda$6300/2100916828.accept(Unknown Source)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:79)
+	at com.spr.messaging.kafka.raw.standalone.bigquery.BigQueryStandaloneComponent$1.process(BigQueryStandaloneComponent.java:76)
+	at com.spr.utils.batcher.GenericBatcher.process(GenericBatcher.java:158)
+	at com.spr.utils.batcher.GenericBatcher.lambda$addAll$2(GenericBatcher.java:84)
+	at com.spr.utils.batcher.GenericBatcher$$Lambda$6297/283216259.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 5
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde7e6eb228> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fe058df3ae8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Count: 4
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00007fde81092130> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1088)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+************************************************************************************
+************************************************************************************
+*********************************JSTACKS COMPARISON*********************************
+************************************************************************************
+************************************************************************************
+
+**********************************************************************************
+******************************THREAD STATE FREQUENCY******************************
+**********************************************************************************
+
++----------+---------+----------+---------------+---------+
+| JStack # | BLOCKED | RUNNABLE | TIMED_WAITING | WAITING |
++----------+---------+----------+---------------+---------+
+|    0     |   376   |   129    |      288      |    69   |
+|    1     |   376   |   132    |      287      |    67   |
+|    2     |   380   |   129    |      287      |    66   |
+|    3     |   379   |   133    |      284      |    67   |
++----------+---------+----------+---------------+---------+
+
+**********************************************************************************
+**************************CPU CONSUMING THREADS (JSTACK)**************************
+**********************************************************************************
+
+'cpu' field not present in JStack
+

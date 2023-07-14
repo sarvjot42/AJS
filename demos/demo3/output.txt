@@ -1,0 +1,19 @@
+Starting script execution...
+SCRIPT TIME BENCHMARKING:	20.389s 'top generation [parallel to jstack generation]'
+SCRIPT TIME BENCHMARKING:	21.787s 'jstack generation'
+SCRIPT TIME BENCHMARKING:	0.034s 'individual jstack analysis'
+SCRIPT TIME BENCHMARKING:	0.004s 'individual jstack analysis'
+SCRIPT TIME BENCHMARKING:	0.003s 'individual jstack analysis'
+SCRIPT TIME BENCHMARKING:	0.005s 'all jstacks comparative analysis'
+SCRIPT TIME BENCHMARKING:	0.001s 'output jstacks in one file'
+SCRIPT TIME BENCHMARKING:	6.662s 'azure data upload'
+SCRIPT TIME BENCHMARKING:	28.581s 'entire script execution'
+
+SCRIPT MEMORY FOOTPRINT:	48.516MB 'max memory usage'
+SCRIPT CPU UTILISATION:		0.649s '[user + system] cpu time'
+
+POD CPU UTILISATION:	0.981s '[user + system] cpu time'
+
+Output files uploaded to Azure:
+https://sarvjot.blob.core.windows.net/analysis/demo2_13-07-2023_14-18-09
+https://sarvjot.blob.core.windows.net/jstacks/demo2_13-07-2023_14-18-09

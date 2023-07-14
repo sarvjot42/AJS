@@ -126,6 +126,9 @@ public class EmulateTeachers{
         Thread dbQueryThread = new Thread(new DBQueryRunnable());
         Thread teacherStatusThread = new Thread(new TeacherStatusRunnable(teacher, dbQueryThread));
 
+        dbQueryThread.setName("DBQueryThread");
+        teacherStatusThread.setName("TeacherStatusThread");
+
         dbQueryThread.start();
         teacherStatusThread.start();
 //        dbQueryThread.join();

@@ -383,9 +383,9 @@ class Connectors:
 
         Utils.prepend_to_file(file, contents_text)
 
-    @staticmethod
-    @Utils.benchmark_time("azure data upload")
-    def upload_output_files():
-        blob_name = Config.session_id
-        Utils.upload_to_azure(blob_name, "analysis", Config.analysis_file_path)
-        Utils.upload_to_azure(blob_name, "jstacks", Config.jstacks_file_path)
+    # @staticmethod
+    # @Utils.benchmark_time("azure data upload")
+    # def upload_output_files():
+    #     blob_name = Config.session_id
+    #     Utils.upload_to_azure(blob_name, "analysis", Config.analysis_file_path)
+    #     Utils.upload_to_azure(blob_name, "jstacks", Config.jstacks_file_path)

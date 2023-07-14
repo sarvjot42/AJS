@@ -38,7 +38,7 @@ def main():
     Core.compare_jstacks()
     Connectors.store_jstacks_in_one_file(num_jstacks)
     Connectors.prepend_contents()
-    Connectors.upload_output_files()
+    # Connectors.upload_output_files()
     Connectors.delete_auxilliary_folder()
 
     return Context.files_uploaded_to_azure
