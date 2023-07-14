@@ -5,11 +5,11 @@
 ### Ensure the following files are there
 
 - `.ajs`
-  -- `analysis.txt`
-  -- `config.json`
-  -- `config.sample.json`
-  -- `jstacks.txt`
-  -- `warnings.log`
+  - `analysis.txt`
+  - `config.json`
+  - `config.sample.json`
+  - `jstacks.txt`
+  - `warnings.log`
 - `ajs.py`
 - `connectors.py`
 - `context.py`
@@ -29,20 +29,20 @@ Depending on what you want to use, `jenkins_configuration.py` or `legacy_configu
 ### If you want to use azure upload service
 
 - Setup and login into azure cli
--- `brew update && brew install azure-cli`
--- `az login`
+  - `brew update && brew install azure-cli`
+  - `az login`
 
 - Install azure python connector libraries
--- `pip install azure-storage-blob azure-identity`
+- `pip install azure-storage-blob azure-identity`
 
 - Uncomment the following lines
--- `ajs.py` : Line 41
--- `connectors.py` : Line [386 - 391]
--- `utils.py` : Line 4, [16-17] and [180 - 199]
+- `ajs.py` : Line 41
+  - `connectors.py` : Line [386 - 391]
+  - `utils.py` : Line 4, [16-17] and [180 - 199]
 
 ### If you're using Python 2
 - Uncomment the following lines, for cleaner output
--- `utils.py` : Line [10-14]
+  -`utils.py` : Line [10-14]
 
 ## Usage
 
